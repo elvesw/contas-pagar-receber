@@ -1,0 +1,33 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+
+	<nav class="aw-menu">
+	
+		<ul>
+			<li>
+				<h:link outcome="/Dashboard.xhtml">
+					<span><i class="fa  fa-fw  fa-home"></i>Dashboard</span>
+				</h:link>
+			</li>
+			
+			<li class="has-sub"><a href="#"><span><i class="fa  fa-fw fa-user-plus"></i>Cadastro</span></a>
+				<ul>
+					<li><h:link outcome="/cadastro/listaCadastros.xhtml"><span><i class="fa  fa-fw fa-user"></i>Pessoas</span></h:link></li>
+				</ul>
+			</li>
+			<li class="has-sub"><a href="#"><span><i class="fa  fa-fw fa-money"></i>Financeiro</span></a>
+				<ul>
+					<li><h:link outcome="/financeiro/CentrosDeCusto.xhtml"><span><i class="fa  fa-line-chart"></i>Centros de custo</span></h:link></li>
+					<li><h:link outcome="/financeiro/Categorias.xhtml"><span><i class="fa  fa-fw fa-tags"></i>Categorias</span></h:link></li>
+					<p:separator style="width:100%"/>
+					<li><h:link outcome="/financeiro/ContasReceber.xhtml"><span><i class="fa  fa-fw fa-chevron-circle-up"></i>Contas a receber</span></h:link></li>
+					<li><h:link outcome="/financeiro/ContasPagar.xhtml"><span><i class="fa  fa-fw fa-chevron-circle-down"></i>Contas a pagar</span></h:link></li>
+					<li><h:link outcome="/financeiro/Caixa.xhtml"><span><i class="fa  fa-fw fa-book"></i>Caixa</span></h:link></li>
+				</ul>
+			</li>
+		</ul>
+	</nav>
+</ui:composition>

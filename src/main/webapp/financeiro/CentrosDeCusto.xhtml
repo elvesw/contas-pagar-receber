@@ -1,0 +1,46 @@
+<ui:composition template="/WEB-INF/templates/Layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Centro de custo</ui:define>
+
+	<ui:define name="centro">
+		<p:messages id="msg" autoUpdate="true" closable="true" escape="false"/>
+		
+		<div style="background-color: #fff;">
+			<div style="padding: 5px 0 2px 5px;">
+				<p:button value="Novo" styleClass="btn btn-primary"/>
+			</div>
+			<div style="padding: 0 5px 5px 5px">
+				<h:form styleClass="form-horizontal">
+					<p:dataTable var="centroDeCusto" value="#{centroDeCustoBean.listaCentroDeCusto}" rowIndexVar="rowIx"
+					id="dataTableLista" rows="12"
+					emptyMessage="Nenhum cadastro ..."
+					paginator="true" paginatorPosition="bottom">
+	
+					<p:column headerText="ID" style="width: 3%; text-align:center" sortBy="#{centroDeCusto.id}">
+						<h:outputText value="#{centroDeCusto.id}" />
+					</p:column>
+	
+					<p:column headerText="Nome"  style="width: 25%;text-align:left" sortBy="#{centroDeCusto.nome}" >
+						<h:outputText value="#{centroDeCusto.nome}" style="text-align: left" />
+					</p:column>
+					
+					<p:column headerText="Ações" style="width: 10%; text-align: center">
+						<p:commandButton id="alterar" action="#{centroDeCustoBean.editar(centroDeCusto)}" icon="ui-icon-pencil" title="Alterar" />
+						<p:commandButton id="excluir" action="#{centroDeCustoBean.excluir(centroDeCusto)}" icon="ui-icon-pencil" title="Excluir" />
+					</p:column>
+	
+				</p:dataTable>
+				</h:form>
+			</div>
+		</div>
+	</ui:define>
+
+</ui:composition>
+
+
+
