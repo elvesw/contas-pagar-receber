@@ -2,6 +2,7 @@ package br.com.pontek;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -11,10 +12,13 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
+import br.com.pontek.enums.FrequenciaDeLancamento;
 import br.com.pontek.model.Categoria;
 import br.com.pontek.model.Pessoa;
 import br.com.pontek.service.CategoriaService;
+import br.com.pontek.service.LancamentoService;
 import br.com.pontek.service.PessoaService;
+import br.com.pontek.util.DataUtil;
 
 @Component
 public class App {
@@ -24,6 +28,8 @@ public class App {
 	CategoriaService categoriaService;
 	@Autowired
 	PessoaService pessoaService;
+	@Autowired
+	LancamentoService lancamentoService;
 
 	@SuppressWarnings({ "resource"})
 	public static void main(String[] args) throws ParseException {
@@ -38,6 +44,7 @@ public class App {
 		logger.error("error log");
 		
 		app.inserirDados();
+		System.out.println("u"+System.currentTimeMillis());
 	}
 	
 	void consulta(){
@@ -54,18 +61,21 @@ public class App {
 	}
 	
 	void inserirDados(){
-		Pessoa p = new Pessoa();
-		p.setNome("Elves app");
-		pessoaService.salvar(p);
-		
-		List<Pessoa> lista = new ArrayList<Pessoa>();
-		lista=pessoaService.listaDePessoas();
-		if(!lista.isEmpty()){
-			for (Pessoa p1 : lista) {
-				System.out.println("id: "+p1.getId() +"nome: "+p1.getNome());
-			}
-		}else{
-			System.out.println("lista vazia!");
+
+		for (int i = 0; i < 10; i++) {
+			DataUtil.geraDataVencimentoParcela(new Date(), i, FrequenciaDeLancamento.Diário);
+		}
+		System.out.println("#####################");
+		for (int i = 0; i < 10; i++) {
+			DataUtil.geraDataVencimentoParcela(new Date(), i, FrequenciaDeLancamento.Semanal);
+		}
+		System.out.println("#####################");
+		for (int i = 0; i < 10; i++) {
+			DataUtil.geraDataVencimentoParcela(new Date(), i, FrequenciaDeLancamento.Quinzenal);
+		}
+		System.out.println("#####################");
+		for (int i = 0; i < 10; i++) {
+			DataUtil.geraDataVencimentoParcela(new Date(), i, FrequenciaDeLancamento.Mensal);
 		}
 	}
 

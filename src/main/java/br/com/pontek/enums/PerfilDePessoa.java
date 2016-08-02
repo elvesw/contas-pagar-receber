@@ -4,7 +4,7 @@ public enum PerfilDePessoa {
 	Todos,
 	Clientes,
 	Funcionários,
-	Fornecedores
+	Fornecedores;
 }
 
 

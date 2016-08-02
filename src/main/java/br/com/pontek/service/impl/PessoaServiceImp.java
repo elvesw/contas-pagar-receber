@@ -24,13 +24,13 @@ public class PessoaServiceImp implements PessoaService ,Serializable {
 	@Override
 	@Transactional
 	public void salvar(Pessoa pessoa) {
-		if(pessoa.getId()==null){
-			pessoa.setDataCadastro(new Date());
-			pessoa.setUltimaAlteracao(new Date());
-			pessoaDao.salvarEntity(pessoa);		
-		}else{
+		if(pessoa.getId()!=null){
 			pessoa.setUltimaAlteracao(new Date());
 			pessoaDao.atualizarEntity(pessoa);
+		}else{
+			pessoa.setDataCadastro(new Date());
+			pessoa.setUltimaAlteracao(new Date());
+			pessoaDao.salvarEntity(pessoa);	
 		}
 	}
 

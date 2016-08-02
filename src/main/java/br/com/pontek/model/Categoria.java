@@ -28,7 +28,7 @@ public class Categoria implements Serializable {
 	@Column(name="nome")
 	private String nome;
 	
-	@OneToMany(cascade = CascadeType.ALL ,mappedBy = "categoria", orphanRemoval = true)
+	@OneToMany(mappedBy = "categoria")
 	@OrderBy("id ASC")
 	private Set<Lancamento> listaLancamentos;
 

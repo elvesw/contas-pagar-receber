@@ -4,14 +4,595 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	template="/WEB-INF/templates/Layout.xhtml"
 	xmlns:p="http://primefaces.org/ui">
-	
-		<ui:define name="titulo">CONTAS A RECEBER</ui:define>
+
+	<ui:define name="titulo">Contas a receber</ui:define>
 	<ui:define name="centro">
-		<h1 class="aw-page-title">CONTAS A RECEBER</h1>
-		
-		<h:form id="frm">
-		CONTAS A RECEBER
+
+		<h:form id="formPrincipal">
+
+			<!--DIV TITLE -->
+			<h:panelGroup layout="block" id="div-title">
+				<h:panelGroup layout="block"
+					rendered="#{contasReceberBean.viewAtiva eq 'INSERINDO'}">
+					<h1 class="aw-page-title">Novo recebimento</h1>
+				</h:panelGroup>
+				<h:panelGroup layout="block"
+					rendered="#{contasReceberBean.viewAtiva eq 'EDITANDO'}">
+					<h1 class="aw-page-title">Alterando recebimento</h1>
+				</h:panelGroup>
+				<h:panelGroup layout="block"
+					rendered="#{contasReceberBean.listaLancamentosSelecionados.size()>0 and (contasReceberBean.viewAtiva eq 'LISTANDO' or contasReceberBean.viewAtiva eq 'FILTRO')}">
+					<h1 class="aw-page-title">Escolha pagar ou cancelar #{contasReceberBean.listaLancamentosSelecionados.size()} #{contasReceberBean.listaLancamentosSelecionados.size()==1 ?"item selecionado":"itens selecionados"}</h1>
+				</h:panelGroup>
+				<h:panelGroup layout="block"
+					rendered="#{contasReceberBean.viewAtiva eq 'DETALHANDO'}">
+					<h1 class="aw-page-title">Cancelando #{contasReceberBean.listaLancamentosSelecionados.size()} recebimentos</h1>
+				</h:panelGroup>
+				<h:panelGroup layout="block"
+					rendered="#{contasReceberBean.listaLancamentosSelecionados.size()==0 and contasReceberBean.viewAtiva eq 'LISTANDO'}">
+					<h1 class="aw-page-title">Listando recebimentos</h1>
+				</h:panelGroup>
+				<h:panelGroup layout="block"
+					rendered="#{contasReceberBean.listaLancamentosSelecionados.size()==0 and contasReceberBean.viewAtiva eq 'FILTRO'}">
+					<h1 class="aw-page-title">Filtro: selecione as opções</h1>
+				</h:panelGroup>
+			</h:panelGroup>
+			<!--FIM - DIV TITLE -->
+
+			<p:messages autoUpdate="true" closable="true" />
+
+			<!--DIV CADASTRO -->
+			<h:panelGroup layout="block" id="div-cadastro">
+
+				<h:panelGroup layout="block"
+					rendered="#{(contasReceberBean.viewAtiva eq 'INSERINDO') or (contasReceberBean.viewAtiva eq 'EDITANDO')}">
+
+					<div style="display: inline-block; padding-top: 4px; width: 100%">
+						<div style="float: left">
+							<p:commandButton value="Voltar" update=":formPrincipal"
+								action="#{contasReceberBean.voltar()}"
+								styleClass="btn btn-default" icon="fa fa-fw fa-mail-reply"
+								immediate="true" process=":formPrincipal" />
+						</div>
+
+						<div style="float: right">
+							<p:commandButton value="Salvar" update=":formPrincipal"
+								action="#{contasReceberBean.salvar()}"
+								styleClass="btn btn-success" icon="fa fa-fw fa-floppy-o" />
+						</div>
+					</div>
+
+					<div class="ui-fluid" style="border-top: 1px solid #E6E6E6;">
+
+						<p:panelGrid columns="1" layout="grid"
+							columnClasses="ui-grid-col-6">
+
+							<p:panelGrid columns="1" layout="grid"
+								columnClasses="ui-grid-col-12">
+								<p:outputLabel value="Nome" styleClass="label-formulario" />
+								<p:autoComplete value="#{contasReceberBean.lancamento.pessoa}"
+									completeMethod="#{contasReceberBean.autoCompleteNomes}"
+									var="pessoa" itemLabel="#{pessoa.nome}" itemValue="#{pessoa}"
+									forceSelection="true" maxResults="5"
+									converter="#{pessoaConverter}" placeholder="procurar..."
+									autocomplete="off" dropdown="true" />
+							</p:panelGrid>
+
+						</p:panelGrid>
+
+					</div>
+
+					<div class="ui-fluid">
+						<p:panelGrid columns="2" layout="grid"
+							columnClasses="ui-grid-col-4,ui-grid-col-3"
+							styleClass="ui-panelgrid-blank">
+
+							<p:panelGrid columns="1" layout="grid"
+								columnClasses="ui-grid-col-12">
+								<p:outputLabel value="Descrição" styleClass="label-formulario" />
+								<p:inputText id="descricao"
+									value="#{contasReceberBean.lancamento.descricao}" />
+							</p:panelGrid>
+
+							<p:panelGrid columns="1" layout="grid"
+								columnClasses="ui-grid-col-12">
+								<p:outputLabel value="Categoria" styleClass="label-formulario" />
+
+								<p:selectOneMenu
+									value="#{contasReceberBean.lancamento.categoria.id}">
+									<f:selectItems value="#{contasReceberBean.listaCategorias}"
+										var="categoria" itemValue="#{categoria.id}"
+										itemLabel="#{categoria.nome}" />
+								</p:selectOneMenu>
+							</p:panelGrid>
+
+						</p:panelGrid>
+					</div>
+
+					<div class="ui-fluid" style="padding-bottom: 10px;">
+
+						<p:panelGrid columns="3" layout="grid"
+							columnClasses="ui-grid-col-2,ui-grid-col-3,ui-grid-col-2"
+							styleClass="ui-panelgrid-blank">
+
+							<p:panelGrid columns="1" layout="grid"
+								columnClasses="ui-grid-col-12">
+								<p:outputLabel value="Data Vencimento"
+									styleClass="label-formulario" />
+								<p:calendar
+									value="#{contasReceberBean.lancamento.dataVencimento}"
+									navigator="true" pattern="dd-MM-yyyy" mask="true" locale="pt"
+									yearRange="c-20:c+0">
+								</p:calendar>
+							</p:panelGrid>
+
+							<p:panelGrid columns="1" layout="grid"
+								columnClasses="ui-grid-col-12">
+								<p:outputLabel value="Conta" styleClass="label-formulario" />
+								<p:selectOneMenu
+									value="#{contasReceberBean.lancamento.conta.id}">
+									<f:selectItems value="#{contasReceberBean.listaContas}"
+										var="conta" itemValue="#{conta.id}" itemLabel="#{conta.nome}" />
+								</p:selectOneMenu>
+							</p:panelGrid>
+
+							<p:panelGrid columns="1" layout="grid"
+								columnClasses="ui-grid-col-12">
+								<p:outputLabel value="Valor" styleClass="label-formulario" />
+								<p:inputText id="valor"
+									value="#{contasReceberBean.lancamento.valor}">
+									<f:convertNumber pattern="#,##0.00"></f:convertNumber>
+									<p:ajax update=":formPrincipal:valor :formPrincipal:valorPago"
+										process="valor" event="change" />
+									<f:validator validatorId="moedaValidator" />
+								</p:inputText>
+							</p:panelGrid>
+
+						</p:panelGrid>
+					</div>
+
+
+					<h:panelGroup layout="block" styleClass="ui-fluid"
+						rendered="#{contasReceberBean.viewAtiva eq 'INSERINDO'}">
+						<p:panelGrid columns="1" layout="grid"
+							columnClasses="ui-grid-col-3">
+
+							<p:panelGrid columns="1" layout="grid"
+								columnClasses="ui-grid-col-12">
+								<h:panelGroup layout="block">
+									<p:selectBooleanCheckbox value="#{contasReceberBean.repetir}">
+										<p:ajax
+											update=":formPrincipal:gridRepetir :formPrincipal:repetirAD" />
+									</p:selectBooleanCheckbox>
+									<p:outputLabel value="Repetir" styleClass="label-formulario"
+										style="vertical-align:20%;margin:5px" />
+								</h:panelGroup>
+							</p:panelGrid>
+
+						</p:panelGrid>
+					</h:panelGroup>
+
+					<h:panelGroup layout="block" styleClass="ui-fluid"
+						style="padding-bottom: 10px;"
+						rendered="#{contasReceberBean.viewAtiva eq 'INSERINDO'}">
+
+						<p:panelGrid columns="2" layout="grid"
+							columnClasses="ui-grid-col-3,ui-grid-col-3" id="gridRepetir">
+
+							<p:panelGrid columns="1" layout="grid"
+								columnClasses="ui-grid-col-12">
+								<p:outputLabel value="Frequência"
+									styleClass="#{contasReceberBean.repetir ? 'label-formulario':'label-formulario label-desabilitar'}" />
+								<p:selectOneMenu
+									value="#{contasReceberBean.frequenciaDeLancamentos}"
+									disabled="#{not contasReceberBean.repetir}">
+									<f:selectItems
+										value="#{contasReceberBean.frequenciaDeLancamentoEnum}"
+										var="frequencia" itemValue="#{frequencia}"
+										itemLabel="#{frequencia}" />
+								</p:selectOneMenu>
+							</p:panelGrid>
+
+							<p:panelGrid columns="1" layout="grid"
+								columnClasses="ui-grid-col-12">
+
+								<p:outputLabel value="Ocorrências"
+									styleClass="#{contasReceberBean.repetir ? 'label-formulario':'label-formulario label-desabilitar'}" />
+								<p:selectOneMenu value="#{contasReceberBean.ocorrencias}"
+									disabled="#{not contasReceberBean.repetir}">
+									<f:selectItems value="#{contasReceberBean.numeroParaRepetir}"
+										var="num" itemValue="#{num}" itemLabel="#{num} vezes ao todo" />
+								</p:selectOneMenu>
+							</p:panelGrid>
+
+						</p:panelGrid>
+					</h:panelGroup>
+
+					<h:panelGroup layout="block" styleClass="ui-fluid" id="repetirAD">
+						<p:panelGrid columns="2" layout="grid"
+							columnClasses="ui-grid-col-2,ui-grid-col-4">
+
+							<p:panelGrid columns="1" layout="grid"
+								columnClasses="ui-grid-col-12">
+								<h:panelGroup layout="block">
+									<p:selectBooleanCheckbox value="#{contasReceberBean.pago}">
+										<p:ajax update=":formPrincipal:gridPago" />
+									</p:selectBooleanCheckbox>
+									<p:outputLabel value="Pago" styleClass="label-formulario"
+										style="vertical-align:20%;margin:5px" />
+								</h:panelGroup>
+							</p:panelGrid>
+
+							<p:panelGrid columns="1" layout="grid"
+								columnClasses="ui-grid-col-12"
+								rendered="#{contasReceberBean.viewAtiva eq 'INSERINDO'}">
+								<h:panelGroup layout="block">
+									<p:selectBooleanCheckbox
+										value="#{contasReceberBean.repetirAcrescimosDescontos}"
+										disabled="#{not contasReceberBean.repetir}" />
+									<p:outputLabel value="Repetir Descontos/Taxas, Juros/Multas"
+										styleClass="#{contasReceberBean.repetir ? 'label-formulario':'label-formulario label-desabilitar'}"
+										style="vertical-align:20%;margin:5px" />
+								</h:panelGroup>
+							</p:panelGrid>
+						</p:panelGrid>
+					</h:panelGroup>
+
+
+
+					<div class="ui-fluid">
+
+						<p:panelGrid columns="4" layout="grid"
+							columnClasses="ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2"
+							id="gridPago">
+
+							<p:panelGrid columns="1" layout="grid"
+								columnClasses="ui-grid-col-12">
+								<p:outputLabel value="Data pagamento"
+									styleClass="#{contasReceberBean.pago ? 'label-formulario':'label-formulario label-desabilitar'}" />
+								<p:calendar
+									value="#{contasReceberBean.lancamento.dataPagamento}"
+									navigator="true" pattern="dd-MM-yyyy" mask="true" locale="pt"
+									requiredMessage="Data de vencimento" yearRange="c-20:c+0"
+									required="true" disabled="#{not contasReceberBean.pago}">
+								</p:calendar>
+							</p:panelGrid>
+
+							<p:panelGrid columns="1" layout="grid"
+								columnClasses="ui-grid-col-12">
+								<p:outputLabel value="Descontos/Taxas"
+									styleClass="label-formulario" />
+								<p:inputText
+									value="#{contasReceberBean.lancamento.valorDesconto}"
+									id="valorDesconto">
+									<f:convertNumber pattern="#,##0.00"></f:convertNumber>
+									<p:ajax
+										update=":formPrincipal:valorDesconto :formPrincipal:valorPago"
+										process="valorDesconto" event="change" />
+									<f:validator validatorId="moedaValidator" />
+								</p:inputText>
+							</p:panelGrid>
+
+							<p:panelGrid columns="1" layout="grid"
+								columnClasses="ui-grid-col-12">
+								<p:outputLabel value="Juros/Multas"
+									styleClass="label-formulario" />
+								<p:inputText
+									value="#{contasReceberBean.lancamento.valorAcrescimo}"
+									id="valorAcrescimo">
+									<f:convertNumber pattern="#,##0.00"></f:convertNumber>
+									<p:ajax
+										update=":formPrincipal:valorAcrescimo :formPrincipal:valorPago"
+										process="valorAcrescimo" event="change" />
+									<f:validator validatorId="moedaValidator" />
+								</p:inputText>
+							</p:panelGrid>
+
+							<p:panelGrid columns="1" layout="grid"
+								columnClasses="ui-grid-col-12">
+								<p:outputLabel value="Valor final" styleClass="label-formulario"
+									style="color:#0996DD" />
+
+								<p:inputText value="#{contasReceberBean.lancamento.valorPago}"
+									readonly="true" id="valorPago">
+									<f:convertNumber pattern="#,##0.00"></f:convertNumber>
+									<p:ajax update=":formPrincipal:valorPago" process="valorPago"
+										event="change" />
+									<f:validator validatorId="moedaValidator" />
+								</p:inputText>
+							</p:panelGrid>
+
+						</p:panelGrid>
+					</div>
+				</h:panelGroup>
+			</h:panelGroup>
+			<!--FIM - DIV CADASTRO -->
+
+			<!--DIV CANCELAR -->
+			<h:panelGroup layout="block" styleClass="ui-fluid" id="div-cancelar">
+				<h:panelGroup layout="block"
+					rendered="#{contasReceberBean.viewAtiva eq 'DETALHANDO'}">
+
+					<p:panelGrid columns="1" layout="grid"
+						columnClasses="ui-grid-col-6">
+						<p:panelGrid columns="1" layout="grid"
+							columnClasses="ui-grid-col-12">
+							<h:panelGroup layout="block">
+								<p:outputLabel value="ID" styleClass="label-formulario"
+									style="padding:1px 10px;width:20%;" />
+								<p:outputLabel value="Valor" styleClass="label-formulario"
+									style="padding:1px 10px;width:30%;" />
+								<p:outputLabel value="Observação" styleClass="label-formulario"
+									style="padding:1px 10px;width:50%;" />
+							</h:panelGroup>
+						</p:panelGrid>
+					</p:panelGrid>
+
+					<ui:repeat
+						value="#{contasReceberBean.listaLancamentosSelecionados}" var="l">
+						<p:panelGrid columns="1" layout="grid"
+							columnClasses="ui-grid-col-6">
+							<p:panelGrid columns="1" layout="grid"
+								columnClasses="ui-grid-col-12">
+								<h:panelGroup layout="block">
+									<p:outputLabel value="#{l.id}"
+										style="padding:1px 10px;width:20%;" />
+									<p:outputLabel value="#{l.valorPago}"
+										style="padding:1px 10px;width:30%;" />
+									<p:outputLabel value="#{l.observacao}"
+										style="padding:1px 10px;width:50%;" />
+								</h:panelGroup>
+							</p:panelGrid>
+						</p:panelGrid>
+					</ui:repeat>
+
+					<p:panelGrid columns="1" layout="grid"
+						columnClasses="ui-grid-col-5">
+						<p:panelGrid columns="1" layout="grid"
+							columnClasses="ui-grid-col-12">
+							<p:inputTextarea value="#{contasReceberBean.motivoCancelar}"
+								validatorMessage="mínimo 15 caracteres" rows="2"
+								placeholder="Qual o motivo para cancelar?" required="true"
+								requiredMessage="É obrigatório informar o motivo para cancelar">
+								<f:validateLength minimum="15" />
+							</p:inputTextarea>
+
+						</p:panelGrid>
+					</p:panelGrid>
+
+					<p:panelGrid columns="1" layout="grid"
+						columnClasses="ui-grid-col-3">
+						<p:panelGrid columns="2" layout="grid"
+							columnClasses="ui-grid-col-5,ui-grid-col-7">
+
+							<p:commandButton value="Voltar" update=":formPrincipal"
+								action="#{contasReceberBean.voltar()}"
+								styleClass="btn btn-default" icon="fa fa-fw fa-mail-reply"
+								immediate="true" process="@this" />
+
+							<p:commandButton value="Confirma cancelar"
+								update=":formPrincipal:div-lista :formPrincipal:div-cancelar :formPrincipal:div-title"
+								actionListener="#{contasReceberBean.cancelar()}"
+								process=":formPrincipal:div-cancelar"
+								styleClass="btn btn-primary" icon="fa fa-fw fa-user-plus"
+								onclick="PF('widgetListaDataTable').unselectAllRows();" />
+
+
+						</p:panelGrid>
+					</p:panelGrid>
+
+				</h:panelGroup>
+			</h:panelGroup>
+			<!--FIM - DIV CANCELAR -->
+
+			<!--DIV LISTA -->
+			<h:panelGroup layout="block" id="div-lista">
+				<h:panelGroup layout="block"
+					rendered="#{contasReceberBean.viewAtiva eq 'LISTANDO' or contasReceberBean.viewAtiva eq 'FILTRO'}">
+					
+					
+					<h:panelGroup layout="block" class="ui-fluid">
+
+						<p:panelGrid columns="4" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3"
+						rendered="#{contasReceberBean.listaLancamentosSelecionados.size()==0 and contasReceberBean.viewAtiva eq 'FILTRO'}">
+
+							<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+								<p:outputLabel value="Nome ou descrição" styleClass="label-formulario" />
+								<p:inputText value="#{contasReceberBean.filtro.termoParaBusca}"/>
+							</p:panelGrid>
+							
+							<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+								<p:outputLabel value="Situação" styleClass="label-formulario" />
+								<p:selectOneMenu value="#{contasReceberBean.filtro.fitroStatus}">
+									<f:selectItems value="#{contasReceberBean.filtroStatusEnums}"
+									var="status" itemValue="#{status}" itemLabel="#{status.stringEnum}"/>
+								</p:selectOneMenu>
+							</p:panelGrid>
+
+							<p:panelGrid columns="1" layout="grid" 	columnClasses="ui-grid-col-12">
+								<p:outputLabel value="Data rápida" styleClass="label-formulario" />
+								<p:selectOneMenu value="#{contasReceberBean.filtro.fitroData}">
+									<f:selectItems value="#{contasReceberBean.filtroDataEnums}" 
+									var="dt" itemValue="#{dt}" itemLabel="#{dt.stringEnum}"/>
+								</p:selectOneMenu>
+							</p:panelGrid>
+
+							<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+								<p:outputLabel value="Tipo de data" styleClass="label-formulario" />
+								<p:selectOneMenu value="#{contasReceberBean.filtro.filtroTipoData}">
+									<f:selectItems value="#{contasReceberBean.filtroTipoDataEnums}" 
+									var="tipoDt" itemValue="#{tipoDt}" itemLabel="#{tipoDt.stringEnum}"/>
+								</p:selectOneMenu>
+							</p:panelGrid>
+
+						</p:panelGrid>
+					</h:panelGroup>
+
+						<!-- #################### -->
+
+					<div style="display: inline-block; padding-top: 4px; width: 100%;" class="span-text">
+						<h:panelGroup layout="block" style="float:left"	id="div-lista-menu-esquerdo">
+							<!-- btn lista -->
+							<h:panelGroup layout="block" rendered="#{contasReceberBean.listaLancamentosSelecionados.size()==0 and contasReceberBean.viewAtiva ne 'FILTRO'}" >
+								<p:commandButton value="Novo" update=":formPrincipal"
+									action="#{contasReceberBean.novo()}"
+									styleClass="btn btn-primary" icon="fa fa-fw fa-user-plus"
+									immediate="true" process=":formPrincipal"
+									onclick="if(PF('widgetListaDataTable').getSelectedRowsCount()>0){PF('widgetListaDataTable').unselectAllRows();}" title="Novo"/>
+							</h:panelGroup>
+							
+							<!-- btn filtro -->
+							<h:panelGroup layout="block" rendered="#{contasReceberBean.listaLancamentosSelecionados.size()==0 and contasReceberBean.viewAtiva eq 'FILTRO'}">
+								<p:commandButton value="Voltar" styleClass="btn btn-default" icon="fa fa-fw fa-mail-reply"
+								update=":formPrincipal:div-lista :formPrincipal:div-title"
+								process="@this" immediate="true" action="#{contasReceberBean.voltar()}" title="Voltar"/>
+								
+							</h:panelGroup>
+
+						</h:panelGroup>
+						<h:panelGroup layout="block" style="float:right;" id="div-lista-menu-direito">
+							
+							<!-- btn selecionados -->
+							<h:panelGroup layout="block" rendered="#{contasReceberBean.listaLancamentosSelecionados.size()>0}" >
+								<p:commandButton value="Pago" update=":formPrincipal:div-lista :formPrincipal:div-title"
+									styleClass="btn btn-success" icon="fa fa-fw fa-check-square-o"
+									process=":@this :formPrincipal:dataTableLista" title="Pagar selecionados"
+									action="#{contasReceberBean.pagar}" />
+									
+								<p:commandButton value="Cancelar"
+									update=":formPrincipal:div-cancelar :formPrincipal:div-lista :formPrincipal:div-title"
+									styleClass="btn btn-danger" icon="fa fa-fw fa-ban"
+									process=":@this :formPrincipal:dataTableLista" title="Cancelar selecionados"
+									action="#{contasReceberBean.cancelando}"/>
+							</h:panelGroup>
+							
+							<!-- btn lista -->
+							<h:panelGroup layout="block" rendered="#{contasReceberBean.listaLancamentosSelecionados.size()==0 and contasReceberBean.viewAtiva ne 'FILTRO'}" >
+								<p:commandButton value="Filtro"
+									update=":formPrincipal:div-lista :formPrincipal:div-title"
+									styleClass="btn btn-warning" icon="fa fa-fw fa-filter"
+									action="#{contasReceberBean.filtrando()}" immediate="true"
+									process=":formPrincipal:div-lista-menu-direito" title="Filtro"/>
+									
+								<p:commandButton value="Imprimir" icon="fa fa-fw fa-print"  immediate="true"
+										styleClass="btn btn-default"   actionListener="#{contasReceberBean.verPDF}" ajax="false"
+										onclick="this.form.target='_blank'" title="Imprimir lista"/>
+							</h:panelGroup>
+							
+							<!-- btn filtro -->
+							<h:panelGroup layout="block" rendered="#{contasReceberBean.listaLancamentosSelecionados.size()==0 and contasReceberBean.viewAtiva eq 'FILTRO'}">
+								<p:commandButton value="Limpar" styleClass="btn btn-primary" icon="fa fa-fw fa-ban" 
+								title="Limpar filtro" action="#{contasReceberBean.filtroReset()}" 
+								update=":formPrincipal:div-lista :formPrincipal:div-title" process="@this"/>
+								<p:commandButton value="OK" styleClass="btn btn-success" icon="fa fa-fw fa-floppy-o" 
+								title="OK, filtrar" action="#{contasReceberBean.filtrar()}"
+								update=":formPrincipal:div-lista :formPrincipal:div-title" process=":formPrincipal:div-lista"/>
+							</h:panelGroup>
+
+						</h:panelGroup>
+					</div>
+
+					<p:dataTable var="lancamento" value="#{contasReceberBean.model}"
+						reflow="true" lazy="true" rowIndexVar="rowIx" id="dataTableLista"
+						rows="14" emptyMessage="Nenhum cadastro ..." paginator="#{contasReceberBean.listaLancamentosSelecionados.size()==0}"
+						paginatorPosition="bottom" widgetVar="widgetListaDataTable"
+						selection="#{contasReceberBean.listaLancamentosSelecionados}"
+						disabledSelection="#{lancamento.statusLancamento eq 'Pago'}" >
+
+						<p:ajax event="rowSelectCheckbox"
+							update=":formPrincipal:div-lista :formPrincipal:div-title" />
+						<p:ajax event="rowUnselectCheckbox"
+							update=":formPrincipal:div-lista :formPrincipal:div-title" />
+						<p:ajax event="toggleSelect"
+							update=":formPrincipal:div-lista :formPrincipal:div-title" />
+
+						<p:column width="5%" selectionMode="multiple" selectRow="false"
+							styleClass="icon-cor-preto" />
+
+						<p:column headerText="Cod" width="8%" selectRow="false" sortBy="#{lancamento.id}">
+							<h:outputText value="#{lancamento.id}" />
+						</p:column>
+
+						<p:column headerText="Descrição" width="15%" selectRow="false">
+							<h:outputText value="#{lancamento.descricao}" />
+						</p:column>
+
+						<p:column headerText="Nome" width="12%" selectRow="false">
+							<h:outputText value="#{lancamento.pessoa.nome}" />
+						</p:column>
+
+						<p:column headerText="Status" width="10%" selectRow="false" sortBy="#{lancamento.statusLancamento}">
+							<h:outputText value="#{lancamento.statusLancamento}"
+								styleClass="#{lancamento.statusLancamento eq 'Pendente' ? 'status_pendente':'status_pago'}" />
+						</p:column>
+
+						<p:column headerText="Vencimento" width="16%" selectRow="false" sortBy="#{lancamento.dataVencimento}">
+							<h:outputText value="#{lancamento.dataVencimento}"
+								styleClass="#{contasReceberBean.verificaLancamentoVencido(lancamento.dataVencimento,lancamento.statusLancamento) ? 'status_vencido':''}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="Pagamento" width="16%" selectRow="false" sortBy="#{lancamento.dataPagamento}">
+							<h:outputText value="#{lancamento.dataPagamento}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="Cadastro" width="16%" selectRow="false" sortBy="#{lancamento.dataCadastro}">
+							<h:outputText value="#{lancamento.dataCadastro}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="Valor" width="15%" selectRow="false"
+						 sortBy="#{lancamento.valor}">
+							<h:outputText value="#{lancamento.valor}">
+								<f:convertNumber pattern="R$ #,##0.00" minFractionDigits="2" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="Valor final" width="15%" selectRow="false">
+							<h:outputText value="#{lancamento.valorPago}">
+								<f:convertNumber pattern="R$ #,##0.00" minFractionDigits="2" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="Ações" width="11%" selectRow="false">
+							<div class="ui-acoes-datatable">
+									
+								<p:commandLink immediate="true" styleClass="ui-command-link"
+									action="#{contasReceberBean.editar(lancamento)}"
+									update=":formPrincipal:div-lista :formPrincipal:div-cadastro :formPrincipal:div-title"
+									title="Alterar" process=":formPrincipal"
+									onclick="PF('widgetListaDataTable').unselectAllRows();" >
+									<span><i class="fa fa-fw fa-pencil"></i></span>
+								</p:commandLink>
+								
+								<p:commandLink styleClass="ui-command-link" rendered="false"
+									action="#{contasReceberBean.excluir(lancamento)}"
+									update=":formPrincipal:div-lista" title="Excluir">
+									<span><i class="fa fa-fw fa-trash"></i></span>
+								</p:commandLink>
+									
+							</div>
+						</p:column>
+						<p:columnGroup type="footer">
+				            <p:row>
+				                <p:column colspan="8" styleClass="label-formulario" style="text-align:right" footerText="Soma:" />
+				                <p:column footerText="R$ #{contasReceberBean.somaTotal}" style="text-align:left"/>
+				                <p:column footerText="R$ #{contasReceberBean.somaTotalPago}" style="text-align:left"/>
+				                <p:column  />
+				            </p:row>
+        				</p:columnGroup>
+        				
+						<f:facet name="footer">
+							Total de : #{contasReceberBean.model.rowCount}
+						</f:facet>
+					</p:dataTable>
+				</h:panelGroup>
+			</h:panelGroup>
+			<!--FIM - DIV LISTA -->
+
 		</h:form>
 	</ui:define>
-	
 </ui:composition>

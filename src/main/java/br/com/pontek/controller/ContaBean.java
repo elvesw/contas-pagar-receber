@@ -10,25 +10,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import br.com.pontek.model.Categoria;
-import br.com.pontek.service.CategoriaService;
+import br.com.pontek.model.Conta;
+import br.com.pontek.service.ContaService;
 import br.com.pontek.util.FacesUtil;
 
-@ManagedBean(name = "categoriaBean")
+@ManagedBean(name = "contaBean")
 @Controller
 @Scope("view")
-public class CategoriaBean {
+public class ContaBean {
 	
 	@Autowired
-	CategoriaService categoriaService;
+	ContaService contaService;
 	
 	/*############# NOVO LANÇAMENTO #############*/
-	private Categoria categoria = new Categoria();
+	private Conta conta = new Conta();
 	private boolean telaDeCadastro=false;/*(true-cadastro | false-lista)*/
 	/*############# FIM - NOVO LANÇAMENTO #############*/
 	
 	/*############# LISTAS #############*/
-	private List<Categoria> listaCategorias  = new ArrayList<>();
+	private List<Conta> listaContas  = new ArrayList<>();
 	/*############# FIM - LISTAS #############*/
 	
 	/*############# EDITAR LANÇAMENTO #############*/
@@ -37,19 +37,19 @@ public class CategoriaBean {
 	
 
 	//CONSTRUTOR
-	public CategoriaBean() {
+	public ContaBean() {
 	}
 
 	@PostConstruct
 	private void inicializar(){
-		listaCategorias=categoriaService.listaDeCategorias();		
+		listaContas=contaService.listaDeContas();		
 	}
 
 	public void salvar() {
 		try {
-			categoriaService.salvar(categoria);
-			if(!listaCategorias.contains(categoria)){
-				listaCategorias.add(categoria);				
+			contaService.salvar(conta);
+			if(!listaContas.contains(conta)){
+				listaContas.add(conta);				
 			}
 			FacesUtil.exibirMensagemSucesso("Salvo com sucesso!");
 			this.reset();
@@ -69,41 +69,41 @@ public class CategoriaBean {
 		telaDeCadastro=false;
     } 
 
-	public void editar(Categoria categoria){
-		if(categoria.getId()!=null){
+	public void editar(Conta conta){
+		if(conta.getId()!=null){
 			carregaListas();
-			this.categoria=categoria;
+			this.conta=conta;
 			this.telaDeCadastro=true;
 			this.editando=true;
 		}
 	}
 	
-	public void excluir(Categoria categoria) {
+	public void excluir(Conta conta) {
 		try {
-			categoriaService.excluir(categoria);
-			listaCategorias.remove(categoria);
+			contaService.excluir(conta);
+			listaContas.remove(conta);
 		} catch (Exception e) {
 			FacesUtil.exibirMensagemErro("Erro: "+ e.getMessage());
 		}
 	}
 
 	private void reset(){
-		categoria = new Categoria();
+		conta = new Conta();
 		editando=false;
 	}
 	
 	private void carregaListas(){
-		if(listaCategorias.isEmpty()){
-			listaCategorias=categoriaService.listaDeCategorias();
+		if(listaContas.isEmpty()){
+			listaContas=contaService.listaDeContas();
 		}	
 	}
 
 	/*####### GETS E SETS##########*/
-	public Categoria getCategoria() {
-		return categoria;
+	public Conta getConta() {
+		return conta;
 	}
-	public void setCategoria(Categoria categoria) {
-		this.categoria = categoria;
+	public void setConta(Conta conta) {
+		this.conta = conta;
 	}
 	public boolean isTelaDeCadastro() {
 		return telaDeCadastro;
@@ -111,11 +111,11 @@ public class CategoriaBean {
 	public void setTelaDeCadastro(boolean telaDeCadastro) {
 		this.telaDeCadastro = telaDeCadastro;
 	}
-	public List<Categoria> getListaCategorias() {
-		return listaCategorias;
+	public List<Conta> getListaContas() {
+		return listaContas;
 	}
-	public void setListaCategorias(List<Categoria> listaCategorias) {
-		this.listaCategorias = listaCategorias;
+	public void setListaContas(List<Conta> listaContas) {
+		this.listaContas = listaContas;
 	}
 	public boolean isEditando() {
 		return editando;
@@ -128,7 +128,7 @@ public class CategoriaBean {
 
 	/*####### MENSAGENS  ##########*/
 	public void addMessageCadastroAtivo() {
-		
+		System.out.println("Metodo executado com sucesso");
 	}
 
 

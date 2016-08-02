@@ -22,13 +22,17 @@ public class CategoriaServiceImp implements CategoriaService ,Serializable {
 	@Override
 	@Transactional
 	public void salvar(Categoria categoria) {
-		categoriaDao.salvarEntity(categoria);
+		if(categoria.getId()!=null){
+			categoriaDao.atualizarEntity(categoria);
+		}else{
+			categoriaDao.salvarEntity(categoria);			
+		}
 	}
 
 	@Override
 	@Transactional
 	public void excluir(Categoria categoria) {
-		categoriaDao.excluirEntity(categoria);
+		categoriaDao.excluirEntityPorId(categoria.getId());
 	}
 
 	@Override

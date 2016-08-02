@@ -112,6 +112,19 @@
 			<version>3.1.0</version>
 			<scope>provided</scope>
 		</dependency>
+		
+		<!-- JASPER REPORTS-->
+		<dependency>
+			<groupId>net.sf.jasperreports</groupId>
+			<artifactId>jasperreports</artifactId>
+			<version>6.3.0</version><!-- UP 27-07-2016 Elves -->
+		</dependency>
+		<dependency>
+			<groupId>com.lowagie</groupId><!-- Para converter em PDF -->
+			<artifactId>itext</artifactId>
+    		<version>4.2.2</version><!-- UP 27-07-2016 Elves -->
+    		<type>pom</type>
+		</dependency>
 
 	</dependencies>
 

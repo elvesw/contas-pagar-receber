@@ -9,29 +9,29 @@
 	<ui:define name="centro">
 		
 		<h:form id="formPrincipal">
-		<h:panelGroup layout="block" rendered="#{categoriaBean.telaDeCadastro}">
-			<h:panelGroup layout="block" rendered="#{not categoriaBean.editando}">
-					<h1 class="aw-page-title">Nova categoria</h1>
+		<h:panelGroup layout="block" rendered="#{contaBean.telaDeCadastro}">
+			<h:panelGroup layout="block" rendered="#{not contaBean.editando}">
+					<h1 class="aw-page-title">Nova conta</h1>
 				</h:panelGroup>
-				<h:panelGroup layout="block" rendered="#{categoriaBean.editando}">
-					<h1 class="aw-page-title">Alterando categoria</h1>
+				<h:panelGroup layout="block" rendered="#{contaBean.editando}">
+					<h1 class="aw-page-title">Alterando conta</h1>
 				</h:panelGroup>
 		</h:panelGroup>
-		<h:panelGroup layout="block" rendered="#{not categoriaBean.telaDeCadastro}">
-						<h1 class="aw-page-title">Lista de categorias</h1>
+		<h:panelGroup layout="block" rendered="#{not contaBean.telaDeCadastro}">
+						<h1 class="aw-page-title">Lista de contas</h1>
 		</h:panelGroup>
 
 		<p:messages id="msg" autoUpdate="true" closable="true" />
 		
-		<h:panelGroup layout="block" id="div-cadastro" rendered="#{categoriaBean.telaDeCadastro}">
+		<h:panelGroup layout="block" id="div-cadastro" rendered="#{contaBean.telaDeCadastro}">
 			
 				<div style="display: inline-block;padding-top: 4px; width: 100%">
 					<div style="float: left">
-							<p:commandButton  value="Pesquisar" update=":formPrincipal" action="#{categoriaBean.voltar()}" styleClass="btn btn-default" icon="fa fa-fw fa-mail-reply" 
+							<p:commandButton  value="Pesquisar" update=":formPrincipal" action="#{contaBean.voltar()}" styleClass="btn btn-default" icon="fa fa-fw fa-mail-reply" 
 							immediate="true" process="@form" />
 					</div>
 					<div style="float:right">
-							<p:commandButton  value="Salvar" update=":formPrincipal" action="#{categoriaBean.salvar()}" styleClass="btn btn-success" icon="fa fa-fw fa-floppy-o"/>
+							<p:commandButton  value="Salvar" update=":formPrincipal" action="#{contaBean.salvar()}" styleClass="btn btn-success" icon="fa fa-fw fa-floppy-o"/>
 					</div>
 	 			</div>
 	 			
@@ -42,12 +42,12 @@
 				  
 					  	<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
 								<p:outputLabel value="ID" styleClass="label-formulario" />
-								<p:inputText id="id" value="#{categoriaBean.categoria.id}" />
+								<p:inputText id="id" value="#{contaBean.conta.id}" />
 						</p:panelGrid>
 						
 						 <p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
 								<p:outputLabel value="Nome" styleClass="label-formulario" />
-								<p:inputText id="nome" value="#{categoriaBean.categoria.nome}" />
+								<p:inputText id="nome" value="#{contaBean.conta.nome}" />
 						</p:panelGrid>
 						
 				  </p:panelGrid>
@@ -57,11 +57,11 @@
 
 		</h:panelGroup>
 
-		<h:panelGroup layout="block" id="div-lista" rendered="#{not categoriaBean.telaDeCadastro}">
+		<h:panelGroup layout="block" id="div-lista" rendered="#{not contaBean.telaDeCadastro}">
 		
 			<div style="display: inline-block;padding-top: 4px; width: 100%">
 					<div style="float: left">
-							<p:commandButton  value="Novo" update=":formPrincipal" action="#{categoriaBean.novo()}" styleClass="btn btn-primary" icon="fa fa-fw fa-user-plus" 
+							<p:commandButton  value="Novo" update=":formPrincipal" action="#{contaBean.novo()}" styleClass="btn btn-primary" icon="fa fa-fw fa-user-plus" 
 							immediate="true" process="@form" />
 					</div>
 					<div style="float:right">
@@ -69,30 +69,30 @@
 					</div>
 	 		</div>
 			
-				<p:dataTable var="categoria" value="#{categoriaBean.listaCategorias}" reflow="true" lazy="false"
+				<p:dataTable var="conta" value="#{contaBean.listaContas}" reflow="true" lazy="false"
 					rowIndexVar="rowIx" id="dataTableLista" rows="12"
 					emptyMessage="Nenhum cadastro ..." paginator="true"
 					paginatorPosition="bottom">
 
 					<p:column headerText="ID" width="3%">
-						<h:outputText value="#{categoria.id}"/>
+						<h:outputText value="#{conta.id}"/>
 					</p:column>
 					
 					<p:column headerText="Status" width="75%">
-						<h:outputText value="#{categoria.nome}"/>
+						<h:outputText value="#{conta.nome}"/>
 					</p:column>
 					
 
 					<p:column headerText="Ações" width="10%">
 						<div  class="btn-right-datatable">
-							<p:commandButton id="alterar" action="#{categoriaBean.editar(categoria)}" update=":formPrincipal" styleClass="btn btn-primary"
+							<p:commandButton id="alterar" action="#{contaBean.editar(conta)}" update=":formPrincipal" styleClass="btn btn-primary"
 								icon="fa fa-fw fa-pencil-square-o" title="Alterar" immediate="true" process="@form"/>
-							<p:commandButton id="excluir" action="#{categoriaBean.excluir(categoria)}" icon="fa fa-fw fa-trash" update=":formPrincipal" styleClass="btn btn-danger"
+							<p:commandButton id="excluir" action="#{contaBean.excluir(conta)}" icon="fa fa-fw fa-trash" update=":formPrincipal" styleClass="btn btn-danger"
 								title="Excluir" />
 						</div>
 					</p:column>
 					<f:facet name="footer">
-						Total de : #{categoriaBean.listaCategorias.size()}
+						Total de : #{contaBean.listaContas.size()}
 				</f:facet>
 				</p:dataTable>
 		</h:panelGroup>

@@ -68,10 +68,10 @@ public class Pessoa implements Serializable {
 	
 	/* ####OUTRAS#### */
 	@Column(name = "ultima_alteracao")
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date ultimaAlteracao;
 	@Column(name = "data_cadastro")
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataCadastro;
 	@Column(name = "cadastro_ativo")
 	private boolean cadastroAtivo=true;

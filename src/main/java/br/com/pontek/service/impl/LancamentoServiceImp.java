@@ -1,6 +1,8 @@
 package br.com.pontek.service.impl;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.pontek.dao.LancamentoDao;
 import br.com.pontek.model.Lancamento;
 import br.com.pontek.service.LancamentoService;
+import br.com.pontek.util.filtro.FiltroLancamento;
 
 
 @Service
@@ -22,13 +25,29 @@ public class LancamentoServiceImp implements LancamentoService ,Serializable {
 	@Override
 	@Transactional
 	public void salvar(Lancamento lancamento) {
-		lancamentoDao.salvarEntity(lancamento);
+		if(lancamento.getId()!=null){
+			lancamento.setDataAlteracao(new Date());
+			lancamentoDao.atualizarEntity(lancamento);
+		}else{
+			lancamento.setDataCadastro(new Date());
+			lancamento.setDataAlteracao(new Date());
+			lancamentoDao.salvarEntity(lancamento);
+		}
 	}
 
 	@Override
 	@Transactional
+	public List<Lancamento> salvarLista(List<Lancamento> lista) {
+			if(!lista.isEmpty()){
+				return lancamentoDao.salvarAllEntitys(lista);				
+			}
+			return null;
+	}
+	
+	@Override
+	@Transactional
 	public void excluir(Lancamento lancamento) {
-		lancamentoDao.excluirEntity(lancamento);
+		lancamentoDao.excluirEntityPorId(lancamento.getId());
 	}
 
 	@Override
@@ -47,6 +66,28 @@ public class LancamentoServiceImp implements LancamentoService ,Serializable {
 	@Transactional(readOnly=true)
 	public List<Lancamento> listaDeMovimentos() {
 		return lancamentoDao.listaDeEntitys();
+	}
+
+	/*Metodos de PAGINAÇÃO LAZY DATATABLE*/
+	@Override
+	@Transactional(readOnly = true)
+	public List<Lancamento> filtrados(FiltroLancamento filtro) {
+		return lancamentoDao.filtrados(filtro);
+	}
+	@Override
+	@Transactional(readOnly = true)
+	public Integer quantidadeFiltrados(FiltroLancamento filtro) {
+		return lancamentoDao.quantidadeFiltrados(filtro);
+	}
+	@Override
+	@Transactional(readOnly = true)
+	public BigDecimal somaTotal(FiltroLancamento filtro) {
+		return lancamentoDao.somaTotal(filtro);
+	}
+	@Override
+	@Transactional(readOnly = true)
+	public BigDecimal somaTotalPago(FiltroLancamento filtro) {
+		return lancamentoDao.somaTotalPago(filtro);
 	}
 
 

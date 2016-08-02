@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.Set;
 
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,8 +15,8 @@ import javax.persistence.Table;
 
 
 @Entity
-@Table(name = "centro_de_custo")
-public class CentroDeCusto implements Serializable {
+@Table(name = "conta")
+public class Conta implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -29,12 +28,12 @@ public class CentroDeCusto implements Serializable {
 	@Column(name="nome")
 	private String nome;
 	
-	@OneToMany(cascade = CascadeType.ALL ,mappedBy = "centroDeCusto", orphanRemoval = true)
+	@OneToMany(mappedBy = "conta")
 	@OrderBy("id ASC")
 	private Set<Lancamento> listaLancamentos;
 
 	/*############# CONSTRUTOR ###################################*/
-	public CentroDeCusto() {
+	public Conta() {
 
 	}
 	
@@ -74,7 +73,7 @@ public class CentroDeCusto implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		CentroDeCusto other = (CentroDeCusto) obj;
+		Conta other = (Conta) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

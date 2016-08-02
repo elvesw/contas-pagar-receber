@@ -107,4 +107,16 @@ function cpfCnpj(v){
     }
     return v
 }
+
+/*Limpa checkbox do datatable, que ficava selecionado , removia o componente, limpava a lista no bean, mais ficava selecionado*/
+function limpaCheckboxes(){
+	var checkboxes = document.getElementsByTagName('input');
+	for (var i=0; i<checkboxes.length; i++)  {
+	  if (checkboxes[i].type == 'checkbox')   {
+	    checkboxes[i].checked = false;
+	  }
+	}
+}
+
+
  
