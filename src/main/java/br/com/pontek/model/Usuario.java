@@ -1,76 +1,79 @@
 package br.com.pontek.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Set;
 
 import javax.persistence.Basic;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
-import javax.persistence.Transient;
-
 
 @Entity
-@Table(name = "conta")
-public class Conta implements Serializable {
+@Table(name = "usuario")
+public class Usuario implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Basic(optional = false)
-	@Column(name = "id")
 	private Integer id;
-	@Column(name="nome")
 	private String nome;
+	private String email;
+	private String senha;
+	private String role="USUARIO";
+	private boolean cadastroAtivo=true;
 	
-	@Transient
-	private BigDecimal saldo=BigDecimal.ZERO;
-	
-	@OneToMany(mappedBy = "conta")
-	@OrderBy("id ASC")
-	private Set<Lancamento> listaLancamentos;
 
-	/*############# CONSTRUTOR ###################################*/
-	public Conta() {
-
-	}
-	
 	public Integer getId() {
 		return id;
 	}
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
 	public String getNome() {
 		return nome;
 	}
+
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
-	public BigDecimal getSaldo() {
-		return saldo;
+
+	public String getEmail() {
+		return email;
 	}
 
-	public void setSaldo(BigDecimal saldo) {
-		this.saldo = saldo;
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
-	public Set<Lancamento> getListaLancamentos() {
-		return listaLancamentos;
-	}
-	public void setListaLancamentos(Set<Lancamento> listaLancamentos) {
-		this.listaLancamentos = listaLancamentos;
+	public String getSenha() {
+		return senha;
 	}
 
-	/*################################################*/
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	public boolean isCadastroAtivo() {
+		return cadastroAtivo;
+	}
+
+	public void setCadastroAtivo(boolean cadastroAtivo) {
+		this.cadastroAtivo = cadastroAtivo;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -87,7 +90,7 @@ public class Conta implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Conta other = (Conta) obj;
+		Usuario other = (Usuario) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -95,5 +98,5 @@ public class Conta implements Serializable {
 			return false;
 		return true;
 	}
-	
+
 }

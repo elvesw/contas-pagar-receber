@@ -19,7 +19,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import br.com.pontek.enums.StatusDeLancamento;
@@ -57,8 +56,13 @@ public class Lancamento implements Serializable {
     @Column(name="valor_acrescimo",scale=2,precision=12)  
     private BigDecimal valorAcrescimo;//VALOR ACRESCIMO EM CIMA DO VALOR LANÇADO
     
-    @Transient
-    private BigDecimal valorPago;//VALOR LANÇADO SUBTRAI DESCONTO  e SOMA ACRESCIMO
+    /*Esse é um valor que pode ser obtido atraves do valor,valorDesconto e valorAcrescimo,
+    peso na consiencia, de quebrar a normalização no DB na terceira forma normal 3FN, paranóia de faculdade, 
+    eu até tinha feito com @Transient.
+    Mais o custo de acessar o banco para fazer um soma total de valores é muito, fiz da forma que simples, foda-se!
+    o importante é funcionar melhor*/
+    @Column(name="valor_pago",scale=2,precision=12)  
+    private BigDecimal valorPago;
     
     @Temporal(TemporalType.DATE)
     @Column(name = "data_pagamento")
@@ -172,19 +176,6 @@ public class Lancamento implements Serializable {
 		this.valorAcrescimo = valorAcrescimo;
 	}
 	public BigDecimal getValorPago() {
-		 if ((valor!=BigDecimal.ZERO) && (valor!=null)){
-			 valorPago=valor;
-		 }else{
-			 valorPago=BigDecimal.ZERO;
-		 }
-		if ((valorDesconto!=BigDecimal.ZERO) && (valorDesconto!=null)) valorPago=valorPago.subtract(valorDesconto);
-		if ((valorAcrescimo!=BigDecimal.ZERO) && (valorAcrescimo!=null)) valorPago=valorPago.add(valorAcrescimo);
-		
-		if(this.statusLancamento==StatusDeLancamento.Cancelado){
-			valorPago=null;//Null se tiver cancelado
-		}else if(this.statusLancamento==StatusDeLancamento.Pendente){
-			/*valorPago=BigDecimal.ZERO;*///Zero se estiver pendente
-		}
 		return valorPago;
 	}
 	public void setValorPago(BigDecimal valorPago) {
@@ -282,5 +273,4 @@ public class Lancamento implements Serializable {
 			return false;
 		return true;
 	}
-	
 }

@@ -24,9 +24,9 @@
 
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306/contas-pagar-receber" />
-		<property name="username" value="root" />
-		<property name="password" value="102030"/>
+		<property name="url" value="jdbc:mysql://localhost:3306/admin_financeiro1" />
+		<property name="username" value="admin_pontek" />
+		<property name="password" value="4n4p0l15"/>
 	</bean>
 
 	<bean id="entityManagerFactory"

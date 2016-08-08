@@ -9,21 +9,33 @@
 	<ui:define name="centro">
 		
 		<h:form id="formPrincipal">
-		<h:panelGroup layout="block" rendered="#{contaBean.telaDeCadastro}">
-			<h:panelGroup layout="block" rendered="#{not contaBean.editando}">
+					<!--DIV TITLE -->
+			<h:panelGroup layout="block" id="div-title">
+				<h:panelGroup layout="block"
+					rendered="#{contaBean.viewAtiva eq 'INSERINDO'}">
 					<h1 class="aw-page-title">Nova conta</h1>
 				</h:panelGroup>
-				<h:panelGroup layout="block" rendered="#{contaBean.editando}">
+				<h:panelGroup layout="block"
+					rendered="#{contaBean.viewAtiva eq 'EDITANDO'}">
 					<h1 class="aw-page-title">Alterando conta</h1>
 				</h:panelGroup>
-		</h:panelGroup>
-		<h:panelGroup layout="block" rendered="#{not contaBean.telaDeCadastro}">
-						<h1 class="aw-page-title">Lista de contas</h1>
-		</h:panelGroup>
+				<h:panelGroup layout="block"
+					rendered="#{contaBean.contaSelecionada!=null and (contaBean.viewAtiva eq 'LISTANDO' or contaBean.viewAtiva eq 'FILTRO')}">
+					<h1 class="aw-page-title">Escolha sangria ou suprimento #{contaBean.listaLancamentosSelecionados.size()} #{contaBean.listaLancamentosSelecionados.size()==1 ?"item selecionado":"itens selecionados"}</h1>
+				</h:panelGroup>
+
+				<h:panelGroup layout="block"
+					rendered="#{contaBean.contaSelecionada==null and contaBean.viewAtiva eq 'LISTANDO'}">
+					<h1 class="aw-page-title">Listagem de contas</h1>
+				</h:panelGroup>
+
+			</h:panelGroup>
+			<!--FIM - DIV TITLE -->
 
 		<p:messages id="msg" autoUpdate="true" closable="true" />
 		
-		<h:panelGroup layout="block" id="div-cadastro" rendered="#{contaBean.telaDeCadastro}">
+		<h:panelGroup layout="block" id="div-cadastro" 
+rendered="#{(contaBean.viewAtiva eq 'INSERINDO') or (contaBean.viewAtiva eq 'EDITANDO')}">
 			
 				<div style="display: inline-block;padding-top: 4px; width: 100%">
 					<div style="float: left">
@@ -57,12 +69,12 @@
 
 		</h:panelGroup>
 
-		<h:panelGroup layout="block" id="div-lista" rendered="#{not contaBean.telaDeCadastro}">
+		<h:panelGroup layout="block" id="div-lista" rendered="#{contaBean.viewAtiva eq 'LISTANDO'}">
 		
 			<div style="display: inline-block;padding-top: 4px; width: 100%">
 					<div style="float: left">
 							<p:commandButton  value="Novo" update=":formPrincipal" action="#{contaBean.novo()}" styleClass="btn btn-primary" icon="fa fa-fw fa-user-plus" 
-							immediate="true" process="@form" />
+							immediate="true" process="@form" onclick="PF('widgetListaDataTable').unselectAllRows();"/>
 					</div>
 					<div style="float:right">
 						
@@ -71,18 +83,27 @@
 			
 				<p:dataTable var="conta" value="#{contaBean.listaContas}" reflow="true" lazy="false"
 					rowIndexVar="rowIx" id="dataTableLista" rows="12"
-					emptyMessage="Nenhum cadastro ..." paginator="true"
-					paginatorPosition="bottom">
+					emptyMessage="Nenhum cadastro ..." paginator="false"
+					paginatorPosition="bottom" widgetVar="widgetListaDataTable"
+					selection="#{dtSelectionView.contaSelecionada}" rowKey="#{conta.id}">
 
+ 					<p:column width="5%" selectionMode="single" style="width:16px;text-align:center" styleClass="icon-cor-preto"/>
+ 					
 					<p:column headerText="ID" width="3%">
 						<h:outputText value="#{conta.id}"/>
 					</p:column>
 					
-					<p:column headerText="Status" width="75%">
+					<p:column headerText="Status" width="30%">
 						<h:outputText value="#{conta.nome}"/>
 					</p:column>
 					
-
+					<p:column headerText="Saldo" width="15%">
+						<h:outputText value="#{conta.saldo}">
+							<f:convertNumber pattern="R$ #,##0.00" minFractionDigits="2" />
+						</h:outputText>
+					</p:column>
+					
+					
 					<p:column headerText="Ações" width="10%">
 						<div  class="btn-right-datatable">
 							<p:commandButton id="alterar" action="#{contaBean.editar(conta)}" update=":formPrincipal" styleClass="btn btn-primary"
@@ -91,9 +112,14 @@
 								title="Excluir" />
 						</div>
 					</p:column>
-					<f:facet name="footer">
-						Total de : #{contaBean.listaContas.size()}
-				</f:facet>
+					
+					<p:columnGroup type="footer">
+						 <p:row>
+				                <p:column colspan="3" styleClass="label-formulario" style="text-align:right" footerText="Saldo total:" />
+				                <p:column footerText="R$ #{contaBean.saldoGeral}" style="text-align:left" styleClass="label-formulario"/>
+				                <p:column/>
+				            </p:row>
+				     </p:columnGroup>
 				</p:dataTable>
 		</h:panelGroup>
 		

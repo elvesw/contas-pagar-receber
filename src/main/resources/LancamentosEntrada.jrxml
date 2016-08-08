@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2016-07-28T01:05:52 -->
+<!-- 2016-08-04T03:32:22 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="LancamentosEntrada" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6ba8c772-1ff7-4071-ae48-8e0a75a34a75">
 	<property name="ireport.zoom" value="1.6934217901613384"/>
 	<property name="ireport.x" value="0"/>
@@ -21,6 +21,7 @@
 	<field name="valorAcrescimo" class="java.math.BigDecimal"/>
 	<field name="valorDesconto" class="java.math.BigDecimal"/>
 	<field name="valorPago" class="java.math.BigDecimal"/>
+	<field name="statusLancamento" class="java.lang.String"/>
 	<title>
 		<band height="28" splitType="Stretch">
 			<staticText>
@@ -28,24 +29,26 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle" markup="none">
 					<font fontName="Arial" size="30" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Lista de recebimentos]]></text>
+				<text><![CDATA[Contas a receber]]></text>
 			</staticText>
 		</band>
 	</title>
 	<columnHeader>
 		<band height="19">
 			<staticText>
-				<reportElement x="525" y="0" width="30" height="14" forecolor="#726343" uuid="1f406ee9-481c-4803-a8a8-fb62856f551e">
+				<reportElement x="530" y="0" width="25" height="14" forecolor="#726343" uuid="1f406ee9-481c-4803-a8a8-fb62856f551e">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement textAlignment="Left" markup="none">
 					<font fontName="Arial" size="11" isBold="true"/>
 					<paragraph tabStopWidth="35"/>
 				</textElement>
-				<text><![CDATA[CÓD]]></text>
+				<text><![CDATA[Cód]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="180" y="0" width="77" height="14" forecolor="#726343" uuid="81aa8b46-342e-4af9-9c9e-7ee22da651d3"/>
+				<reportElement x="290" y="0" width="60" height="14" forecolor="#726343" uuid="81aa8b46-342e-4af9-9c9e-7ee22da651d3">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
 				<textElement>
 					<font fontName="Arial" size="11" isBold="true"/>
 				</textElement>
@@ -55,28 +58,32 @@
 				<reportElement mode="Opaque" x="0" y="15" width="555" height="1" forecolor="#CECECE" uuid="efab8543-200a-4c60-a382-98407321ac82"/>
 			</line>
 			<staticText>
-				<reportElement x="18" y="0" width="162" height="14" forecolor="#726343" uuid="a86bdadf-9da9-413b-b9e0-be5377f72eeb"/>
+				<reportElement x="18" y="0" width="272" height="14" forecolor="#726343" uuid="a86bdadf-9da9-413b-b9e0-be5377f72eeb"/>
 				<textElement textAlignment="Left" markup="none">
 					<font fontName="Arial" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Nome]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="410" y="0" width="115" height="14" forecolor="#726343" uuid="cfc4e7c0-e205-43f3-959e-320c27bdbaaf"/>
+				<reportElement x="470" y="0" width="60" height="14" forecolor="#726343" uuid="cfc4e7c0-e205-43f3-959e-320c27bdbaaf"/>
 				<textElement>
 					<font fontName="Arial" size="11" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Valor final]]></text>
+				<text><![CDATA[Valor pago]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="257" y="0" width="77" height="14" forecolor="#726343" uuid="d11dbc38-742f-4617-9f0e-f2644bc05162"/>
+				<reportElement x="350" y="0" width="60" height="14" forecolor="#726343" uuid="d11dbc38-742f-4617-9f0e-f2644bc05162">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
 				<textElement>
 					<font fontName="Arial" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Acréscimo]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="334" y="0" width="77" height="14" forecolor="#726343" uuid="bfc64448-8aae-48fc-b469-54fbc608dc41"/>
+				<reportElement x="410" y="0" width="60" height="14" forecolor="#726343" uuid="bfc64448-8aae-48fc-b469-54fbc608dc41">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
 				<textElement>
 					<font fontName="Arial" size="11" isBold="true"/>
 				</textElement>
@@ -88,49 +95,52 @@
 		<band height="14" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField isBlankWhenNull="true">
-				<reportElement style="zebrado" x="525" y="0" width="30" height="14" uuid="8cfae527-d3d4-413e-adc9-bc84a737da42"/>
+				<reportElement style="zebrado" x="530" y="0" width="25" height="14" uuid="8cfae527-d3d4-413e-adc9-bc84a737da42"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement style="zebrado" positionType="Float" x="18" y="0" width="162" height="14" uuid="4e916d96-3b92-42af-acb0-2952bb8ec58b"/>
+				<reportElement style="zebrado" positionType="Float" x="20" y="0" width="270" height="14" uuid="4e916d96-3b92-42af-acb0-2952bb8ec58b">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{nomePessoa}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement style="zebrado" x="180" y="0" width="77" height="14" uuid="827fa2c2-8364-4fc2-9d74-3236512de7aa"/>
+				<reportElement style="zebrado" x="290" y="0" width="60" height="14" uuid="827fa2c2-8364-4fc2-9d74-3236512de7aa"/>
 				<textElement verticalAlignment="Middle" markup="styled">
 					<font fontName="Arial"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{valor}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement key="" style="zebrado" x="334" y="0" width="77" height="14" uuid="56f6bf90-02d5-4f73-aa53-b8652722e2d4"/>
+				<reportElement key="" style="zebrado" x="410" y="0" width="60" height="14" uuid="56f6bf90-02d5-4f73-aa53-b8652722e2d4"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{valorDesconto}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement style="zebrado" x="257" y="0" width="77" height="14" uuid="f2dbd5b3-d5bf-4617-ab48-d208eb40047e"/>
+				<reportElement style="zebrado" x="350" y="0" width="60" height="14" uuid="f2dbd5b3-d5bf-4617-ab48-d208eb40047e"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{valorAcrescimo}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement style="zebrado" x="411" y="0" width="114" height="14" uuid="661084eb-e2ec-492a-9a15-dc2e96a87539"/>
+				<reportElement style="zebrado" x="470" y="0" width="60" height="14" uuid="661084eb-e2ec-492a-9a15-dc2e96a87539"/>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{valorPago}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[( $F{statusLancamento}=="Pago" ? $F{valorPago}:"Pendente"  )
+]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement style="zebrado" x="0" y="0" width="18" height="14" uuid="abe0cdd9-3f39-4ed7-a2b4-fe439a5d3873"/>
+				<reportElement style="zebrado" x="0" y="0" width="20" height="14" uuid="abe0cdd9-3f39-4ed7-a2b4-fe439a5d3873"/>
 				<textElement verticalAlignment="Middle"/>
 				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>

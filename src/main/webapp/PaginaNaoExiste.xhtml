@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Página não encontrada</title>
+	<link rel="shortcut icon" href="#{request.contextPath}/resources/sistema/img/favicon.ico" type="image/x-icon" />
+	<link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/sistema/css/css_erro.css" />
+</h:head>
+<h:body>
+	
+	<div id="div-central">
+		<h:panelGrid columns="2">
+		
+				<h:panelGrid columns="1">
+					<h:outputText value="404" styleClass="status-erro"/>
+				</h:panelGrid>
+			
+				<h:panelGrid columns="1" styleClass="grid-central">
+					<h:outputText value="Página não encontrada" style="color:blue"/>
+					<h:outputText value="Opps, um evento inesperado."/>
+				</h:panelGrid>
+		
+			<h:graphicImage value="/resources/sistema/img/logo-pontek.png"/>
+		<a href="#{request.contextPath}/sistema/Dashboard.jsf">
+    		<input type="button" value="Página inicial" class="btn-primary"/>
+		</a>
+		
+		</h:panelGrid>
+	</div>
+	
+</h:body>
+</html>

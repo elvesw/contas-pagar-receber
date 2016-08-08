@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Login</title>
+	<link rel="shortcut icon" href="#{request.contextPath}/resources/sistema/img/favicon.ico" type="image/x-icon" />
+	<link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/sistema/css/css_login.css" />
+</h:head>
+<h:body>
+	<div id="login-dialog">
+		<h3 style="font-weight:bold">Identifique-se para utilizar o sistema</h3>
+			<h:form prependId="false" id="formLogin">
+ 
+		    <p:panelGrid id="status" rendered="#{not empty param['status']}" >
+		    	<div  class="ui-messages-error ui-corner-all">
+		    		<a class="ui-messages-close" onclick="$(this).parent().slideUp();return false;" href="#"> <span class="ui-icon ui-icon-close"></span></a>
+			    	<span class="ui-messages-error-icon"></span>
+			    	 <h:outputText styleClass="ui-message-error-summary" value="#{SPRING_SECURITY_LAST_EXCEPTION.message}" />
+		    	 </div>
+		   </p:panelGrid>
+		   
+			<p:messages id="messages" autoUpdate="true" closable="true" >	
+			
+			</p:messages>
+			
+			<h:panelGrid columns="2" styleClass="grid-login">
+					<p:outputLabel value="Email :" />
+					<p:inputText id="username" required="true" requiredMessage="Email obrigatório"  autocomplete="on" size="25"/>
+					<p:outputLabel value="Senha :" />
+					<p:password id="password" required="true" requiredMessage="Senha obrigatório" autocomplete="off" size="25"/>
+				<p:outputLabel value="" />
+				<p:commandButton  value="Login" icon="fa fa-fw fa-lock" styleClass="btn-success" id="btnLogin" action="#{loginBean.doLogin}" ajax="false"/>
+			</h:panelGrid>
+		</h:form>
+		<!-- <h:graphicImage value="/resources/img/logo-pontek.png"/> -->
+		<a href="#{request.contextPath}/index.jsf" title=""> <img src="#{request.contextPath}/resources/sistema/img/logo-pontek.png" alt="" /></a>
+	</div>
+</h:body>
+</html>

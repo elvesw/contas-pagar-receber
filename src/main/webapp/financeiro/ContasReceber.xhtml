@@ -30,7 +30,7 @@
 				</h:panelGroup>
 				<h:panelGroup layout="block"
 					rendered="#{contasReceberBean.listaLancamentosSelecionados.size()==0 and contasReceberBean.viewAtiva eq 'LISTANDO'}">
-					<h1 class="aw-page-title">Listando recebimentos</h1>
+					<h1 class="aw-page-title">Listagem de recebimentos</h1>
 				</h:panelGroup>
 				<h:panelGroup layout="block"
 					rendered="#{contasReceberBean.listaLancamentosSelecionados.size()==0 and contasReceberBean.viewAtiva eq 'FILTRO'}">
@@ -99,9 +99,9 @@
 								<p:outputLabel value="Categoria" styleClass="label-formulario" />
 
 								<p:selectOneMenu
-									value="#{contasReceberBean.lancamento.categoria.id}">
+									value="#{contasReceberBean.lancamento.categoria}" converter="#{categoriaConverter}">
 									<f:selectItems value="#{contasReceberBean.listaCategorias}"
-										var="categoria" itemValue="#{categoria.id}"
+										var="categoria" itemValue="#{categoria}"
 										itemLabel="#{categoria.nome}" />
 								</p:selectOneMenu>
 							</p:panelGrid>
@@ -130,9 +130,9 @@
 								columnClasses="ui-grid-col-12">
 								<p:outputLabel value="Conta" styleClass="label-formulario" />
 								<p:selectOneMenu
-									value="#{contasReceberBean.lancamento.conta.id}">
+									value="#{contasReceberBean.lancamento.conta}" converter="#{contaConverter}">
 									<f:selectItems value="#{contasReceberBean.listaContas}"
-										var="conta" itemValue="#{conta.id}" itemLabel="#{conta.nome}" />
+										var="conta" itemValue="#{conta}" itemLabel="#{conta.nome}" />
 								</p:selectOneMenu>
 							</p:panelGrid>
 
@@ -143,7 +143,8 @@
 									value="#{contasReceberBean.lancamento.valor}">
 									<f:convertNumber pattern="#,##0.00"></f:convertNumber>
 									<p:ajax update=":formPrincipal:valor :formPrincipal:valorPago"
-										process="valor" event="change" />
+										process="valor" event="change" 
+										/>
 									<f:validator validatorId="moedaValidator" />
 								</p:inputText>
 							</p:panelGrid>
@@ -268,7 +269,8 @@
 									<f:convertNumber pattern="#,##0.00"></f:convertNumber>
 									<p:ajax
 										update=":formPrincipal:valorDesconto :formPrincipal:valorPago"
-										process="valorDesconto" event="change" />
+										process="valorDesconto" event="change" 
+										/>
 									<f:validator validatorId="moedaValidator" />
 								</p:inputText>
 							</p:panelGrid>
@@ -283,17 +285,18 @@
 									<f:convertNumber pattern="#,##0.00"></f:convertNumber>
 									<p:ajax
 										update=":formPrincipal:valorAcrescimo :formPrincipal:valorPago"
-										process="valorAcrescimo" event="change" />
+										process="valorAcrescimo" event="change" 
+										/>
 									<f:validator validatorId="moedaValidator" />
 								</p:inputText>
 							</p:panelGrid>
 
 							<p:panelGrid columns="1" layout="grid"
 								columnClasses="ui-grid-col-12">
-								<p:outputLabel value="Valor final" styleClass="label-formulario"
+								<p:outputLabel value="Valor a pagar" styleClass="label-formulario"
 									style="color:#0996DD" />
 
-								<p:inputText value="#{contasReceberBean.lancamento.valorPago}"
+								<p:inputText value="#{contasReceberBean.valorPago}"
 									readonly="true" id="valorPago">
 									<f:convertNumber pattern="#,##0.00"></f:convertNumber>
 									<p:ajax update=":formPrincipal:valorPago" process="valorPago"
@@ -313,43 +316,33 @@
 				<h:panelGroup layout="block"
 					rendered="#{contasReceberBean.viewAtiva eq 'DETALHANDO'}">
 
-					<p:panelGrid columns="1" layout="grid"
-						columnClasses="ui-grid-col-6">
-						<p:panelGrid columns="1" layout="grid"
-							columnClasses="ui-grid-col-12">
-							<h:panelGroup layout="block">
-								<p:outputLabel value="ID" styleClass="label-formulario"
-									style="padding:1px 10px;width:20%;" />
-								<p:outputLabel value="Valor" styleClass="label-formulario"
-									style="padding:1px 10px;width:30%;" />
-								<p:outputLabel value="Observação" styleClass="label-formulario"
-									style="padding:1px 10px;width:50%;" />
-							</h:panelGroup>
-						</p:panelGrid>
+					<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+					
+						  <table class="table-cancelar">
+							    <tr>
+							        <th class="label-formulario">Cód</th>
+							        <th class="label-formulario td-hide1">Descrição</th>
+							        <th class="label-formulario td-hide2">Nome</th>
+							        <th class="label-formulario">Valor</th>
+							        <th class="label-formulario">Referência</th>
+							    </tr>
+    							<ui:repeat value="#{contasReceberBean.listaLancamentosSelecionados}" var="l">
+    								<tr>
+									    <td><p:outputLabel value="#{l.id}"/></td>
+									    <td class="td-hide1"><p:outputLabel value="#{l.descricao}"/></td>
+									    <td class="td-hide2"><p:outputLabel value="#{l.pessoa.nome}"/></td>
+									    <td><p:outputLabel value="#{l.valorPago}"/></td>
+									    <td><p:outputLabel value="#{l.observacao}"/></td>
+    								</tr>
+								</ui:repeat>
+    						</table>
+
 					</p:panelGrid>
 
-					<ui:repeat
-						value="#{contasReceberBean.listaLancamentosSelecionados}" var="l">
-						<p:panelGrid columns="1" layout="grid"
-							columnClasses="ui-grid-col-6">
-							<p:panelGrid columns="1" layout="grid"
-								columnClasses="ui-grid-col-12">
-								<h:panelGroup layout="block">
-									<p:outputLabel value="#{l.id}"
-										style="padding:1px 10px;width:20%;" />
-									<p:outputLabel value="#{l.valorPago}"
-										style="padding:1px 10px;width:30%;" />
-									<p:outputLabel value="#{l.observacao}"
-										style="padding:1px 10px;width:50%;" />
-								</h:panelGroup>
-							</p:panelGrid>
-						</p:panelGrid>
-					</ui:repeat>
+					
 
-					<p:panelGrid columns="1" layout="grid"
-						columnClasses="ui-grid-col-5">
-						<p:panelGrid columns="1" layout="grid"
-							columnClasses="ui-grid-col-12">
+					<p:panelGrid columns="1" layout="grid"	columnClasses="ui-grid-col-6">
+
 							<p:inputTextarea value="#{contasReceberBean.motivoCancelar}"
 								validatorMessage="mínimo 15 caracteres" rows="2"
 								placeholder="Qual o motivo para cancelar?" required="true"
@@ -357,13 +350,10 @@
 								<f:validateLength minimum="15" />
 							</p:inputTextarea>
 
-						</p:panelGrid>
 					</p:panelGrid>
 
-					<p:panelGrid columns="1" layout="grid"
-						columnClasses="ui-grid-col-3">
-						<p:panelGrid columns="2" layout="grid"
-							columnClasses="ui-grid-col-5,ui-grid-col-7">
+					<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-3">
+						<p:panelGrid columns="2" layout="grid"	columnClasses="ui-grid-col-5,ui-grid-col-7">
 
 							<p:commandButton value="Voltar" update=":formPrincipal"
 								action="#{contasReceberBean.voltar()}"
@@ -376,7 +366,6 @@
 								process=":formPrincipal:div-cancelar"
 								styleClass="btn btn-primary" icon="fa fa-fw fa-user-plus"
 								onclick="PF('widgetListaDataTable').unselectAllRows();" />
-
 
 						</p:panelGrid>
 					</p:panelGrid>
@@ -397,7 +386,7 @@
 						rendered="#{contasReceberBean.listaLancamentosSelecionados.size()==0 and contasReceberBean.viewAtiva eq 'FILTRO'}">
 
 							<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
-								<p:outputLabel value="Nome ou descrição" styleClass="label-formulario" />
+								<p:outputLabel value="Descrição" styleClass="label-formulario" />
 								<p:inputText value="#{contasReceberBean.filtro.termoParaBusca}"/>
 							</p:panelGrid>
 							
@@ -500,11 +489,11 @@
 						disabledSelection="#{lancamento.statusLancamento eq 'Pago'}" >
 
 						<p:ajax event="rowSelectCheckbox"
-							update=":formPrincipal:div-lista :formPrincipal:div-title" />
+							update=":formPrincipal:div-lista-menu-esquerdo :formPrincipal:div-lista-menu-direito :formPrincipal:div-title" />
 						<p:ajax event="rowUnselectCheckbox"
-							update=":formPrincipal:div-lista :formPrincipal:div-title" />
+							update=":formPrincipal:div-lista-menu-esquerdo :formPrincipal:div-lista-menu-direito :formPrincipal:div-title" />
 						<p:ajax event="toggleSelect"
-							update=":formPrincipal:div-lista :formPrincipal:div-title" />
+							update=":formPrincipal:div-lista-menu-esquerdo :formPrincipal:div-lista-menu-direito :formPrincipal:div-title" />
 
 						<p:column width="5%" selectionMode="multiple" selectRow="false"
 							styleClass="icon-cor-preto" />
@@ -513,17 +502,12 @@
 							<h:outputText value="#{lancamento.id}" />
 						</p:column>
 
-						<p:column headerText="Descrição" width="15%" selectRow="false">
-							<h:outputText value="#{lancamento.descricao}" />
+						<p:column headerText="Descrição" width="20%" selectRow="false">
+							<h:outputText value="#{lancamento.descricao}" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"/>
 						</p:column>
 
-						<p:column headerText="Nome" width="12%" selectRow="false">
-							<h:outputText value="#{lancamento.pessoa.nome}" />
-						</p:column>
-
-						<p:column headerText="Status" width="10%" selectRow="false" sortBy="#{lancamento.statusLancamento}">
-							<h:outputText value="#{lancamento.statusLancamento}"
-								styleClass="#{lancamento.statusLancamento eq 'Pendente' ? 'status_pendente':'status_pago'}" />
+						<p:column headerText="Nome" width="27%" selectRow="false">
+							<h:outputText value="#{lancamento.pessoa.nome}" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"/>
 						</p:column>
 
 						<p:column headerText="Vencimento" width="16%" selectRow="false" sortBy="#{lancamento.dataVencimento}">
@@ -533,34 +517,25 @@
 							</h:outputText>
 						</p:column>
 
-						<p:column headerText="Pagamento" width="16%" selectRow="false" sortBy="#{lancamento.dataPagamento}">
-							<h:outputText value="#{lancamento.dataPagamento}">
-								<f:convertDateTime pattern="dd/MM/yyyy" />
-							</h:outputText>
-						</p:column>
-						<p:column headerText="Cadastro" width="16%" selectRow="false" sortBy="#{lancamento.dataCadastro}">
-							<h:outputText value="#{lancamento.dataCadastro}">
-								<f:convertDateTime pattern="dd/MM/yyyy" />
-							</h:outputText>
-						</p:column>
-
 						<p:column headerText="Valor" width="15%" selectRow="false"
 						 sortBy="#{lancamento.valor}">
 							<h:outputText value="#{lancamento.valor}">
-								<f:convertNumber pattern="R$ #,##0.00" minFractionDigits="2" />
+								<f:convertNumber pattern=" #,##0.00" minFractionDigits="2" />
 							</h:outputText>
 						</p:column>
 
-						<p:column headerText="Valor final" width="15%" selectRow="false">
-							<h:outputText value="#{lancamento.valorPago}">
-								<f:convertNumber pattern="R$ #,##0.00" minFractionDigits="2" />
+						<p:column headerText="Valor pago" width="15%" selectRow="false">
+							<h:outputText value="#{lancamento.statusLancamento eq 'Pago'?lancamento.valorPago:'Pendente'}"
+							styleClass="#{lancamento.statusLancamento eq 'Pago'?'status_valor_pago':'status_pendente'}">
+								<f:convertNumber pattern=" #,##0.00" minFractionDigits="2" />
 							</h:outputText>
 						</p:column>
 
 						<p:column headerText="Ações" width="11%" selectRow="false">
 							<div class="ui-acoes-datatable">
 									
-								<p:commandLink immediate="true" styleClass="ui-command-link"
+								<p:commandLink immediate="true" styleClass="ui-command-link" 
+								rendered="#{lancamento.statusLancamento ne 'Pago'}"
 									action="#{contasReceberBean.editar(lancamento)}"
 									update=":formPrincipal:div-lista :formPrincipal:div-cadastro :formPrincipal:div-title"
 									title="Alterar" process=":formPrincipal"
@@ -578,9 +553,9 @@
 						</p:column>
 						<p:columnGroup type="footer">
 				            <p:row>
-				                <p:column colspan="8" styleClass="label-formulario" style="text-align:right" footerText="Soma:" />
-				                <p:column footerText="R$ #{contasReceberBean.somaTotal}" style="text-align:left"/>
-				                <p:column footerText="R$ #{contasReceberBean.somaTotalPago}" style="text-align:left"/>
+				                <p:column colspan="5" styleClass="label-formulario" style="text-align:right" footerText="Soma:" />
+				                <p:column footerText="R$ #{contasReceberBean.somaTodosValorPago}" style="text-align:left"/>
+				                <p:column footerText="R$ #{contasReceberBean.somaSomentePago}" style="text-align:left"/>
 				                <p:column  />
 				            </p:row>
         				</p:columnGroup>

@@ -23,7 +23,11 @@ public interface LancamentoService {
 /*### Metodos de PAGINAÇÃO LAZY DATATABLE ###*/
     List<Lancamento> filtrados(FiltroLancamento filtro);
 	Integer quantidadeFiltrados(FiltroLancamento filtro);
+
+	BigDecimal somaEntradaPago(FiltroLancamento filtro);
+	BigDecimal somaSaidaPago(FiltroLancamento filtro);
+	BigDecimal somaSaldoAnterior(FiltroLancamento filtro);
 	
-	BigDecimal somaTotal(FiltroLancamento filtro);
-	BigDecimal somaTotalPago(FiltroLancamento filtro);
+	//conta pagar e receber
+	BigDecimal somaValor(FiltroLancamento filtro);
 }

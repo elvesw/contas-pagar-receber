@@ -1,4 +1,4 @@
-package br.com.pontek.util.converter;
+package br.com.pontek.controller.converter;
 
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;

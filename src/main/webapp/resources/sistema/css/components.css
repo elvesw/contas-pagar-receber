@@ -178,11 +178,11 @@ ui-grid-row > .label-formulario{
 	 background-image: none !important;
 }
 /* tirar a seleção explicita do multiselect do datateblet */
-/* .ui-widget-content .ui-state-highlight {
-    background: #dbdbdb!important;
+.ui-widget-content .ui-state-highlight {
+    background: #E3EAF3!important;
     border: none !important;
     color: #333333 !important;
-} */
+}
 
 
 .ui-inputfield.ui-state-error, .ui-widget-header .ui-inputfield.ui-state-error, .ui-widget-content .ui-inputfield.ui-state-error {
@@ -207,11 +207,17 @@ ui-grid-row > .label-formulario{
 
 /* Cor da imagem de check do multiselect no datatable */
 .icon-cor-preto .ui-icon {
+      background-image: url("#{request.contextPath}/resources/sistema/img/ui-icons_333333_256x240.png");
+}
+.icon-cor-azul .ui-icon {
       background-image: url("#{request.contextPath}/resources/sistema/img/ui-icons_6495ED_256x240.png");
 }
 
 
 /* ############# FINANCEIRO #############  */
+.status_valor_pago{
+	color:#0996DD;
+}
 .status_pendente{
 	color: #ff9e0d;
 }
@@ -225,6 +231,12 @@ ui-grid-row > .label-formulario{
 	font-weight: bold;
 }
 .status_vencido{
+	color: #ff0000;	
+}
+.tipo-entrada{
+	color: #008000;	
+}
+.tipo-saida{
 	color: #ff0000;	
 }
 
@@ -246,4 +258,29 @@ ui-grid-row > .label-formulario{
 .ui-widget-overlay {
 	filter:alpha(opacity=0) !important;/* works in IE 7 */
 	opacity: 0 !important; /* works in Firefox */
+}
+
+/* Tabela dos lançamentos selecionados para cancelar ou estornar */
+.table-cancelar table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    border: 1px solid #bbb;
+}
+.table-cancelar td, th {
+    border-top: 1px solid #ddd;
+    padding: 1px 8px;
+}
+@media (max-width: 640px) {
+	.table-cancelar table {
+		/* overflow-x: auto;
+		display: block; */
+	}
+	.table-cancelar .td-hide1 {
+		 display: none;
+	}
+}
+@media (max-width: 480px) {
+	.table-cancelar .td-hide2 {
+		 display: none;
+	}
 }

@@ -29,8 +29,10 @@
 	<header class="aw-topbar">
 		<h:graphicImage library="sistema" name="img/logo.png" />
 		<a href="#" class="aw-toggle  js-toggle"><i class="fa  fa-bars fa-lg"></i></a>
-		
 		<span class="sr-only"></span>
+		<p:outputLabel value="#{sessaoBean.usuarioLogado}" style="color:#3866a3;vertical-align:top;margin-left:10px;"/>
+		<h:outputLink value="${request.contextPath}/j_spring_security_logout" 
+		style="vertical-align:top;margin-left:10px;font-weight:bold;">Sair</h:outputLink>		
 	</header>
 	
 	<aside class="aw-sidebar  js-sidebar">

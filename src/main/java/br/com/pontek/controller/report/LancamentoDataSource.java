@@ -37,6 +37,8 @@ public class LancamentoDataSource implements JRDataSource {
 			return lancamento.getValorDesconto();
 		}else if (field.getName().equals("valorPago")) {
 			return lancamento.getValorPago();
+		}else if (field.getName().equals("statusLancamento")) {
+			return lancamento.getStatusLancamento().toString();
 		}
 		return null;
 	}

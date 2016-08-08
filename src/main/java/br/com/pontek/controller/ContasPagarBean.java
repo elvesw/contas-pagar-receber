@@ -43,10 +43,10 @@ import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.JasperRunManager;
 
-@ManagedBean(name = "contasReceberBean")
+@ManagedBean(name = "contasPagarBean")
 @Controller
 @Scope("view")
-public class ContasReceberBean extends AbstractBean{
+public class ContasPagarBean extends AbstractBean{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -57,7 +57,7 @@ public class ContasReceberBean extends AbstractBean{
 	
 	/*########### LAZY DATATABLE ##############*/
 	private FiltroLancamento filtro= new FiltroLancamento(FiltroData.Passado_mais_30_dias, FiltroStatus.Somente_pendentes, 
-															FiltroTipoData.Data_de_vencimento, FiltroTipoLancamento.Somente_entrada);
+															FiltroTipoData.Data_de_vencimento, FiltroTipoLancamento.Somente_saída);
 	private LazyDataModel<Lancamento> model;
 	private String viewAtiva = estadoDaView.LISTANDO.toString();
 	private BigDecimal somaTodosValorPago;
@@ -92,7 +92,7 @@ public class ContasReceberBean extends AbstractBean{
 
 
 	//CONSTRUTOR
-	public ContasReceberBean() {
+	public ContasPagarBean() {
 		model = new LazyDataModel<Lancamento>() {
 			private static final long serialVersionUID = 1L;
 			public List<Lancamento> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters){
@@ -270,7 +270,7 @@ public class ContasReceberBean extends AbstractBean{
 	/*############# FUNÇÕES PRIVATE #############*/
 	private void reset(){
 		lancamento = new Lancamento();
-		lancamento.setTipoLancamento(TipoDeLancamento.ENTRADA);
+		lancamento.setTipoLancamento(TipoDeLancamento.SAÍDA);
 		lancamento.setDataVencimento(new Date());
 		lancamento.setStatusLancamento(StatusDeLancamento.Pendente);
 		frequenciaDeLancamentos=FrequenciaDeLancamento.Mensal;
@@ -299,7 +299,7 @@ public class ContasReceberBean extends AbstractBean{
 	/*Função que muda o status para canceldo dos lançamentos selecionados*/
 	public void cancelar() {
 		BigDecimal somaTotalTemp=BigDecimal.ZERO;
-		System.out.println("ContasReceberBean.cancelar()");
+		System.out.println("ContasPagarBean.cancelar()");
 		for (Lancamento l : listaLancamentosSelecionados) {
 			l.setMotivoCancelamento(this.motivoCancelar);
 			l.setStatusLancamento(StatusDeLancamento.Cancelado);
@@ -321,7 +321,7 @@ public class ContasReceberBean extends AbstractBean{
 	/*Função que muda o status para pago dos lançamentos selecionados*/
 	public void pagar(){
 		BigDecimal somaTotalTemp=BigDecimal.ZERO;
-		System.out.println("ContasReceberBean.pagar()");
+		System.out.println("ContasPagarBean.pagar()");
 		for (Lancamento l : listaLancamentosSelecionados) {
 			l.setStatusLancamento(StatusDeLancamento.Pago);
 			l.setDataPagamento(new Date());
@@ -357,7 +357,7 @@ public class ContasReceberBean extends AbstractBean{
 	}
 	public void filtroReset(){
 		filtro.setFiltroTipoData(FiltroTipoData.Data_de_vencimento);
-		filtro.setFiltroTipoLancamento(FiltroTipoLancamento.Somente_entrada);
+		filtro.setFiltroTipoLancamento(FiltroTipoLancamento.Somente_saída);
 		filtro.setFitroStatus(FiltroStatus.Somente_pendentes);
 		filtro.setFitroData(FiltroData.Passado_mais_30_dias);
 		filtro.setTermoParaBusca(null);

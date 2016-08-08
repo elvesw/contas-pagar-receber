@@ -25,6 +25,13 @@ public class LancamentoServiceImp implements LancamentoService ,Serializable {
 	@Override
 	@Transactional
 	public void salvar(Lancamento lancamento) {
+		if(lancamento.getValor()!=null)
+			lancamento.setValorPago(lancamento.getValor());
+		if(lancamento.getValorAcrescimo()!=null)
+			lancamento.setValorPago(lancamento.getValorPago().add(lancamento.getValorAcrescimo()));
+		if(lancamento.getValorDesconto()!=null)
+			lancamento.setValorPago(lancamento.getValorPago().subtract(lancamento.getValorDesconto()));
+		
 		if(lancamento.getId()!=null){
 			lancamento.setDataAlteracao(new Date());
 			lancamentoDao.atualizarEntity(lancamento);
@@ -79,17 +86,30 @@ public class LancamentoServiceImp implements LancamentoService ,Serializable {
 	public Integer quantidadeFiltrados(FiltroLancamento filtro) {
 		return lancamentoDao.quantidadeFiltrados(filtro);
 	}
+
 	@Override
 	@Transactional(readOnly = true)
-	public BigDecimal somaTotal(FiltroLancamento filtro) {
-		return lancamentoDao.somaTotal(filtro);
-	}
-	@Override
-	@Transactional(readOnly = true)
-	public BigDecimal somaTotalPago(FiltroLancamento filtro) {
-		return lancamentoDao.somaTotalPago(filtro);
+	public BigDecimal somaEntradaPago(FiltroLancamento filtro) {
+		return lancamentoDao.somaEntradaPago(filtro);
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public BigDecimal somaSaidaPago(FiltroLancamento filtro) {
+		return lancamentoDao.somaSaidaPago(filtro);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public BigDecimal somaSaldoAnterior(FiltroLancamento filtro) {
+		return lancamentoDao.somaSaldoAnterior(filtro);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public BigDecimal somaValor(FiltroLancamento filtro) {
+		return lancamentoDao.somaValor(filtro);
+	}
 
 
 }

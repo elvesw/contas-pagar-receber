@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.TemporalAdjusters;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -23,6 +24,7 @@ import br.com.pontek.enums.FiltroTipoData;
 import br.com.pontek.enums.FiltroTipoLancamento;
 import br.com.pontek.enums.StatusDeLancamento;
 import br.com.pontek.enums.TipoDeLancamento;
+import br.com.pontek.model.Conta;
 import br.com.pontek.model.Lancamento;
 import br.com.pontek.util.DataUtil;
 import br.com.pontek.util.filtro.FiltroLancamento;
@@ -54,8 +56,6 @@ public class LancamentoDaoImp extends AbstractDaoImpl<Lancamento, Integer> imple
 		}else if(filtro.getFiltroTipoData().equals(FiltroTipoData.Data_de_cadastro)){
 			criteria.addOrder(Order.desc("dataCadastro"));
 		}
-		
-		
 		return criteria.list();
 	}
 
@@ -66,30 +66,39 @@ public class LancamentoDaoImp extends AbstractDaoImpl<Lancamento, Integer> imple
 		return ((Number) criteria.uniqueResult()).intValue();
 	}
 
+	//Seta o tipo de data escolhido
+	private String tipoDeData(FiltroTipoData tipo){
+		String tipoDeData = "";
+		if (tipo.equals(FiltroTipoData.Data_de_vencimento)) {
+			tipoDeData = "dataVencimento";
+		} else if (tipo.equals(FiltroTipoData.Data_de_pagamento)) {
+			tipoDeData = "dataPagamento";
+		} else if (tipo.equals(FiltroTipoData.Data_de_cadastro)) {
+			tipoDeData = "dataCadastro";
+		}
+		return tipoDeData;
+	}
+	
 	private Criteria criarCriteriaParaFiltro(FiltroLancamento filtro) {
 		Session session = (Session) getEm().getDelegate();
 		Criteria criteria = session.createCriteria(Lancamento.class);
-		criteria.createAlias("pessoa","p");//alias para pessoa
+		
 		Conjunction conjunction = Restrictions.conjunction();
 		
 		/*Termo para busca OK*/
 		if(StringUtils.isNotEmpty(filtro.getTermoParaBusca())){
-			conjunction.add(Restrictions.or(Restrictions.and(Restrictions.isNotNull("p.nome"),(Restrictions.ilike("p.nome", filtro.getTermoParaBusca(), MatchMode.ANYWHERE))),
-											Restrictions.and(Restrictions.isNotNull("descricao"),(Restrictions.ilike("descricao", filtro.getTermoParaBusca(), MatchMode.ANYWHERE)))));
+			/*criteria.createAlias("pessoa","p");//alias para pessoa
+			conjunction.add(Restrictions.or(Restrictions.and((Restrictions.ilike("p.nome", filtro.getTermoParaBusca(), MatchMode.ANYWHERE))),
+											Restrictions.and((Restrictions.ilike("descricao", filtro.getTermoParaBusca(), MatchMode.ANYWHERE)))));*/
+			conjunction.add(Restrictions.ilike("descricao", filtro.getTermoParaBusca(), MatchMode.ANYWHERE));
+			
 		}
-		
+	
 		/*Tipo de data e data inicial e final OK*/
 		if (filtro.getFiltroTipoData() != null) {
 			
 			/*Setando o tipo de data*/
-			String tipoDeData = "";
-			if (filtro.getFiltroTipoData().equals(FiltroTipoData.Data_de_vencimento)) {
-				tipoDeData = "dataVencimento";
-			} else if (filtro.getFiltroTipoData().equals(FiltroTipoData.Data_de_pagamento)) {
-				tipoDeData = "dataPagamento";
-			} else if (filtro.getFiltroTipoData().equals(FiltroTipoData.Data_de_cadastro)) {
-				tipoDeData = "dataCadastro";
-			}
+			String tipoDeData = tipoDeData(filtro.getFiltroTipoData());
 			
 			 LocalDate dataHoje = LocalDate.now();
 			if (filtro.getFitroData() != null) {
@@ -182,49 +191,109 @@ public class LancamentoDaoImp extends AbstractDaoImpl<Lancamento, Integer> imple
 												Restrictions.eq("tipoLancamento", TipoDeLancamento.SAÍDA)));
 			}
 		}
-
 		criteria.add(conjunction);
 		return criteria;
 	}
 	/* FIM - PAGINAÇÃO LAZY DATATABLE */
-
-	@Override
-	public BigDecimal somaTotal(FiltroLancamento filtro) {
+	
+	//Criteria para somar valores
+	private BigDecimal somaTotal(FiltroLancamento filtro,TipoDeLancamento tipo) {
 		Criteria criteria = criarCriteriaParaFiltro(filtro);
-		criteria.setProjection(Projections.sum("valor"))
-        .add(Restrictions.isNotNull("valor"));  
+		criteria.setProjection(Projections.sum("valorPago"))
+		.add(Restrictions.isNotNull("valorPago"))
+		.add(Restrictions.eq("statusLancamento", StatusDeLancamento.Pago))
+		.add(Restrictions.eq("tipoLancamento", tipo));
+		if(criteria.uniqueResult()!=null)
 		return ((BigDecimal) criteria.uniqueResult());
+		return BigDecimal.ZERO;
+	}
+	
+	@Override
+	public BigDecimal somaEntradaPago(FiltroLancamento filtro) {
+		return somaTotal(filtro,TipoDeLancamento.ENTRADA);
 	}
 
 	@Override
-	public BigDecimal somaTotalPago(FiltroLancamento filtro) {
-		//VALOR
-		Criteria criteria = criarCriteriaParaFiltro(filtro);
-		criteria.setProjection(Projections.sum("valor"))
-        .add(Restrictions.isNotNull("valor"))
-        .add(Restrictions.eq("statusLancamento", StatusDeLancamento.Pago)); 
-		BigDecimal valorTemp=BigDecimal.ZERO;
-		if(criteria.uniqueResult()!=null)
-		valorTemp=((BigDecimal) criteria.uniqueResult());
-		//DESCONTO
-		criteria = criarCriteriaParaFiltro(filtro);
-		criteria.setProjection(Projections.sum("valorDesconto"))
-        .add(Restrictions.isNotNull("valorDesconto"))
-        .add(Restrictions.eq("statusLancamento", StatusDeLancamento.Pago)); 
-		BigDecimal valorDescontoTemp =BigDecimal.ZERO;
-		if(criteria.uniqueResult()!=null)
-		valorDescontoTemp=((BigDecimal) criteria.uniqueResult());
-		//ACRESCIMO
-		criteria = criarCriteriaParaFiltro(filtro);
-		criteria.setProjection(Projections.sum("valorAcrescimo"))
-        .add(Restrictions.isNotNull("valorAcrescimo"))
-        .add(Restrictions.eq("statusLancamento", StatusDeLancamento.Pago)); 
-		BigDecimal valorAcrescimoTemp = BigDecimal.ZERO;
-		if(criteria.uniqueResult()!=null)
-		valorAcrescimoTemp=((BigDecimal) criteria.uniqueResult());
-		//RESULTADO
-		valorTemp=valorTemp.add(valorAcrescimoTemp).subtract(valorDescontoTemp);
-		return valorTemp;
+	public BigDecimal somaSaidaPago(FiltroLancamento filtro) {
+		return somaTotal(filtro,TipoDeLancamento.SAÍDA);
 	}
+
+	@Override
+	public BigDecimal somaSaldoAnterior(FiltroLancamento filtro) {
+		/*if(filtro.getFitroData().equals(FiltroData.Sem_filtro_de_data)){
+			return BigDecimal.ZERO;
+		}*/
+		Criteria criteria = criarCriteriaParaFiltro(filtro);
+		criteria.setProjection(Projections.min("dataPagamento"))
+		.add(Restrictions.isNotNull("dataPagamento"));
+		Date dataMinina=((Date) criteria.uniqueResult());
+		
+		Session session = (Session) getEm().getDelegate();
+		Criteria criteria2 = session.createCriteria(Lancamento.class);
+		criteria2.setProjection(Projections.sum("valorPago"))
+		.add(Restrictions.isNotNull("valorPago"))
+		.add(Restrictions.lt("dataPagamento",dataMinina))
+		.add(Restrictions.eq("statusLancamento", StatusDeLancamento.Pago))
+		.add(Restrictions.eq("tipoLancamento", TipoDeLancamento.ENTRADA));
+		BigDecimal saldoAnteriorEntrada=BigDecimal.ZERO;
+		if(criteria2.uniqueResult()!=null)
+			saldoAnteriorEntrada= ((BigDecimal) criteria2.uniqueResult());
+		
+		criteria2 = session.createCriteria(Lancamento.class);
+		criteria2.setProjection(Projections.sum("valorPago"))
+		.add(Restrictions.isNotNull("valorPago"))
+		.add(Restrictions.lt("dataPagamento",dataMinina))
+		.add(Restrictions.eq("statusLancamento", StatusDeLancamento.Pago))
+		.add(Restrictions.eq("tipoLancamento", TipoDeLancamento.SAÍDA));
+		BigDecimal saldoAnteriorSaida=BigDecimal.ZERO;
+		if(criteria2.uniqueResult()!=null)
+			saldoAnteriorSaida= ((BigDecimal) criteria2.uniqueResult());
+		
+		BigDecimal saldoAnterior=BigDecimal.ZERO;
+		saldoAnterior=saldoAnterior.add(saldoAnteriorEntrada);
+		saldoAnterior=saldoAnterior.subtract(saldoAnteriorSaida);
+		return saldoAnterior;
+	}
+
+
+	/*######################################*/
+	
+	//soma valor pago e Não pago
+	@Override
+	public BigDecimal somaValor(FiltroLancamento filtro) {
+		Criteria criteria = criarCriteriaParaFiltro(filtro);
+		criteria.setProjection(Projections.sum("valorPago"))
+		.add(Restrictions.isNotNull("valorPago"));
+		if(criteria.uniqueResult()!=null)
+		return ((BigDecimal) criteria.uniqueResult());
+		return BigDecimal.ZERO;
+	}
+
+	@Override
+	public BigDecimal saldoPorConta(Conta conta) {
+		BigDecimal somaEntrada=BigDecimal.ZERO;
+		BigDecimal somaSaida=BigDecimal.ZERO;
+		
+		Session session = (Session) getEm().getDelegate();
+		Criteria criteria = session.createCriteria(Lancamento.class);
+		criteria.setProjection(Projections.sum("valorPago"))
+		.add(Restrictions.isNotNull("valorPago"))
+		.add(Restrictions.eq("tipoLancamento", TipoDeLancamento.ENTRADA))
+		.add(Restrictions.eq("conta",conta));
+		if(criteria.uniqueResult()!=null)
+			somaEntrada= ((BigDecimal) criteria.uniqueResult());
+		
+		criteria = session.createCriteria(Lancamento.class);
+		criteria.setProjection(Projections.sum("valorPago"))
+		.add(Restrictions.isNotNull("valorPago"))
+		.add(Restrictions.eq("tipoLancamento", TipoDeLancamento.SAÍDA))
+		.add(Restrictions.eq("conta",conta));
+		if(criteria.uniqueResult()!=null)
+			somaSaida= ((BigDecimal) criteria.uniqueResult());
+		
+		return somaEntrada.subtract(somaSaida);
+	}
+
+
 
 }
