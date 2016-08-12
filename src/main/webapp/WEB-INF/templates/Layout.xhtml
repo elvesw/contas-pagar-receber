@@ -11,13 +11,12 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 	</f:facet>
 	
-	<title><ui:insert name="titulo">Contas a pagar e rebeber</ui:insert></title>
+	<title><ui:insert name="titulo">Sistema financeiro simples</ui:insert></title>
 	<link rel="shortcut icon" href="#{resource['sistema/img/favicon.ico']}" type="image/x-icon" />
 
 	<h:outputStylesheet library="sistema" name="css/custom.css" />
 	<h:outputStylesheet library="sistema" name="css/layout.css" />
 	<h:outputStylesheet library="sistema" name="css/components.css" />
-<!-- 	<h:outputStylesheet library="sistema" name="css/btn-modificados.css" /> -->
 	<h:outputStylesheet library="sistema" name="css/btn-bootstrap.css" />
 	
 	<h:outputScript target="body" library="primefaces" name="jquery/jquery.js" />
@@ -29,10 +28,10 @@
 	<header class="aw-topbar">
 		<h:graphicImage library="sistema" name="img/logo.png" />
 		<a href="#" class="aw-toggle  js-toggle"><i class="fa  fa-bars fa-lg"></i></a>
-		<span class="sr-only"></span>
-		<p:outputLabel value="#{sessaoBean.usuarioLogado}" style="color:#3866a3;vertical-align:top;margin-left:10px;"/>
 		<h:outputLink value="${request.contextPath}/j_spring_security_logout" 
-		style="vertical-align:top;margin-left:10px;font-weight:bold;">Sair</h:outputLink>		
+			style="float:right;margin-right:20px;font-size:12px;color:#ffffff;line-height:50px;">Sair</h:outputLink>
+		<span style="float:right;margin-right:10px;font-size:12px;color:#ffffff;line-height:50px;font-weight:bold;">
+			Olá, #{sessaoBean.usuarioLogado}!</span>
 	</header>
 	
 	<aside class="aw-sidebar  js-sidebar">

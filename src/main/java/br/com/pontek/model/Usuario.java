@@ -3,6 +3,7 @@ package br.com.pontek.model;
 import java.io.Serializable;
 
 import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,7 +23,8 @@ public class Usuario implements Serializable {
 	private String nome;
 	private String email;
 	private String senha;
-	private String role="USUARIO";
+	private String role="USER";
+	@Column(name="cadastro_ativo")
 	private boolean cadastroAtivo=true;
 	
 

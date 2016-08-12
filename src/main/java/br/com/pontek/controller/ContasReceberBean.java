@@ -1,6 +1,5 @@
 package br.com.pontek.controller;
 
-import java.io.InputStream;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,10 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletResponse;
 
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
@@ -21,6 +17,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import br.com.pontek.controller.report.LancamentoDataSource;
+import br.com.pontek.controller.report.RelatorioUtil;
 import br.com.pontek.enums.FiltroData;
 import br.com.pontek.enums.FiltroStatus;
 import br.com.pontek.enums.FiltroTipoData;
@@ -28,6 +25,8 @@ import br.com.pontek.enums.FiltroTipoLancamento;
 import br.com.pontek.enums.FrequenciaDeLancamento;
 import br.com.pontek.enums.StatusDeLancamento;
 import br.com.pontek.enums.TipoDeLancamento;
+import br.com.pontek.exception.NegocioException;
+import br.com.pontek.exception.RelatorioException;
 import br.com.pontek.model.Categoria;
 import br.com.pontek.model.Conta;
 import br.com.pontek.model.Lancamento;
@@ -39,9 +38,6 @@ import br.com.pontek.service.PessoaService;
 import br.com.pontek.util.DataUtil;
 import br.com.pontek.util.FacesUtil;
 import br.com.pontek.util.filtro.FiltroLancamento;
-import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.JasperRunManager;
 
 @ManagedBean(name = "contasReceberBean")
 @Controller
@@ -87,8 +83,6 @@ public class ContasReceberBean extends AbstractBean{
 	
 	/*############# GERAÇÃO DE RELATÓRIO #############*/
 	private FiltroLancamento filtroRelatorio = new FiltroLancamento();
-	private Map<String, Object> parametros = new HashMap<String, Object>();
-
 
 
 	//CONSTRUTOR
@@ -139,30 +133,22 @@ public class ContasReceberBean extends AbstractBean{
 	/* ##FUNÇÕES DE RELATÓRIO PARA IMPRESSÃO ############################################################################*/
 	/**Função para listar no formato PDF no navegador para impressão*/
 	public String verPDF(ActionEvent actionEvent) throws Exception{
-		//Lista
 		List<Lancamento> listaTemp = lancamentoService.filtrados(filtroRelatorio);
 		if(listaTemp.isEmpty()){
 			FacesUtil.exibirMensagemErro("Lista vazia");
 			return null;
 		}
-		LancamentoDataSource lancamentoDS = new LancamentoDataSource();
-		lancamentoDS.prepareDataSource(listaTemp);
 		try {
-			/*Arquivo do relatório*/
-			InputStream input = this.getClass().getClassLoader().getResourceAsStream("LancamentosEntrada.jrxml");
-			JasperReport relatorio = JasperCompileManager.compileReport(input);
-			byte[] bytes = JasperRunManager.runReportToPdf(relatorio,parametros,lancamentoDS);
-			HttpServletResponse response = (HttpServletResponse) FacesContext.getCurrentInstance().getExternalContext().getResponse();
-			response.setContentType("application/pdf");
-			response.setContentLength(bytes.length);
-			response.setHeader("Content-Disposition","inline;filename=\""+"Recebimentos.pdf\"");
-			ServletOutputStream outStream = response.getOutputStream();
-			outStream.write(bytes, 0 , bytes.length);
-			outStream.flush();
-			outStream.close();
-			FacesContext.getCurrentInstance().responseComplete();
+			Map<String, Object> parametros = new HashMap<String,Object>();
+				parametros.put("titulo","Contas a receber");
+				parametros.put("intervaloData",DataUtil.intervaloDeFiltroLancamento(filtroRelatorio));
+			LancamentoDataSource lancamentoDS = new LancamentoDataSource();
+				lancamentoDS.prepareDataSource(listaTemp);
+			RelatorioUtil relatorio=new RelatorioUtil();
+				relatorio.verPdfBrowser(lancamentoDS,parametros,"Lancamentos.jrxml","ContasReceber"+DataUtil.ddMMyy(new Date()));
 		} catch (Exception e) {
 			 FacesUtil.exibirMensagemErro("Erro : "+ e.getMessage());
+			 new RelatorioException("Erro ao gerar relatório :" +e);
 		} 	
 		return null;
 	}/* ##FIM DAS FUNÇÕES DE RELATÓRIO PARA IMPRESSÃO ############################################################################*/
@@ -264,11 +250,13 @@ public class ContasReceberBean extends AbstractBean{
 			reset();
 		} catch (Exception e) {
 			FacesUtil.exibirMensagemErro("Erro: "+ e.getMessage());
+			  new NegocioException("Problema ao excluir: "+e);
 		}
 	}
 	
 	/*############# FUNÇÕES PRIVATE #############*/
 	private void reset(){
+		valorPago=BigDecimal.ZERO;
 		lancamento = new Lancamento();
 		lancamento.setTipoLancamento(TipoDeLancamento.ENTRADA);
 		lancamento.setDataVencimento(new Date());

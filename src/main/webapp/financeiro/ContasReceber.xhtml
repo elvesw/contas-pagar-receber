@@ -503,11 +503,11 @@
 						</p:column>
 
 						<p:column headerText="Descrição" width="20%" selectRow="false">
-							<h:outputText value="#{lancamento.descricao}" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"/>
+							<h:outputText value="#{lancamento.descricao}" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="#{lancamento.descricao}"/>
 						</p:column>
 
 						<p:column headerText="Nome" width="27%" selectRow="false">
-							<h:outputText value="#{lancamento.pessoa.nome}" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"/>
+							<h:outputText value="#{lancamento.pessoa.nome}" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="#{lancamento.pessoa.nome}"/>
 						</p:column>
 
 						<p:column headerText="Vencimento" width="16%" selectRow="false" sortBy="#{lancamento.dataVencimento}">
@@ -524,7 +524,7 @@
 							</h:outputText>
 						</p:column>
 
-						<p:column headerText="Valor pago" width="15%" selectRow="false">
+						<p:column headerText="Valor pago" width="15%" selectRow="false" sortBy="#{lancamento.valorPago}">
 							<h:outputText value="#{lancamento.statusLancamento eq 'Pago'?lancamento.valorPago:'Pendente'}"
 							styleClass="#{lancamento.statusLancamento eq 'Pago'?'status_valor_pago':'status_pendente'}">
 								<f:convertNumber pattern=" #,##0.00" minFractionDigits="2" />

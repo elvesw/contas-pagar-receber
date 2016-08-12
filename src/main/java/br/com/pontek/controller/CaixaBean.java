@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.faces.bean.ManagedBean;
+import javax.faces.event.ActionEvent;
 
 import org.primefaces.model.LazyDataModel;
 import org.primefaces.model.SortOrder;
@@ -15,11 +16,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
+import br.com.pontek.controller.report.LancamentoDataSource;
+import br.com.pontek.controller.report.RelatorioUtil;
 import br.com.pontek.enums.FiltroData;
 import br.com.pontek.enums.FiltroStatus;
 import br.com.pontek.enums.FiltroTipoData;
 import br.com.pontek.enums.FiltroTipoLancamento;
 import br.com.pontek.enums.StatusDeLancamento;
+import br.com.pontek.exception.RelatorioException;
 import br.com.pontek.model.Lancamento;
 import br.com.pontek.service.LancamentoService;
 import br.com.pontek.util.DataUtil;
@@ -36,7 +40,7 @@ public class CaixaBean extends AbstractBean{
 	@Autowired private LancamentoService lancamentoService;
 	
 	/*########### LAZY DATATABLE ##############*/
-	private FiltroLancamento filtro= new FiltroLancamento(FiltroData.Sem_filtro_de_data, FiltroStatus.Somente_pagos, 
+	private FiltroLancamento filtro= new FiltroLancamento(FiltroData.Esse_mês, FiltroStatus.Somente_pagos, 
 															FiltroTipoData.Data_de_pagamento, FiltroTipoLancamento.Todos);
 	private LazyDataModel<Lancamento> model;
 	private String viewAtiva = estadoDaView.LISTANDO.toString();
@@ -44,13 +48,13 @@ public class CaixaBean extends AbstractBean{
 	private BigDecimal somaEntradaPago=BigDecimal.ZERO;
 	private BigDecimal somaSaidaPago=BigDecimal.ZERO;
 	private BigDecimal saldoFinal=BigDecimal.ZERO;
-	/*########### FIM - LAZY DATATABLE ##############*/
-	
 	
 	/*############# ESTORNAR LANÇAMENTOS #############*/
 	private List<Lancamento> listaLancamentosSelecionados = new ArrayList<>();
 	private String motivoEstornar;
-	/*############# FIM - ESTORNAR LANÇAMENTOS #############*/
+
+	/*############# GERAÇÃO DE RELATÓRIO #############*/
+	private FiltroLancamento filtroRelatorio = new FiltroLancamento();
 
 	//CONSTRUTOR
 	public CaixaBean() {
@@ -68,7 +72,11 @@ public class CaixaBean extends AbstractBean{
 				filtro.setPropriedadeOrdenacao(sortField);
 				setRowCount(lancamentoService.quantidadeFiltrados(filtro));
 				List<Lancamento> listaTemp = lancamentoService.filtrados(filtro);
-				
+				//Relatório
+				filtroRelatorio=filtro; 
+				filtroRelatorio.setQuantidadeRegistros(getRowCount());
+				filtroRelatorio.setPrimeiroRegistro(0);
+				filtroRelatorio.setAscendente(true);
 				//SOMAS
 				somaEntradaPago=lancamentoService.somaEntradaPago(filtro);
 				somaSaidaPago=lancamentoService.somaSaidaPago(filtro);
@@ -95,6 +103,31 @@ public class CaixaBean extends AbstractBean{
 	}
 	
 	/*############# FUNÇÕES #############*/
+	/* ##FUNÇÕES DE RELATÓRIO PARA IMPRESSÃO ############################################################################*/
+	/**Função para listar no formato PDF no navegador para impressão*/
+	public String verPDF(ActionEvent actionEvent) throws Exception{
+		List<Lancamento> listaTemp = lancamentoService.filtrados(filtroRelatorio);
+		if(listaTemp.isEmpty()){
+			FacesUtil.exibirMensagemErro("Lista vazia");
+			return null;
+		}
+		try {
+			Map<String, Object> parametros = new HashMap<String,Object>();
+				parametros.put("titulo","Caixa");
+				parametros.put("intervaloData",DataUtil.intervaloDeFiltroLancamento(filtroRelatorio));
+				parametros.put("somaEntradas",somaEntradaPago);
+				parametros.put("somaSaidas",somaSaidaPago);
+				parametros.put("saldoFinal",saldoFinal);
+			LancamentoDataSource lancamentoDS = new LancamentoDataSource();
+				lancamentoDS.prepareDataSource(listaTemp);
+			RelatorioUtil relatorio=new RelatorioUtil();
+				relatorio.verPdfBrowser(lancamentoDS,parametros,"RelatorioCaixa.jrxml","Caixa"+DataUtil.ddMMyy(new Date()));
+		} catch (Exception e) {
+			 FacesUtil.exibirMensagemErro("Erro : "+ e.getMessage());
+			 new RelatorioException("Erro ao gerar relatório do caixa:" +e);
+		} 	
+		return null;
+	}/* ##FIM DAS FUNÇÕES DE RELATÓRIO PARA IMPRESSÃO ############################################################################*/
 	
 	/*############# FUNÇÕES PRIVATE #############*/
 	private void reset(){
@@ -151,7 +184,7 @@ public class CaixaBean extends AbstractBean{
 		filtro.setFiltroTipoData(FiltroTipoData.Data_de_pagamento);
 		filtro.setFiltroTipoLancamento(FiltroTipoLancamento.Todos);
 		filtro.setFitroStatus(FiltroStatus.Somente_pagos);
-		filtro.setFitroData(FiltroData.Sem_filtro_de_data);
+		filtro.setFitroData(FiltroData.Esse_mês);
 		filtro.setTermoParaBusca(null);
 		viewAtiva=estadoDaView.LISTANDO.toString();
 	}

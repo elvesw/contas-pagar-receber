@@ -28,7 +28,7 @@
 		<property name="username" value="admin_pontek" />
 		<property name="password" value="4n4p0l15"/>
 	</bean>
-
+	
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="dataSource" />

@@ -18,7 +18,7 @@
 		<intercept-url pattern="/Login.jsf" access="!isAuthenticated()"/>
 		<intercept-url pattern="/*" access="isAuthenticated()" />
 		<intercept-url pattern="/*.xhtml" access="denyAll()" />
-		<intercept-url pattern="/AcessoNegado.*" access="isAuthenticated()" />
+		<intercept-url pattern="/erro/*.jsf" access="isAuthenticated()"/>
 		<intercept-url pattern="/cadastro/*.jsf" access="hasAuthority('ROLE_USER') OR hasAuthority('ROLE_ADMIN')" />
 		<intercept-url pattern="/financeiro/*.jsf"  access="hasAuthority('ROLE_USER') OR hasAuthority('ROLE_ADMIN')" />
 		<intercept-url pattern="/sistema/*.jsf"  access="hasAuthority('ROLE_USER') OR hasAuthority('ROLE_ADMIN')" />
@@ -33,7 +33,7 @@
          />
                 
 		<logout logout-url="/j_spring_security_logout" logout-success-url="/Login.jsf?logout=true"  invalidate-session="true" delete-cookies="JSESSIONID" />
-		<access-denied-handler error-page="/AcessoNegado.jsf"/>
+		<access-denied-handler error-page="/erro/AcessoNegado.jsf"/>
 		
 		<csrf disabled="true"/><!--Desativar a proteção padrão CSRF do Spring Security 4-->
 		

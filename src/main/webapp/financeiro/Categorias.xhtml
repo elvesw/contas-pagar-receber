@@ -81,15 +81,24 @@
 					<p:column headerText="Status" width="75%">
 						<h:outputText value="#{categoria.nome}"/>
 					</p:column>
-					
 
-					<p:column headerText="Ações" width="10%">
-						<div  class="btn-right-datatable">
-							<p:commandButton id="alterar" action="#{categoriaBean.editar(categoria)}" update=":formPrincipal" styleClass="btn btn-primary"
-								icon="fa fa-fw fa-pencil-square-o" title="Alterar" immediate="true" process="@form"/>
-							<p:commandButton id="excluir" action="#{categoriaBean.excluir(categoria)}" icon="fa fa-fw fa-trash" update=":formPrincipal" styleClass="btn btn-danger"
-								title="Excluir" />
-						</div>
+					<p:column headerText="Ações" width="11%" selectRow="false">
+							<div class="ui-acoes-datatable">
+									
+								<p:commandLink immediate="true" styleClass="ui-command-link"
+									action="#{categoriaBean.editar(categoria)}"
+									update=":formPrincipal"
+									title="Alterar" process=":formPrincipal" >
+									<span><i class="fa fa-fw fa-pencil"></i></span>
+								</p:commandLink>
+								
+								<p:commandLink styleClass="ui-command-link"
+									action="#{categoriaBean.excluir(categoria)}"
+									update=":formPrincipal" title="Excluir">
+									<span><i class="fa fa-fw fa-trash"></i></span>
+								</p:commandLink>
+									
+							</div>
 					</p:column>
 					<f:facet name="footer">
 						Total de : #{categoriaBean.listaCategorias.size()}

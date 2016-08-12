@@ -53,7 +53,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         try {
         	 return "/sistema/Dashboard.jsf";
 		} catch (Exception e) {
-			 throw new IllegalStateException("Detalhes de autentica√ß√£o n√£o foi encontrado");
+			 throw new IllegalStateException("Detalhes de autenticaÁ„o n„o foi encontrado");
 		}
      
     }

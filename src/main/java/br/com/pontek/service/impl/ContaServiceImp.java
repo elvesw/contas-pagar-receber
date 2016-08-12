@@ -33,7 +33,7 @@ public class ContaServiceImp implements ContaService ,Serializable {
 	@Override
 	@Transactional
 	public void excluir(Conta conta) {
-		contaDao.excluirEntity(conta);
+		contaDao.excluirEntityPorId(conta.getId());
 	}
 
 	@Override

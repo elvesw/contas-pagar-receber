@@ -1,6 +1,8 @@
 package br.com.pontek;
 
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +31,7 @@ public class App {
 		final ApplicationContext context = new ClassPathXmlApplicationContext("spring/applicationContext.xml");
 
 		final App app = context.getBean(App.class);
+		System.out.println("App.main(): "+LocalDate.now().atStartOfDay().atZone(ZoneId.of("America/Sao_Paulo")).toInstant());
 
 		System.out.println("u"+System.currentTimeMillis());
 	}

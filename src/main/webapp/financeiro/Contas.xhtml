@@ -15,17 +15,14 @@
 					rendered="#{contaBean.viewAtiva eq 'INSERINDO'}">
 					<h1 class="aw-page-title">Nova conta</h1>
 				</h:panelGroup>
+				
 				<h:panelGroup layout="block"
 					rendered="#{contaBean.viewAtiva eq 'EDITANDO'}">
 					<h1 class="aw-page-title">Alterando conta</h1>
 				</h:panelGroup>
-				<h:panelGroup layout="block"
-					rendered="#{contaBean.contaSelecionada!=null and (contaBean.viewAtiva eq 'LISTANDO' or contaBean.viewAtiva eq 'FILTRO')}">
-					<h1 class="aw-page-title">Escolha sangria ou suprimento #{contaBean.listaLancamentosSelecionados.size()} #{contaBean.listaLancamentosSelecionados.size()==1 ?"item selecionado":"itens selecionados"}</h1>
-				</h:panelGroup>
 
 				<h:panelGroup layout="block"
-					rendered="#{contaBean.contaSelecionada==null and contaBean.viewAtiva eq 'LISTANDO'}">
+					rendered="#{contaBean.viewAtiva eq 'LISTANDO'}">
 					<h1 class="aw-page-title">Listagem de contas</h1>
 				</h:panelGroup>
 
@@ -84,11 +81,8 @@ rendered="#{(contaBean.viewAtiva eq 'INSERINDO') or (contaBean.viewAtiva eq 'EDI
 				<p:dataTable var="conta" value="#{contaBean.listaContas}" reflow="true" lazy="false"
 					rowIndexVar="rowIx" id="dataTableLista" rows="12"
 					emptyMessage="Nenhum cadastro ..." paginator="false"
-					paginatorPosition="bottom" widgetVar="widgetListaDataTable"
-					selection="#{dtSelectionView.contaSelecionada}" rowKey="#{conta.id}">
+					paginatorPosition="bottom" widgetVar="widgetListaDataTable">
 
- 					<p:column width="5%" selectionMode="single" style="width:16px;text-align:center" styleClass="icon-cor-preto"/>
- 					
 					<p:column headerText="ID" width="3%">
 						<h:outputText value="#{conta.id}"/>
 					</p:column>
@@ -103,19 +97,28 @@ rendered="#{(contaBean.viewAtiva eq 'INSERINDO') or (contaBean.viewAtiva eq 'EDI
 						</h:outputText>
 					</p:column>
 					
-					
-					<p:column headerText="Ações" width="10%">
-						<div  class="btn-right-datatable">
-							<p:commandButton id="alterar" action="#{contaBean.editar(conta)}" update=":formPrincipal" styleClass="btn btn-primary"
-								icon="fa fa-fw fa-pencil-square-o" title="Alterar" immediate="true" process="@form"/>
-							<p:commandButton id="excluir" action="#{contaBean.excluir(conta)}" icon="fa fa-fw fa-trash" update=":formPrincipal" styleClass="btn btn-danger"
-								title="Excluir" />
-						</div>
+					<p:column headerText="Ações" width="11%" selectRow="false">
+							<div class="ui-acoes-datatable">
+									
+								<p:commandLink immediate="true" styleClass="ui-command-link"
+									action="#{contaBean.editar(conta)}"
+									update=":formPrincipal"
+									title="Alterar" process=":formPrincipal" >
+									<span><i class="fa fa-fw fa-pencil"></i></span>
+								</p:commandLink>
+								
+								<p:commandLink styleClass="ui-command-link"
+									action="#{contaBean.excluir(conta)}"
+									update=":formPrincipal" title="Excluir">
+									<span><i class="fa fa-fw fa-trash"></i></span>
+								</p:commandLink>
+									
+							</div>
 					</p:column>
 					
 					<p:columnGroup type="footer">
 						 <p:row>
-				                <p:column colspan="3" styleClass="label-formulario" style="text-align:right" footerText="Saldo total:" />
+				                <p:column colspan="2" styleClass="label-formulario" style="text-align:right" footerText="Saldo total:" />
 				                <p:column footerText="R$ #{contaBean.saldoGeral}" style="text-align:left" styleClass="label-formulario"/>
 				                <p:column/>
 				            </p:row>

@@ -253,18 +253,26 @@
 						<h:outputText value="#{pessoa.funcionario ? 'sim':'não'}" />
 					</p:column>
 
-					<p:column headerText="Ações" width="10%">
-						<div  class="ui-acoes-datatable">
-							<p:commandButton id="alterar"
-								action="#{pessoaBean.editar(pessoa)}" update=":formPrincipal"
-								styleClass="btn btn-primary" icon="fa fa-fw fa-pencil-square-o"
-								title="Alterar" immediate="true" process="@form" />
-							<p:commandButton id="excluir"
-								action="#{pessoaBean.excluir(pessoa)}" icon="fa fa-fw fa-trash"
-								update=":formPrincipal" styleClass="btn btn-danger"
-								title="Excluir" />
-						</div>
+
+					<p:column headerText="Ações" width="11%" selectRow="false">
+							<div class="ui-acoes-datatable">
+									
+								<p:commandLink immediate="true" styleClass="ui-command-link"
+									action="#{pessoaBean.editar(pessoa)}"
+									update=":formPrincipal"
+									title="Alterar" process=":formPrincipal" >
+									<span><i class="fa fa-fw fa-pencil"></i></span>
+								</p:commandLink>
+								
+								<p:commandLink styleClass="ui-command-link"
+									action="#{pessoaBean.excluir(pessoa)}"
+									update=":formPrincipal" title="Excluir">
+									<span><i class="fa fa-fw fa-trash"></i></span>
+								</p:commandLink>
+									
+							</div>
 					</p:column>
+					
 					<f:facet name="footer">
 						Total de : #{pessoaBean.model.rowCount}
 				</f:facet>

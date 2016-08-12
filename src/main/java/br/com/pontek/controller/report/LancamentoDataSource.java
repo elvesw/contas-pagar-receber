@@ -24,11 +24,12 @@ public class LancamentoDataSource implements JRDataSource {
 	 @Override
 	public Object getFieldValue(JRField field) throws JRException {
 		 Lancamento lancamento = listaLancamentos.get(index);
-
 		if (field.getName().equals("id")) {
 			return lancamento.getId();
-		} else if (field.getName().equals("nomePessoa")) {
-			return lancamento.getPessoa().getNome();
+		} else if (field.getName().equals("nomePessoa")){
+			return (lancamento.getPessoa()!=null?lancamento.getPessoa().getNome():"");
+		}else if (field.getName().equals("nomeConta")){
+			return (lancamento.getConta()!=null?lancamento.getConta().getNome():"");
 		} else if (field.getName().equals("valor")) {
 			return lancamento.getValor();
 		}else if (field.getName().equals("valorAcrescimo")) {
@@ -39,6 +40,14 @@ public class LancamentoDataSource implements JRDataSource {
 			return lancamento.getValorPago();
 		}else if (field.getName().equals("statusLancamento")) {
 			return lancamento.getStatusLancamento().toString();
+		}else if (field.getName().equals("tipoLancamento")) {
+			return lancamento.getTipoLancamento().toString();
+		}else if(field.getName().equals("descricao")){
+			return lancamento.getDescricao();
+		}else if(field.getName().equals("dataVencimento")){
+			return lancamento.getDataVencimento();
+		}else if(field.getName().equals("dataPagamento")){
+			return lancamento.getDataPagamento();
 		}
 		return null;
 	}

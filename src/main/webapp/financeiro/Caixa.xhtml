@@ -22,7 +22,7 @@
 				</h:panelGroup>
 				<h:panelGroup layout="block"
 					rendered="#{caixaBean.listaLancamentosSelecionados.size()==0 and caixaBean.viewAtiva eq 'LISTANDO'}">
-					<h1 class="aw-page-title">Listando</h1>
+					<h1 class="aw-page-title">Caixa</h1>
 				</h:panelGroup>
 				<h:panelGroup layout="block"
 					rendered="#{caixaBean.listaLancamentosSelecionados.size()==0 and caixaBean.viewAtiva eq 'FILTRO'}">
@@ -159,9 +159,9 @@
 									action="#{caixaBean.filtrando()}" immediate="true"
 									process=":formPrincipal:div-lista-menu-direito" title="Filtro"/>
 								
-								<p:commandButton value="Imprimir" update=":formPrincipal"
-									styleClass="btn btn-default" icon="fa fa-fw fa-print"
-									immediate="true" process=":formPrincipal" title="Imprimir lista"/>
+								<p:commandButton value="Imprimir" icon="fa fa-fw fa-print"  immediate="true"
+										styleClass="btn btn-default"   actionListener="#{caixaBean.verPDF}" ajax="false"
+										onclick="this.form.target='_blank'" title="Imprimir lista"/>
 							</h:panelGroup>
 							
 							<!-- btn filtro -->
@@ -202,11 +202,11 @@
 						</p:column>
 
 						<p:column headerText="Descrição" width="25%" selectRow="false">
-							<h:outputText value="#{lancamento.descricao }" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"/>
+							<h:outputText value="#{lancamento.descricao}" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="#{lancamento.descricao}"/>
 						</p:column>
 
 						<p:column headerText="Nome" width="20%" selectRow="false">
-							<h:outputText value="#{lancamento.pessoa.nome}" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"/>
+							<h:outputText value="#{lancamento.pessoa.nome}" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="#{lancamento.pessoa.nome}"/>
 						</p:column>
 
 						<p:column headerText="Pagamento" width="13%" selectRow="false" sortBy="#{lancamento.dataPagamento}">
