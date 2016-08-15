@@ -2,13 +2,16 @@ package br.com.pontek.service.impl;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.pontek.dao.CategoriaDao;
+import br.com.pontek.dao.LancamentoDao;
 import br.com.pontek.model.Categoria;
+import br.com.pontek.model.Lancamento;
 import br.com.pontek.service.CategoriaService;
 
 
@@ -18,6 +21,8 @@ public class CategoriaServiceImp implements CategoriaService ,Serializable {
 	private static final long serialVersionUID = 1L;
 	@Autowired
 	private CategoriaDao categoriaDao;
+	@Autowired
+	LancamentoDao lancamentoDao;
 
 	@Override
 	@Transactional
@@ -32,7 +37,18 @@ public class CategoriaServiceImp implements CategoriaService ,Serializable {
 	@Override
 	@Transactional
 	public void excluir(Categoria categoria) {
+		Set<Lancamento> lancamentos=categoria.getListaLancamentos();
+		int cont=0;
+		if(!lancamentos.isEmpty()){
+			for (Lancamento l : lancamentos) {
+				l.setCategoria(null);
+				lancamentoDao.atualizarEntity(l);
+				cont=cont+1;
+			}
+		}
 		categoriaDao.excluirEntityPorId(categoria.getId());
+		System.out.println("CategoriaServiceImp.excluir(): Total"
+				+ " de lançamentos removidos dessa categoria: "+cont);
 	}
 
 	@Override
@@ -51,6 +67,12 @@ public class CategoriaServiceImp implements CategoriaService ,Serializable {
 	@Transactional(readOnly=true)
 	public List<Categoria> listaDeCategorias() {
 		return categoriaDao.listaDeEntitys();
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public List<Categoria> listaRaizes() {
+		return categoriaDao.listaRaizes();
 	}
 
 

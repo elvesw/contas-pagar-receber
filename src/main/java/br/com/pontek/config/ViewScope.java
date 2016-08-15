@@ -1,4 +1,4 @@
-package br.com.pontek.util.scopes;
+package br.com.pontek.config;
 
 import java.util.Map;
 

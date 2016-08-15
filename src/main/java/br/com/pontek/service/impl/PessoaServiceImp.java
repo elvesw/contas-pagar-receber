@@ -3,12 +3,14 @@ package br.com.pontek.service.impl;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.pontek.dao.PessoaDao;
+import br.com.pontek.model.Lancamento;
 import br.com.pontek.model.Pessoa;
 import br.com.pontek.service.PessoaService;
 import br.com.pontek.util.filtro.FiltroPessoa;
@@ -46,6 +48,18 @@ public class PessoaServiceImp implements PessoaService ,Serializable {
 		pessoaDao.excluirEntityPorId(pessoa_id);
 	}
 
+	@SuppressWarnings("unused")
+	private Pessoa validaExcluir(Pessoa pessoa){
+		if(!pessoa.getListaLancamentos().isEmpty()){
+			Set<Lancamento>lista=pessoa.getListaLancamentos();
+			for (Lancamento l : lista){
+				l.setPessoa(null);
+				l.setDescricao(l.getDescricao()+"");
+			}
+		}
+		return pessoa;
+	}
+	
 	@Override
 	@Transactional(readOnly=true)
 	public Pessoa buscar(Integer pessoa_id) {

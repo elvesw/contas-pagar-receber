@@ -26,7 +26,7 @@ public class App {
 	@Autowired
 	LancamentoService lancamentoService;
 
-	@SuppressWarnings({ "resource"})
+	@SuppressWarnings({ "resource", "unused"})
 	public static void main(String[] args) throws ParseException {
 		final ApplicationContext context = new ClassPathXmlApplicationContext("spring/applicationContext.xml");
 

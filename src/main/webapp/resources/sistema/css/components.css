@@ -1,9 +1,11 @@
 /* TOGGLE */
 .aw-toggle {
-	float: right;
-	line-height: 50px;
-	margin-right: 15px;
+	/* float: right; */
+	/* line-height: 50px; */
+	/* margin-right: 15px; */
 	color: #fff;
+	margin-left: 2%;
+	vertical-align:50%
 }
 
 /* MENU */
@@ -146,7 +148,7 @@
 	color: #B8B8B8 !important;
 }
 
-ui-grid-row > .label-formulario{
+.ui-grid-row > .label-formulario{
 	width: 5%;
 	}
 
@@ -197,7 +199,7 @@ ui-grid-row > .label-formulario{
 }
 
 @media(max-width:480px){
-	.span-text .ui-button-text-icon-left .ui-button-text {
+	.remove-span-text .ui-button-text-icon-left .ui-button-text {
 		padding: 0.1em 0 0 1.2em !important;
     	text-indent: -1e+7px !important;/* retirando texto do span  quando a tela menor que 480px */
 	}
@@ -282,4 +284,30 @@ ui-grid-row > .label-formulario{
 	.table-cancelar .td-hide2 {
 		 display: none;
 	}
+}
+
+/*ProgressBar de entradas e saidas bloco da esquerda do dashboard*/
+.progressBar-percentual-entradas .ui-progressbar-value.ui-widget-header {
+    background-color: #008000;
+    background-image: -moz-linear-gradient(center top , #00a600, #008000);
+}
+.progressBar-percentual-saidas .ui-progressbar-value.ui-widget-header {
+    background-color: #ff0000;
+    background-image: -moz-linear-gradient(center top , #ff3e3e, #ff0000);
+}
+.label-progressBar-pago{
+	font-weight: bold;
+	color: #373737;
+	vertical-align: -30%;
+	float: right;
+}
+.label-progressBar-total{
+	color: #373737;
+	vertical-align: -30%;
+	float: right;;
+}
+.label-progressBar-titulo{
+	font-weight: bold;
+	color: #373737;
+	margin-left: 25%;
 }

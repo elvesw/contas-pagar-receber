@@ -225,7 +225,6 @@ public class Pessoa implements Serializable {
 	public boolean isCadastroAtivo() {
 		return cadastroAtivo;
 	}
-
 	public void setCadastroAtivo(boolean cadastroAtivo) {
 		this.cadastroAtivo = cadastroAtivo;
 	}

@@ -1,14 +1,19 @@
 package br.com.pontek.model;
 
 import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
@@ -26,7 +31,16 @@ public class Categoria implements Serializable {
 	private Integer id;
 	@Column(name="nome")
 	private String nome;
+
 	
+	@ManyToOne(fetch=FetchType.LAZY) 
+	@JoinColumn(name = "categoria_pai",insertable=false,updatable=false)
+	Categoria categoriaPai;
+	
+	@OneToMany 
+	@JoinColumn(name = "categoria_pai") 
+	private List<Categoria> listaFilhos = new LinkedList<Categoria>(); 
+
 	@OneToMany(mappedBy = "categoria")
 	@OrderBy("id ASC")
 	private Set<Lancamento> listaLancamentos;
@@ -36,6 +50,16 @@ public class Categoria implements Serializable {
 
 	}
 	
+
+
+	public Categoria(String nome, Categoria categoriaPai) {
+		super();
+		this.nome = nome;
+		this.categoriaPai = categoriaPai;
+	}
+
+
+
 	public Integer getId() {
 		return id;
 	}
@@ -47,6 +71,19 @@ public class Categoria implements Serializable {
 	}
 	public void setNome(String nome) {
 		this.nome = nome;
+	}
+	
+	public Categoria getCategoriaPai() {
+		return categoriaPai;
+	}
+	public void setCategoriaPai(Categoria categoriaPai) {
+		this.categoriaPai = categoriaPai;
+	}
+	public List<Categoria> getListaFilhos() {
+		return listaFilhos;
+	}
+	public void setListaFilhos(List<Categoria> listaFilhos) {
+		this.listaFilhos = listaFilhos;
 	}
 	public Set<Lancamento> getListaLancamentos() {
 		return listaLancamentos;

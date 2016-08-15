@@ -91,7 +91,7 @@
 								columnClasses="ui-grid-col-12">
 								<p:outputLabel value="Descrição" styleClass="label-formulario" />
 								<p:inputText id="descricao"
-									value="#{contasPagarBean.lancamento.descricao}" />
+									value="#{contasPagarBean.lancamento.descricao}" autocomplete="off"/>
 							</p:panelGrid>
 
 							<p:panelGrid columns="1" layout="grid"
@@ -139,7 +139,7 @@
 							<p:panelGrid columns="1" layout="grid"
 								columnClasses="ui-grid-col-12">
 								<p:outputLabel value="Valor" styleClass="label-formulario" />
-								<p:inputText id="valor"
+								<p:inputText id="valor" autocomplete="off"
 									value="#{contasPagarBean.lancamento.valor}">
 									<f:convertNumber pattern="#,##0.00"></f:convertNumber>
 									<p:ajax update=":formPrincipal:valor :formPrincipal:valorPago"
@@ -263,7 +263,7 @@
 								columnClasses="ui-grid-col-12">
 								<p:outputLabel value="Descontos/Taxas"
 									styleClass="label-formulario" />
-								<p:inputText
+								<p:inputText autocomplete="off"
 									value="#{contasPagarBean.lancamento.valorDesconto}"
 									id="valorDesconto">
 									<f:convertNumber pattern="#,##0.00"></f:convertNumber>
@@ -279,7 +279,7 @@
 								columnClasses="ui-grid-col-12">
 								<p:outputLabel value="Juros/Multas"
 									styleClass="label-formulario" />
-								<p:inputText
+								<p:inputText autocomplete="off"
 									value="#{contasPagarBean.lancamento.valorAcrescimo}"
 									id="valorAcrescimo">
 									<f:convertNumber pattern="#,##0.00"></f:convertNumber>
@@ -419,7 +419,7 @@
 
 						<!-- #################### -->
 
-					<div style="display: inline-block; padding-top: 4px; width: 100%;" class="span-text">
+					<div style="display: inline-block; padding-top: 4px; width: 100%;" class="remove-span-text">
 						<h:panelGroup layout="block" style="float:left"	id="div-lista-menu-esquerdo">
 							<!-- btn lista -->
 							<h:panelGroup layout="block" rendered="#{contasPagarBean.listaLancamentosSelecionados.size()==0 and contasPagarBean.viewAtiva ne 'FILTRO'}" >

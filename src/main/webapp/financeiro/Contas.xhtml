@@ -56,7 +56,7 @@ rendered="#{(contaBean.viewAtiva eq 'INSERINDO') or (contaBean.viewAtiva eq 'EDI
 						
 						 <p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
 								<p:outputLabel value="Nome" styleClass="label-formulario" />
-								<p:inputText id="nome" value="#{contaBean.conta.nome}" />
+								<p:inputText id="nome" value="#{contaBean.conta.nome}" autocomplete="off"/>
 						</p:panelGrid>
 						
 				  </p:panelGrid>
@@ -68,7 +68,7 @@ rendered="#{(contaBean.viewAtiva eq 'INSERINDO') or (contaBean.viewAtiva eq 'EDI
 
 		<h:panelGroup layout="block" id="div-lista" rendered="#{contaBean.viewAtiva eq 'LISTANDO'}">
 		
-			<div style="display: inline-block;padding-top: 4px; width: 100%">
+			<div style="display: inline-block;padding-top: 4px; width: 100%" class="remove-span-text">
 					<div style="float: left">
 							<p:commandButton  value="Novo" update=":formPrincipal" action="#{contaBean.novo()}" styleClass="btn btn-primary" icon="fa fa-fw fa-user-plus" 
 							immediate="true" process="@form" onclick="PF('widgetListaDataTable').unselectAllRows();"/>

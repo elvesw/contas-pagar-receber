@@ -71,6 +71,24 @@
 		<dispatcher>FORWARD</dispatcher>
 	</filter-mapping>
 	
+		<!-- PAGINAS DE ERRO -->
+ 	<error-page>
+		<error-code>403</error-code>
+		<location>/erro/AcessoNegado.xhtml</location>
+	</error-page>
+	<error-page>
+		<error-code>404</error-code>
+		<location>/erro/PaginaNaoExiste.jsf</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/erro/ErroNoServidor.jsf</location>
+	</error-page>
+    <error-page>
+        <exception-type>javax.faces.application.ViewExpiredException</exception-type>
+        <location>/j_spring_security_logout</location>
+    </error-page>
+ 
 	<!-- TEMPO DE SESSÃO -->  
     <session-config>  
         <session-timeout>30</session-timeout>

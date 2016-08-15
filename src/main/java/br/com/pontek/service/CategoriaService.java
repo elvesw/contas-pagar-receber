@@ -16,4 +16,6 @@ public interface CategoriaService {
 /*### METODOS DE BUSCAR ###*/
     Categoria buscar(Integer categoria_id);
     List<Categoria> listaDeCategorias();
+    
+    List<Categoria> listaRaizes();
 }

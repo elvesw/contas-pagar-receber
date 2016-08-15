@@ -44,13 +44,13 @@
 							columnClasses="ui-grid-col-12">
 							<p:outputLabel value="Nome" styleClass="label-formulario" />
 							<p:inputText id="nome" value="#{pessoaBean.pessoa.nome}"
-								required="true" requiredMessage="O nome é obrigatório." />
+								required="true" requiredMessage="O nome é obrigatório." autocomplete="off"/>
 						</p:panelGrid>
 
 						<p:panelGrid columns="1" layout="grid"
 							columnClasses="ui-grid-col-12">
 							<p:outputLabel value="CPF/CNPJ" styleClass="label-formulario" />
-							<p:inputText id="cpfcnpj" value="#{pessoaBean.pessoa.cpfCnpj}"
+							<p:inputText id="cpfcnpj" value="#{pessoaBean.pessoa.cpfCnpj}" autocomplete="off"
 								onkeypress="return mascaraCpfCnpj(this,cpfCnpj)">
 								<f:validator validatorId="cpfCnpjValidator" />
 							</p:inputText>
@@ -75,14 +75,14 @@
 						<p:panelGrid columns="1" layout="grid"
 							columnClasses="ui-grid-col-12">
 							<p:outputLabel value="Telefone" styleClass="label-formulario" />
-							<p:inputMask id="telefone" mask="(99)9999-9999"
+							<p:inputMask id="telefone" mask="(99)9999-9999" autocomplete="off"
 								value="#{pessoaBean.pessoa.telefone}" />
 						</p:panelGrid>
 
 						<p:panelGrid columns="1" layout="grid"
 							columnClasses="ui-grid-col-12">
 							<p:outputLabel value="Email" styleClass="label-formulario" />
-							<p:inputText id="email" value="#{pessoaBean.pessoa.email}" />
+							<p:inputText id="email" value="#{pessoaBean.pessoa.email}" autocomplete="off"/>
 						</p:panelGrid>
 
 					</p:panelGrid>
@@ -98,7 +98,7 @@
 							    <p:outputLabel value="Cep" styleClass="label-formulario" />
 				 			    <h:form style="position:relative;">
 				 			    	<div>
-					 			    	<p:inputMask mask="99999-999" id="cep" value="#{pessoaBean.pessoa.cep}" required="false" size="20" style="width:calc(100% - 33px);"/>
+					 			    	<p:inputMask mask="99999-999" id="cep" value="#{pessoaBean.pessoa.cep}" autocomplete="off" required="false" size="20" style="width:calc(100% - 33px);"/>
 					 			    	<p:commandButton styleClass="btn btn-info"
 										icon="fa fa-fw fa-search" 
 										update=":formPrincipal:logradouro :formPrincipal:bairro :formPrincipal:cidade :formPrincipal:uf :formPrincipal:msg :formPrincipal"
@@ -112,20 +112,20 @@
 						<p:panelGrid columns="1" layout="grid"
 							columnClasses="ui-grid-col-12">
 							<p:outputLabel value="Logradouro" styleClass="label-formulario" />
-							<p:inputText id="logradouro"
+							<p:inputText id="logradouro" autocomplete="off"
 								value="#{pessoaBean.pessoa.logradouro}" />
 						</p:panelGrid>
 
 						<p:panelGrid columns="1" layout="grid"
 							columnClasses="ui-grid-col-12">
 							<p:outputLabel value="Bairro" styleClass="label-formulario" />
-							<p:inputText id="bairro" value="#{pessoaBean.pessoa.bairro}" />
+							<p:inputText id="bairro" value="#{pessoaBean.pessoa.bairro}" autocomplete="off"/>
 						</p:panelGrid>
 
 						<p:panelGrid columns="1" layout="grid"
 							columnClasses="ui-grid-col-12">
 							<p:outputLabel value="Número" styleClass="label-formulario" />
-							<p:inputText id="numero" value="#{pessoaBean.pessoa.numero}" />
+							<p:inputText id="numero" value="#{pessoaBean.pessoa.numero}" autocomplete="off"/>
 						</p:panelGrid>
 
 					</p:panelGrid>
@@ -136,17 +136,17 @@
 
 						<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
 							<p:outputLabel value="Cidade" styleClass="label-formulario" />
-							<p:inputText id="cidade" value="#{pessoaBean.pessoa.cidade}" />
+							<p:inputText id="cidade" value="#{pessoaBean.pessoa.cidade}" autocomplete="off"/>
 						</p:panelGrid>
 						
 						<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
 							<p:outputLabel value="Uf" styleClass="label-formulario" />
-							<p:inputText id="uf" value="#{pessoaBean.pessoa.uf}" />
+							<p:inputText id="uf" value="#{pessoaBean.pessoa.uf}" autocomplete="off"/>
 						</p:panelGrid>
 						
 						<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
 							<p:outputLabel value="Complemento" styleClass="label-formulario" />
-							<p:inputText id="complemento" value="#{pessoaBean.pessoa.complemento}" />
+							<p:inputText id="complemento" value="#{pessoaBean.pessoa.complemento}" autocomplete="off"/>
 						</p:panelGrid>
 	
 					</p:panelGrid>
@@ -208,20 +208,20 @@
 			<h:panelGroup layout="block" id="div-lista"
 				rendered="#{not pessoaBean.telaDeCadastro}">
 
-				<div style="display: inline-block; padding-top: 4px; width: 100%">
+				<div style="display: inline-block; padding-top: 4px; width: 100%" class="remove-span-text">
 					<div style="float: left">
 						<p:commandButton value="Novo" update=":formPrincipal"
 							action="#{pessoaBean.novo()}" styleClass="btn btn-primary"
 							icon="fa fa-fw fa-user-plus" immediate="true" process="@form" />
 					</div>
 					<div style="float: right">
-						<p:selectOneMenu value="#{pessoaBean.filtro.perfil}">
+						<p:selectOneMenu value="#{pessoaBean.filtro.perfil}" autoWidth="off">
 							<p:ajax update=":formPrincipal"
 								listener="#{pessoaBean.addMessageFiltro(pessoaBean.filtro.perfil)}" />
 							<f:selectItems value="#{pessoaBean.perfilDePessoaEnums}"
 								var="perfil" itemValue="#{perfil}" itemLabel="#{perfil}" />
 						</p:selectOneMenu>
-						<p:selectOneMenu value="#{pessoaBean.filtro.cadastroAtivo}">
+						<p:selectOneMenu value="#{pessoaBean.filtro.cadastroAtivo}" autoWidth="off" style="margin-left:0.7em;">
 							<p:ajax update=":formPrincipal"
 								listener="#{pessoaBean.addMessageCadastroAtivo(pessoaBean.filtro.cadastroAtivo)}" />
 							<f:selectItem itemLabel="Ativos" itemValue="#{true}" />

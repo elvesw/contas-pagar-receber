@@ -258,7 +258,7 @@ public class LancamentoDaoImp extends AbstractDaoImpl<Lancamento, Integer> imple
 
 	/*######################################*/
 	
-	//soma valor pago e Não pago
+	//Soma valor pago e Não pago
 	@Override
 	public BigDecimal somaValor(FiltroLancamento filtro) {
 		Criteria criteria = criarCriteriaParaFiltro(filtro);

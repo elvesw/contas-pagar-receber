@@ -50,6 +50,7 @@
 		<property name="packagesToScan" value="br.com.pontek.model"></property>
 	</bean>
 
+
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
@@ -58,7 +59,7 @@
 	    <property name="scopes">
 	        <map>
 	            <entry key="view">
-	                <bean class="br.com.pontek.util.scopes.ViewScope"/>
+	                <bean class="br.com.pontek.config.ViewScope"/>
 	            </entry>
 	        </map>
 	    </property>

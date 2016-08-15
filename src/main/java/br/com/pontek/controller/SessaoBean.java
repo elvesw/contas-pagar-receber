@@ -20,9 +20,8 @@ import br.com.pontek.service.UsuarioService;
 @Controller
 @Scope("session")
 public class SessaoBean implements Serializable{
-
+	
 	private static final long serialVersionUID = 1L;
-
 
 	@Autowired
 	UsuarioService usuarioService;
