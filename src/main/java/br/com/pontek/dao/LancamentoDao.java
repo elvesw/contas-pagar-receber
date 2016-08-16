@@ -1,6 +1,7 @@
 package br.com.pontek.dao;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -8,6 +9,7 @@ import br.com.pontek.model.Categoria;
 import br.com.pontek.model.Conta;
 import br.com.pontek.model.Lancamento;
 import br.com.pontek.util.filtro.FiltroLancamento;
+import br.com.pontek.util.jpa.LancamentosPeriodo;
 
 public interface LancamentoDao extends AbstractDao<Lancamento, Integer> {
 
@@ -30,5 +32,7 @@ public interface LancamentoDao extends AbstractDao<Lancamento, Integer> {
 	//bean Dashboard
 /*	Map<Categoria,BigDecimal> saldoMesPorCategoriaEntrada();
 	Map<Categoria,BigDecimal> saldoMesPorCategoriaSaida();*/
+	
+	List<LancamentosPeriodo> historicoSeisMeses();
 	
 }

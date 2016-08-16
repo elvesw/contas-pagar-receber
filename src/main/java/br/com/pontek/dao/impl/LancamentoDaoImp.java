@@ -3,9 +3,12 @@ package br.com.pontek.dao.impl;
 import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.format.TextStyle;
 import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
@@ -28,6 +31,7 @@ import br.com.pontek.model.Conta;
 import br.com.pontek.model.Lancamento;
 import br.com.pontek.util.DataUtil;
 import br.com.pontek.util.filtro.FiltroLancamento;
+import br.com.pontek.util.jpa.LancamentosPeriodo;
 
 @Repository(value = "lancamentoDao")
 public class LancamentoDaoImp extends AbstractDaoImpl<Lancamento, Integer> implements LancamentoDao {
@@ -292,6 +296,67 @@ public class LancamentoDaoImp extends AbstractDaoImpl<Lancamento, Integer> imple
 			somaSaida= ((BigDecimal) criteria.uniqueResult());
 		
 		return somaEntrada.subtract(somaSaida);
+	}
+
+	@Override
+	public List<LancamentosPeriodo> historicoSeisMeses() {
+		Session session = (Session) getEm().getDelegate();
+		Criteria criteria;
+		List<LancamentosPeriodo> listaSomas=new ArrayList<LancamentosPeriodo>();
+		LancamentosPeriodo periodo;
+		LocalDate dataHoje = LocalDate.now();
+		
+		
+		 for (int i=-5;i<1;i++){
+		 LocalDate mesReferencia = dataHoje.plusMonths(i);
+		 LocalDate primeiroDiaMes = mesReferencia.with(TemporalAdjusters.firstDayOfMonth());
+		 LocalDate ultimoDiaMes = mesReferencia.with(TemporalAdjusters.lastDayOfMonth());
+		 periodo=new LancamentosPeriodo(mesReferencia.getMonth().getDisplayName(TextStyle.FULL, new Locale("pt")));
+		 
+		 /*somaEntradasSomentePago no intervalo*/
+		 criteria = session.createCriteria(Lancamento.class);
+		 criteria.setProjection(Projections.sum("valorPago"))
+		 .add(Restrictions.isNotNull("valorPago"))
+		 .add(Restrictions.ge("dataVencimento",DataUtil.localDateParaDate(primeiroDiaMes)))
+		 .add(Restrictions.le("dataVencimento",DataUtil.localDateParaDate(ultimoDiaMes)))
+		 .add(Restrictions.eq("statusLancamento",StatusDeLancamento.Pago))
+		 .add(Restrictions.eq("tipoLancamento",TipoDeLancamento.ENTRADA));
+		 periodo.setSomaEntradasSomentePago(criteria.uniqueResult()!=null?(BigDecimal)criteria.uniqueResult():BigDecimal.ZERO);
+		 
+		 /*somaEntradasSomentePendente no intervalo*/
+		 criteria = session.createCriteria(Lancamento.class);
+		 criteria.setProjection(Projections.sum("valorPago"))
+		 .add(Restrictions.isNotNull("valorPago"))
+		 .add(Restrictions.ge("dataVencimento",DataUtil.localDateParaDate(primeiroDiaMes)))
+		 .add(Restrictions.le("dataVencimento",DataUtil.localDateParaDate(ultimoDiaMes)))
+		 .add(Restrictions.eq("statusLancamento",StatusDeLancamento.Pendente))
+		 .add(Restrictions.eq("tipoLancamento",TipoDeLancamento.ENTRADA));
+		 periodo.setSomaEntradasSomentePendente(criteria.uniqueResult()!=null?(BigDecimal)criteria.uniqueResult():BigDecimal.ZERO);
+		 
+		/* somaSaidasSomentePago no intervalo*/
+		 criteria = session.createCriteria(Lancamento.class);
+		 criteria.setProjection(Projections.sum("valorPago"))
+		 .add(Restrictions.isNotNull("valorPago"))
+		 .add(Restrictions.ge("dataVencimento",DataUtil.localDateParaDate(primeiroDiaMes)))
+		 .add(Restrictions.le("dataVencimento",DataUtil.localDateParaDate(ultimoDiaMes)))
+		 .add(Restrictions.eq("statusLancamento",StatusDeLancamento.Pago))
+		 .add(Restrictions.eq("tipoLancamento",TipoDeLancamento.SAÍDA));
+		 periodo.setSomaSaidasSomentePago(criteria.uniqueResult()!=null?(BigDecimal)criteria.uniqueResult():BigDecimal.ZERO);
+		 
+		 /*somaSaidasSomentePendente no intervalo*/
+		 criteria = session.createCriteria(Lancamento.class);
+		 criteria.setProjection(Projections.sum("valorPago"))
+		 .add(Restrictions.isNotNull("valorPago"))
+		 .add(Restrictions.ge("dataVencimento",DataUtil.localDateParaDate(primeiroDiaMes)))
+		 .add(Restrictions.le("dataVencimento",DataUtil.localDateParaDate(ultimoDiaMes)))
+		 .add(Restrictions.eq("statusLancamento",StatusDeLancamento.Pendente))
+		 .add(Restrictions.eq("tipoLancamento",TipoDeLancamento.SAÍDA));
+		 periodo.setSomaSaidasSomentePendente(criteria.uniqueResult()!=null?(BigDecimal)criteria.uniqueResult():BigDecimal.ZERO);
+		 
+		 listaSomas.add(periodo);
+		 }//fim for
+		
+		return listaSomas;
 	}
 
 

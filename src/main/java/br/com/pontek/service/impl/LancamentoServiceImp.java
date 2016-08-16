@@ -13,6 +13,7 @@ import br.com.pontek.dao.LancamentoDao;
 import br.com.pontek.model.Lancamento;
 import br.com.pontek.service.LancamentoService;
 import br.com.pontek.util.filtro.FiltroLancamento;
+import br.com.pontek.util.jpa.LancamentosPeriodo;
 
 
 @Service
@@ -109,6 +110,12 @@ public class LancamentoServiceImp implements LancamentoService ,Serializable {
 	@Transactional(readOnly = true)
 	public BigDecimal somaValor(FiltroLancamento filtro) {
 		return lancamentoDao.somaValor(filtro);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<LancamentosPeriodo> historicoSeisMeses() {
+		return lancamentoDao.historicoSeisMeses();
 	}
 
 

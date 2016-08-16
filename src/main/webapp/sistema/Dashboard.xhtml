@@ -10,35 +10,24 @@
 		
 		
 		<div class="ui-fluid">
-			<p:panelGrid columns="3" layout="grid" columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-4">
+			<p:panelGrid columns="3" layout="grid" columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-4" rendered="false">
 				<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
 					<span>Bloco da esquerda</span>
-
 				</p:panelGrid>
 				<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
-						<span>Bloco do meio</span>
+						<span>Bloco do centro</span>
 				</p:panelGrid>
-				
 				<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
-					<span class="label-progressBar-titulo">Resumo do mês</span>
-					<h:panelGroup>
-						<span>Receitas</span>
-						<span class="label-progressBar-total">/R$ #{dashboardBean.somaValorTotalEntrada}"</span>
-						<span class="label-progressBar-pago">R$ #{dashboardBean.somaValorPagoEntrada}</span>
-					</h:panelGroup>
-					
-						<p:progressBar value="#{dashboardBean.percentualValorPagoEntrada}" labelTemplate="{value}%" displayOnly="true"
-						styleClass="progressBar-percentual-entradas"/>
-
-					<h:panelGroup>
-						<span>Despesas</span>
-						<span class="label-progressBar-total">/R$ #{dashboardBean.somaValorTotalSaida}"</span>
-						<span class="label-progressBar-pago">R$ #{dashboardBean.somaValorPagoSaida}</span>
-					</h:panelGroup>
-					
-						<p:progressBar value="#{dashboardBean.percentualValorPagoSaida}" labelTemplate="{value}%" displayOnly="true" 
-						styleClass="progressBar-percentual-saidas"/>
-					
+					<span>Bloco da direita</span>
+				</p:panelGrid>
+			</p:panelGrid>
+			
+			<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-6,ui-grid-col-6">
+				<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+						<p:chart type="bar" model="#{dashboardBean.graficoBarRecebimentos}" responsive="true"/>
+				</p:panelGrid>
+				<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+					<p:chart type="bar" model="#{dashboardBean.graficoBarPagamentos}" responsive="true"/>
 				</p:panelGrid>
 			</p:panelGrid>
 		</div>

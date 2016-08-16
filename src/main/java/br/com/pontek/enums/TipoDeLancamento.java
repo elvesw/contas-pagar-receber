@@ -2,9 +2,7 @@ package br.com.pontek.enums;
 
 public enum TipoDeLancamento {
 	ENTRADA("Entrada"),
-	SAÍDA("Saída"),
-	SANGRIA("Sangria"),
-	SUPRIMENTO("Suprimento");
+	SAÍDA("Saída");
 
 	private String tipoDelancamento_enum;
 

@@ -5,6 +5,7 @@ import java.util.List;
 
 import br.com.pontek.model.Lancamento;
 import br.com.pontek.util.filtro.FiltroLancamento;
+import br.com.pontek.util.jpa.LancamentosPeriodo;
 
 public interface LancamentoService {
 	
@@ -30,4 +31,7 @@ public interface LancamentoService {
 	
 	//conta pagar e receber
 	BigDecimal somaValor(FiltroLancamento filtro);
+	
+	
+	List<LancamentosPeriodo> historicoSeisMeses();
 }
