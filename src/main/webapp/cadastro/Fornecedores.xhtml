@@ -5,28 +5,29 @@
 	template="/WEB-INF/templates/Layout.xhtml"
 	xmlns:p="http://primefaces.org/ui">
 
-	<ui:define name="titulo">FORNECEDORES</ui:define>
+	<f:metadata>
+		<f:event type="preRenderView" listener="#{pessoaBean.tipoPagina('Fornecedores')}" />
+	</f:metadata>
+	
+	<ui:define name="titulo">Fornecedores</ui:define>
 	<ui:define name="centro">
-		<h1 class="aw-page-title">FORNECEDORES</h1>
 
-		<h:form id="frm">
-			<p:panelGrid columns="4" layout="grid">
-				<h:outputText value="Content 1" />
-				<h:outputText value="Content 2" />
-				<h:outputText value="Content 3" />
-				<h:outputText value="Content 4" />
-				
-				<h:outputText value="Content 5" />
-				<h:outputText value="Content 6" />
-				<h:outputText value="Content 7" />
-				<h:outputText value="Content 8" />
-				
-				<h:outputText value="Content 9" />
-				<h:outputText value="Content 10" />
-				<h:outputText value="Content 11" />
-				<h:outputText value="Content 12" />
-			</p:panelGrid>
+		<h:form id="formPrincipal">
+			 <h:panelGroup layout="block" rendered="#{pessoaBean.viewAtiva eq 'INSERINDO'}">
+				<h1 class="aw-page-title">Novo cadastro de fornecedor</h1>
+			</h:panelGroup>
+			<h:panelGroup layout="block" rendered="#{pessoaBean.viewAtiva eq 'EDITANDO'}">
+				<h1 class="aw-page-title">Alterando cadastro de fornecedor</h1>
+			</h:panelGroup>
+			<h:panelGroup layout="block" rendered="#{pessoaBean.viewAtiva eq 'LISTANDO'}" >
+				<h1 class="aw-page-title">Lista de fornecedores</h1>
+			</h:panelGroup>
+
+			<p:messages id="msg" autoUpdate="true" closable="true" />
+
+			<ui:include src="formCadastroPessoa.xhtml" />
+			<ui:include src="formListaPessoas.xhtml" />
+
 		</h:form>
 	</ui:define>
-
 </ui:composition>

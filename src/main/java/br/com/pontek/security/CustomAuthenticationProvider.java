@@ -17,9 +17,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Service;
 
-import br.com.pontek.model.Usuario;
-import br.com.pontek.service.UsuarioService;
-import br.com.pontek.util.MD5;
+import br.com.pontek.model.autenticacao.Usuario;
+import br.com.pontek.service.autenticacao.UsuarioService;
+import br.com.pontek.util.jsf.MD5;
 
 @Service
 public class CustomAuthenticationProvider implements AuthenticationProvider {

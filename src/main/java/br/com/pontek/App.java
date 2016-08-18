@@ -14,9 +14,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
-import br.com.pontek.service.CategoriaService;
-import br.com.pontek.service.LancamentoService;
-import br.com.pontek.service.PessoaService;
+import br.com.pontek.service.entidades.PessoaService;
+import br.com.pontek.service.financeiro.CategoriaService;
+import br.com.pontek.service.financeiro.LancamentoService;
 import br.com.pontek.util.jpa.LancamentosPeriodo;
 
 @Component
@@ -39,7 +39,7 @@ public class App {
 
 		//System.out.println("u"+System.currentTimeMillis());
 		
-		app.historicoSeisMeses();
+		
 	}
 	
 	void historicoSeisMeses(){

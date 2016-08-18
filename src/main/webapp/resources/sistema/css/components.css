@@ -5,7 +5,7 @@
 	/* margin-right: 15px; */
 	color: #fff;
 	margin-left: 2%;
-	vertical-align:50%
+	vertical-align:50%;
 }
 
 /* MENU */
@@ -286,28 +286,35 @@
 	}
 }
 
-/*ProgressBar de entradas e saidas bloco da esquerda do dashboard*/
-.progressBar-percentual-entradas .ui-progressbar-value.ui-widget-header {
-    background-color: #008000;
-    background-image: -moz-linear-gradient(center top , #00a600, #008000);
+.bloco-info-dashboard{
+	border:1px solid #CCCCCC;
+	border-radius:8px;
+	margin:5px;
+	padding:8px;
+	min-height: 50px;
+	border-bottom:2px solid #0996DD;
 }
-.progressBar-percentual-saidas .ui-progressbar-value.ui-widget-header {
-    background-color: #ff0000;
-    background-image: -moz-linear-gradient(center top , #ff3e3e, #ff0000);
+.icon-bloco-info-dashboard{
+	color: #0996DD;
+	vertical-align: -20px;
 }
-.label-progressBar-pago{
+.label-bloco-info-dashboard{
 	font-weight: bold;
 	color: #373737;
-	vertical-align: -30%;
 	float: right;
 }
-.label-progressBar-total{
-	color: #373737;
-	vertical-align: -30%;
-	float: right;;
-}
-.label-progressBar-titulo{
+.valor-bloco-info-dashboard{
 	font-weight: bold;
 	color: #373737;
-	margin-left: 25%;
+	float: right;
+	font-size: 15px;
 }
+
+
+.lista-categoria-entrada{
+	color: #008000;	
+}
+.lista-categoria-saida{
+	color:#0996DD;
+}
+

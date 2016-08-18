@@ -4,14 +4,29 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	template="/WEB-INF/templates/Layout.xhtml"
 	xmlns:p="http://primefaces.org/ui">
-	
-	<ui:define name="titulo">FUNCIONARIOS</ui:define>
+
+	<f:metadata>
+		<f:event type="preRenderView" listener="#{pessoaBean.tipoPagina('Funcionários')}" />
+	</f:metadata>
+	<ui:define name="titulo">Funcionarios</ui:define>
 	<ui:define name="centro">
-		<h1 class="aw-page-title">FUNCIONARIOS</h1>
-		
-		<h:form id="frm">
-			FUNCIONARIOS
+
+		<h:form id="formPrincipal">
+		    <h:panelGroup layout="block" rendered="#{pessoaBean.viewAtiva eq 'INSERINDO'}">
+				<h1 class="aw-page-title">Novo cadastro de funcionario</h1>
+			</h:panelGroup>
+			<h:panelGroup layout="block" rendered="#{pessoaBean.viewAtiva eq 'EDITANDO'}">
+				<h1 class="aw-page-title">Alterando cadastro de funcionario</h1>
+			</h:panelGroup>
+			<h:panelGroup layout="block" rendered="#{pessoaBean.viewAtiva eq 'LISTANDO'}" >
+				<h1 class="aw-page-title">Lista de funcionarios</h1>
+			</h:panelGroup>
+
+			<p:messages id="msg" autoUpdate="true" closable="true" />
+
+			<ui:include src="formCadastroPessoa.xhtml" />
+			<ui:include src="formListaPessoas.xhtml" />
+
 		</h:form>
 	</ui:define>
-	
 </ui:composition>

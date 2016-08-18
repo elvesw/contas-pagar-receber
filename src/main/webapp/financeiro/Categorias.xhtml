@@ -9,21 +9,22 @@
 	<ui:define name="centro">
 		
 		<h:form id="formPrincipal">
-		<h:panelGroup layout="block" rendered="#{categoriaBean.telaDeCadastro}">
-			<h:panelGroup layout="block" rendered="#{not categoriaBean.editando}">
-					<h1 class="aw-page-title">Nova categoria</h1>
-				</h:panelGroup>
-				<h:panelGroup layout="block" rendered="#{categoriaBean.editando}">
-					<h1 class="aw-page-title">Alterando categoria</h1>
-				</h:panelGroup>
+		
+		<h:panelGroup layout="block" rendered="#{categoriaBean.viewAtiva eq 'INSERINDO'}">
+						<h1 class="aw-page-title">Nova categoria</h1>
 		</h:panelGroup>
-		<h:panelGroup layout="block" rendered="#{not categoriaBean.telaDeCadastro}">
+		
+		<h:panelGroup layout="block" rendered="#{categoriaBean.viewAtiva eq 'EDITANDO'}">
+						<h1 class="aw-page-title">Alterando categoria</h1>
+		</h:panelGroup>
+		
+		<h:panelGroup layout="block" rendered="#{categoriaBean.viewAtiva eq 'LISTANDO'}">
 						<h1 class="aw-page-title">Lista de categorias</h1>
 		</h:panelGroup>
 
 		<p:messages id="msg" autoUpdate="true" closable="true" />
 		
-		<h:panelGroup layout="block" id="div-cadastro" rendered="#{categoriaBean.telaDeCadastro}">
+		<h:panelGroup layout="block" id="div-cadastro" rendered="#{categoriaBean.viewAtiva eq 'INSERINDO' or categoriaBean.viewAtiva eq 'EDITANDO'}">
 			
 				<div style="display: inline-block;padding-top: 4px; width: 100%">
 					<div style="float: left">
@@ -31,14 +32,15 @@
 							immediate="true" process="@form" />
 					</div>
 					<div style="float:right">
-							<p:commandButton  value="Salvar" update=":formPrincipal" action="#{categoriaBean.salvar()}" styleClass="btn btn-success" icon="fa fa-fw fa-floppy-o"/>
+							<p:commandButton  value="Salvar" update=":formPrincipal" action="#{categoriaBean.salvar()}" 
+							styleClass="btn btn-success" icon="fa fa-fw fa-floppy-o" oncomplete="PF('widgetCategoriaDT').filter()"/>
 					</div>
 	 			</div>
 	 			
 
 				
 			<div class="ui-fluid" >
-				  <p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-1,ui-grid-col-3">
+				  <p:panelGrid columns="3" layout="grid" columnClasses="ui-grid-col-1,ui-grid-col-3,ui-grid-col-2">
 				  
 					  	<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
 								<p:outputLabel value="ID" styleClass="label-formulario" />
@@ -49,6 +51,16 @@
 								<p:outputLabel value="Nome" styleClass="label-formulario" />
 								<p:inputText id="nome" value="#{categoriaBean.categoria.nome}" autocomplete="off"/>
 						</p:panelGrid>
+							
+						<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+								<p:outputLabel value="Tipo" styleClass="label-formulario" />
+								<p:selectOneMenu  id="tipo" value="#{categoriaBean.categoria.tipoDeLancamento}">
+									<f:selectItems
+										value="#{categoriaBean.tipoDeLancamentoEnums}"
+										var="tipo" itemValue="#{tipo}"
+										itemLabel="#{tipo.tipoDelancamento_enum=='Entrada'?'Receber':'Pagar'}" />
+								</p:selectOneMenu>
+							</p:panelGrid>
 						
 				  </p:panelGrid>
 			</div>
@@ -57,11 +69,11 @@
 
 		</h:panelGroup>
 
-		<h:panelGroup layout="block" id="div-lista" rendered="#{not categoriaBean.telaDeCadastro}">
+		<h:panelGroup layout="block" id="div-lista" rendered="#{categoriaBean.viewAtiva eq 'LISTANDO'}">
 		
 			<div style="display: inline-block;padding-top: 4px; width: 100%" class="remove-span-text">
 					<div style="float: left">
-							<p:commandButton  value="Novo" update=":formPrincipal" action="#{categoriaBean.novo()}" styleClass="btn btn-primary" icon="fa fa-fw fa-user-plus" 
+							<p:commandButton  value="Novo" update=":formPrincipal :formPrincipal:dataTableLista" action="#{categoriaBean.novo()}" styleClass="btn btn-primary" icon="fa fa-fw fa-user-plus" 
 							immediate="true" process="@form" />
 					</div>
 					<div style="float:right">
@@ -71,16 +83,31 @@
 			
 				<p:dataTable var="categoria" value="#{categoriaBean.listaCategorias}" reflow="true" lazy="false"
 					rowIndexVar="rowIx" id="dataTableLista" rows="12"
-					emptyMessage="Nenhum cadastro ..." paginator="true"
+					emptyMessage="Nenhum cadastro ..." paginator="true" widgetVar="widgetCategoriaDT"
 					paginatorPosition="bottom">
 
 					<p:column headerText="ID" width="3%">
-						<h:outputText value="#{categoria.id}"/>
+						<h:outputText value="#{categoria.id}"
+						styleClass="#{categoria.tipoDeLancamento eq 'ENTRADA'?'lista-categoria-entrada':'lista-categoria-saida'}"/>
 					</p:column>
 					
-					<p:column headerText="Status" width="75%">
-						<h:outputText value="#{categoria.nome}"/>
+					<p:column headerText="Nome" width="40%">
+						<h:outputText value="#{categoria.nome}"
+				styleClass="#{categoria.tipoDeLancamento eq 'ENTRADA'?'lista-categoria-entrada':'lista-categoria-saida'}"/>
 					</p:column>
+					
+					<p:column filterBy="#{categoria.tipoDeLancamento}" filterMatchMode="exact" width="10%">
+			            <f:facet name="filter">
+			                <p:selectOneMenu onchange="PF('widgetCategoriaDT').filter()" autoWidth="false">
+			                    <f:selectItems
+										value="#{categoriaBean.tipoDeLancamentoEnums}"
+										var="tipo" itemValue="#{tipo}"
+										itemLabel="#{tipo.tipoDelancamento_enum=='Entrada'?'Somente Receber':'Somente Pagar'}" />
+			                </p:selectOneMenu>
+			            </f:facet>
+			            <h:outputText value="#{categoria.tipoDeLancamento.tipoDelancamento_enum=='Entrada'?'Receber':'Pagar'}"
+			            styleClass="#{categoria.tipoDeLancamento eq 'ENTRADA'?'lista-categoria-entrada':'lista-categoria-saida'}"/>
+        			</p:column>
 
 					<p:column headerText="Ações" width="11%" selectRow="false">
 							<div class="ui-acoes-datatable">
@@ -93,7 +120,7 @@
 								</p:commandLink>
 								
 								<p:commandLink styleClass="ui-command-link"
-									action="#{categoriaBean.excluir(categoria)}"
+									action="#{categoriaBean.excluir(categoria)}" oncomplete="PF('widgetCategoriaDT').filter()"
 									update=":formPrincipal" title="Excluir">
 									<span><i class="fa fa-fw fa-trash"></i></span>
 								</p:commandLink>

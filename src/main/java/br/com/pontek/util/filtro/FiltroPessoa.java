@@ -10,8 +10,6 @@ public class FiltroPessoa extends FiltroBaseAbstract{
 	private boolean cadastroAtivo=true;
 	private PerfilDePessoa perfil=PerfilDePessoa.Todos;
 	
-	
-
 	public FiltroPessoa(String nome, PerfilDePessoa perfil) {
 		super();
 		this.nome = nome;

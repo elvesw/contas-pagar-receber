@@ -5,24 +5,46 @@
 	template="/WEB-INF/templates/Layout.xhtml"
 	xmlns:p="http://primefaces.org/ui">
 	
-	<ui:define name="centro">
-		<h1 class="aw-page-title">Dashboard</h1>
-		
-		
+	<ui:define name="centro">		
 		<div class="ui-fluid">
-			<p:panelGrid columns="3" layout="grid" columnClasses="ui-grid-col-4,ui-grid-col-4,ui-grid-col-4" rendered="false">
-				<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
-					<span>Bloco da esquerda</span>
+			<p:panelGrid columns="3" layout="grid" columnClasses="ui-grid-col-4,ui-grid-col-3,ui-grid-col-3">
+				
+				<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-2,ui-grid-col-10" styleClass="bloco-info-dashboard">
+					<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12" >
+						<span><i class="fa fa-fw fa-users fa-2x icon-bloco-info-dashboard"></i></span>
+					</p:panelGrid>
+					
+					<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+						<p:outputLabel value="#{dashboardBean.qtdClientesAtivos}" styleClass="valor-bloco-info-dashboard" />
+						<p:outputLabel value="Total de clientes" styleClass="label-bloco-info-dashboard" />
+					</p:panelGrid>
 				</p:panelGrid>
-				<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
-						<span>Bloco do centro</span>
+				
+				<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-2,ui-grid-col-10" styleClass="bloco-info-dashboard">
+					<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12" >
+						<span><i class="fa fa-fw fa-users fa-2x icon-bloco-info-dashboard"></i></span>
+					</p:panelGrid>
+					
+					<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+						<p:outputLabel value="#{dashboardBean.qtdClientesAtivos}" styleClass="valor-bloco-info-dashboard" />
+						<p:outputLabel value="Total de clientes" styleClass="label-bloco-info-dashboard" />
+					</p:panelGrid>
 				</p:panelGrid>
-				<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
-					<span>Bloco da direita</span>
+				
+				<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-2,ui-grid-col-10" styleClass="bloco-info-dashboard">
+					<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+						<span><i class="fa fa-fw fa-users fa-2x icon-bloco-info-dashboard"></i></span>
+					</p:panelGrid>
+					
+					<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+						<p:outputLabel value="#{dashboardBean.qtdClientesAtivos}" styleClass="valor-bloco-info-dashboard" />
+						<p:outputLabel value="Total de clientes" styleClass="label-bloco-info-dashboard" />
+					</p:panelGrid>
 				</p:panelGrid>
+				
 			</p:panelGrid>
 			
-			<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-6,ui-grid-col-6">
+			<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-6,ui-grid-col-6" style="margin-top:1em">
 				<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
 						<p:chart type="bar" model="#{dashboardBean.graficoBarRecebimentos}" responsive="true"/>
 				</p:panelGrid>
@@ -32,7 +54,6 @@
 			</p:panelGrid>
 		</div>
 		
-		
 	</ui:define>
-	
+		
 </ui:composition>

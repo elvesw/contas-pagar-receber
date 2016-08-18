@@ -11,32 +11,17 @@
     <p:tabView>
 
         <p:tab title="Usuário">
-            <h:panelGrid columns="1" cellpadding="10">
-                  <p:tree value="#{configBean.raiz}" var="categoria" 
-					selectionMode="single"
-                	selection="#{configBean.noSelecionado}">
-			        <p:treeNode >
-			            <h:outputText value="#{categoria.nome}"/>
-			        </p:treeNode>
-    			</p:tree>
+            <h:panelGrid columns="1" cellpadding="0">
+                  <h:outputText value="Configurações usuário" />
             </h:panelGrid>
         </p:tab>
         <p:tab title="Financeiro">
             <h:panelGrid columns="2" cellpadding="0">
-               <p:tree value="#{configBean.raiz}" var="categoria"
-               	selectionMode="single"
-                selection="#{configBean.noSelecionado}">
-                <p:ajax event="select" update=":msg" listener="#{configBean.onNodeSelect}" />
-        		<p:ajax event="unselect" update=":msg" listener="#{configBean.onNodeSelect}" />
-        
-				<p:treeNode>
-					 <h:outputText value="#{categoria.nome}"/>
-				</p:treeNode>
-			</p:tree>
+                <h:outputText value="Configurações financeiro" />
             </h:panelGrid>
         </p:tab>
         <p:tab title="Sistema">
-            <h:panelGrid columns="2" cellpadding="10">
+            <h:panelGrid columns="2" cellpadding="0">
                 <h:outputText value="Configurações para  sistema" />
             </h:panelGrid>
         </p:tab>

@@ -31,9 +31,11 @@
 		<a href="#" class="aw-toggle  js-toggle"><i class="fa  fa-bars fa-lg"></i></a>
 		
 		<h:outputLink value="${request.contextPath}/j_spring_security_logout" 
-				style="float:right;margin-right:10px;font-size:12px;color:#ffffff;line-height:50px;">Sair</h:outputLink>
+				style="float:right;margin-right:10px;font-size:12px;color:#ffffff;line-height:50px;" title="Sair">
+				<span><i class="fa  fa-fw  fa-sign-out"></i></span>
+		</h:outputLink>
 		<span style="float:right;margin-right:5px;font-size:12px;color:#ffffff;line-height:50px;font-weight:bold;">
-			Olá, #{sessaoBean.usuarioLogado}!</span>
+			Olá, #{usuarioSessaoBean.usuarioLogado}!</span>
 	</header>
 	
 	<aside class="aw-sidebar  js-sidebar">
@@ -51,6 +53,9 @@
 			<h:graphicImage name="img/ajaxloadingbar.gif" library="sistema" 	id="barra_status" />
 	</p:dialog>
 	<!-- Fim Ajax status -->
+	
+	<!-- Scritps Inline JavaScript -->
+	<ui:insert name="scripts" />
 </h:body>
 
 </html>

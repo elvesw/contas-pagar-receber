@@ -100,8 +100,6 @@
 
 								<p:selectOneMenu
 									value="#{contasReceberBean.lancamento.categoria}" converter="#{categoriaConverter}">
-									<f:selectItem itemLabel="Selecione" itemValue="#{null}"
-										noSelectionOption="true" />
 									<f:selectItems value="#{contasReceberBean.listaCategorias}"
 										var="categoria" itemValue="#{categoria}"
 										itemLabel="#{categoria.nome}" />
@@ -133,8 +131,6 @@
 								<p:outputLabel value="Conta" styleClass="label-formulario" />
 								<p:selectOneMenu
 									value="#{contasReceberBean.lancamento.conta}" converter="#{contaConverter}">
-									<f:selectItem itemLabel="Selecione" itemValue="#{null}"
-										noSelectionOption="true" />
 									<f:selectItems value="#{contasReceberBean.listaContas}"
 										var="conta" itemValue="#{conta}" itemLabel="#{conta.nome}" />
 								</p:selectOneMenu>

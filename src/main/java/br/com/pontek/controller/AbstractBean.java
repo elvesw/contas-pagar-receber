@@ -6,7 +6,7 @@ public abstract class AbstractBean implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	   protected enum estadoDaView {
+	   public enum estadoDaView {
 	        LISTANDO,
 	        INSERINDO,
 	        EDITANDO,

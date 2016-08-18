@@ -1,0 +1,172 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+   
+   
+   			<h:panelGroup layout="block" id="div-cadastro" rendered="#{pessoaBean.viewAtiva eq 'INSERINDO' or pessoaBean.viewAtiva eq 'EDITANDO'}">
+
+				<div style="display: inline-block; padding-top: 4px; width: 100%">
+					<div style="float: left">
+						<p:commandButton value="Voltar" update=":formPrincipal"
+							action="#{pessoaBean.voltar()}" styleClass="btn btn-default"
+							icon="fa fa-fw fa-mail-reply" immediate="true" process="@form" />
+					</div>
+					<div style="float: right">
+						<p:commandButton value="Salvar" update=":formPrincipal"
+							action="#{pessoaBean.salvar()}" styleClass="btn btn-success"
+							icon="fa fa-fw fa-floppy-o" />
+					</div>
+				</div>
+				
+				<div class="ui-fluid" style="border-top: 1px solid #E6E6E6;">
+					<p:panelGrid columns="3" layout="grid"
+						columnClasses="ui-grid-col-5,ui-grid-col-2,ui-grid-col-1"
+						styleClass="ui-panelgrid-blank">
+
+						<p:panelGrid columns="1" layout="grid"
+							columnClasses="ui-grid-col-12">
+							<p:outputLabel value="Nome" styleClass="label-formulario" />
+							<p:inputText id="nome" value="#{pessoaBean.pessoa.nome}" autocomplete="off"/>
+						</p:panelGrid>
+
+						<p:panelGrid columns="1" layout="grid"
+							columnClasses="ui-grid-col-12">
+							<p:outputLabel value="CPF/CNPJ" styleClass="label-formulario" />
+							<p:inputText id="cpfcnpj" value="#{pessoaBean.pessoa.cpfCnpj}" autocomplete="off"
+								onkeypress="return mascaraCpfCnpj(this,cpfCnpj)">
+								<f:validator validatorId="cpfCnpjValidator" />
+							</p:inputText>
+						</p:panelGrid>
+						
+						<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+							<p:outputLabel value="Ativo" styleClass="label-formulario" />
+							<p:selectOneMenu value="#{pessoaBean.pessoa.cadastroAtivo}">
+								<f:selectItem itemLabel="SIM" itemValue="#{true}" />
+								<f:selectItem itemLabel="NÃO" itemValue="#{false}" />
+							</p:selectOneMenu>
+						</p:panelGrid>
+
+					</p:panelGrid>
+				</div>
+				
+				<div class="ui-fluid">
+					<p:panelGrid columns="2" layout="grid"
+						columnClasses="ui-grid-col-2,ui-grid-col-3"
+						styleClass="ui-panelgrid-blank">
+
+						<p:panelGrid columns="1" layout="grid"
+							columnClasses="ui-grid-col-12">
+							<p:outputLabel value="Telefone" styleClass="label-formulario" />
+							<p:inputMask id="telefone" mask="(99)9999-9999" autocomplete="off"
+								value="#{pessoaBean.pessoa.telefone}" />
+						</p:panelGrid>
+
+						<p:panelGrid columns="1" layout="grid"
+							columnClasses="ui-grid-col-12">
+							<p:outputLabel value="Email" styleClass="label-formulario" />
+							<p:inputText id="email" value="#{pessoaBean.pessoa.email}" autocomplete="off"/>
+						</p:panelGrid>
+
+					</p:panelGrid>
+				</div>
+
+
+				<div class="ui-fluid">
+					<p:panelGrid columns="4" layout="grid"
+						columnClasses="ui-grid-col-2,ui-grid-col-3,ui-grid-col-2,ui-grid-col-1">
+
+
+						<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+							    <p:outputLabel value="Cep" styleClass="label-formulario" />
+				 			    <h:form style="position:relative;">
+				 			    	<div>
+					 			    	<p:inputMask mask="99999-999" id="cep" value="#{pessoaBean.pessoa.cep}" autocomplete="off" required="false" size="20" style="width:calc(100% - 33px);"/>
+					 			    	<p:commandButton styleClass="btn btn-info"
+										icon="fa fa-fw fa-search" 
+										update=":formPrincipal:logradouro :formPrincipal:bairro :formPrincipal:cidade :formPrincipal:uf :formPrincipal:msg :formPrincipal" 
+										actionListener="#{pessoaBean.encontraCep(pessoaBean.pessoa.cep)}" style="position:absolute;"/>
+				 			    	</div>
+				 			    </h:form>
+							<!-- Deu trabalho fazer esse button ficar sempre ao lado do input-->
+						</p:panelGrid>
+
+
+						<p:panelGrid columns="1" layout="grid"
+							columnClasses="ui-grid-col-12">
+							<p:outputLabel value="Logradouro" styleClass="label-formulario" />
+							<p:inputText id="logradouro" autocomplete="off"
+								value="#{pessoaBean.pessoa.logradouro}" />
+						</p:panelGrid>
+
+						<p:panelGrid columns="1" layout="grid"
+							columnClasses="ui-grid-col-12">
+							<p:outputLabel value="Bairro" styleClass="label-formulario" />
+							<p:inputText id="bairro" value="#{pessoaBean.pessoa.bairro}" autocomplete="off"/>
+						</p:panelGrid>
+
+						<p:panelGrid columns="1" layout="grid"
+							columnClasses="ui-grid-col-12">
+							<p:outputLabel value="Número" styleClass="label-formulario" />
+							<p:inputText id="numero" value="#{pessoaBean.pessoa.numero}" autocomplete="off"/>
+						</p:panelGrid>
+
+					</p:panelGrid>
+				</div>
+				
+				<div class="ui-fluid">
+					<p:panelGrid columns="3" layout="grid" columnClasses="ui-grid-col-2,ui-grid-col-1,ui-grid-col-4">
+
+						<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+							<p:outputLabel value="Cidade" styleClass="label-formulario" />
+							<p:inputText id="cidade" value="#{pessoaBean.pessoa.cidade}" autocomplete="off"/>
+						</p:panelGrid>
+						
+						<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+							<p:outputLabel value="Uf" styleClass="label-formulario" />
+							<p:inputText id="uf" value="#{pessoaBean.pessoa.uf}" autocomplete="off"/>
+						</p:panelGrid>
+						
+						<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+							<p:outputLabel value="Complemento" styleClass="label-formulario" />
+							<p:inputText id="complemento" value="#{pessoaBean.pessoa.complemento}" autocomplete="off"/>
+						</p:panelGrid>
+	
+					</p:panelGrid>
+				</div>
+				
+				<div class="ui-fluid" style="border-top: 1px solid #E6E6E6;">
+					<p:panelGrid columns="3" layout="grid" columnClasses="ui-grid-col-2,ui-grid-col-2,ui-grid-col-2">
+					
+						<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+							<h:panelGroup layout="block">
+								<p:selectBooleanCheckbox value="#{pessoaBean.pessoa.cliente}" />
+								<p:outputLabel value="Cliente" styleClass="label-formulario"
+							style="vertical-align:20%;margin:5px" />
+							</h:panelGroup>
+						</p:panelGrid>
+						
+						<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+							<h:panelGroup layout="block">
+								<p:selectBooleanCheckbox value="#{pessoaBean.pessoa.funcionario}" />
+								<p:outputLabel value="Funcionário" styleClass="label-formulario"
+							style="vertical-align:20%;margin:5px" />
+							</h:panelGroup>
+						</p:panelGrid>
+						
+						<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+							<h:panelGroup layout="block">
+								<p:selectBooleanCheckbox value="#{pessoaBean.pessoa.fornecedor}" />
+								<p:outputLabel value="Fornecedor" styleClass="label-formulario"
+									style="vertical-align:20%;margin:5px" />
+							</h:panelGroup>
+						</p:panelGrid>
+						
+					</p:panelGrid>
+			  </div>
+
+			</h:panelGroup>
+   
+   
+ </ui:composition>

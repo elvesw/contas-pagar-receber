@@ -1,0 +1,74 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+    
+    			<h:panelGroup layout="block" id="div-lista" rendered="#{pessoaBean.viewAtiva eq 'LISTANDO'}">
+
+				<div style="display: inline-block; padding-top: 4px; width: 100%" class="remove-span-text">
+					<div style="float: left">
+						<p:commandButton value="Novo" update=":formPrincipal"
+							action="#{pessoaBean.novo()}" styleClass="btn btn-primary"
+							icon="fa fa-fw fa-user-plus" immediate="true" process="@form" />
+					</div>
+					<div style="float: right">
+						<p:inputText value="#{pessoaBean.filtro.nome}" placeholder="busca por nome" style="width:115px;vertical-align:middle;">
+							 <p:ajax event="keyup" update=":formPrincipal"/>
+						</p:inputText>
+						<p:selectOneMenu value="#{pessoaBean.filtro.cadastroAtivo}" autoWidth="off" style="margin:0 0.3em 0 0.3em;vertical-align:middle;"
+						rendered="true" >
+							<p:ajax update=":formPrincipal"
+								listener="#{pessoaBean.addMessageCadastroAtivo(pessoaBean.filtro.cadastroAtivo)}" />
+							<f:selectItem itemLabel="Ativos" itemValue="#{true}" />
+							<f:selectItem itemLabel="Desativados" itemValue="#{false}" />
+						</p:selectOneMenu>
+						<p:commandButton value="Imprimir" icon="fa fa-fw fa-print"  immediate="true"
+							styleClass="btn btn-default"   actionListener="#{pessoaBean.verPDF}" ajax="false"
+							onclick="this.form.target='_blank'" title="Imprimir lista"/>
+					</div>
+				</div>
+
+				<p:dataTable var="pessoa" value="#{pessoaBean.model}" reflow="true"
+					lazy="true" rowIndexVar="rowIx" id="dataTableLista" rows="12"
+					emptyMessage="Nenhum cadastro ..." paginator="true"
+					paginatorPosition="bottom">
+
+					<p:column headerText="ID" width="3%">
+						<h:outputText value="#{pessoa.id}" />
+					</p:column>
+
+					<p:column headerText="Nome">
+						<h:outputText value="#{pessoa.nome}" />
+					</p:column>
+
+					<p:column headerText="Telefone" width="15%">
+						<h:outputText value="#{pessoa.telefone}" />
+					</p:column>
+					
+					<p:column headerText="Ações" width="11%" selectRow="false">
+							<div class="ui-acoes-datatable">
+									
+								<p:commandLink immediate="true" styleClass="ui-command-link"
+									action="#{pessoaBean.editar(pessoa)}"
+									update=":formPrincipal"
+									title="Alterar" process=":formPrincipal" >
+									<span><i class="fa fa-fw fa-pencil"></i></span>
+								</p:commandLink>
+								
+								<p:commandLink styleClass="ui-command-link"
+									action="#{pessoaBean.excluir(pessoa)}"
+									update=":formPrincipal" title="Excluir">
+									<span><i class="fa fa-fw fa-trash"></i></span>
+								</p:commandLink>
+									
+							</div>
+					</p:column>
+					
+					<f:facet name="footer">
+						Total de : #{pessoaBean.model.rowCount}
+				</f:facet>
+				</p:dataTable>
+			</h:panelGroup>
+    
+</ui:composition>
