@@ -1,0 +1,71 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<!--DIV CANCELAR -->
+	<h:panelGroup layout="block" styleClass="ui-fluid" id="div-cancelar">
+		<h:panelGroup layout="block"
+			rendered="#{lancamentoBean.viewAtiva eq 'DETALHANDO'}">
+
+			<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+
+				<table class="table-cancelar">
+					<tr>
+						<th class="label-formulario">Cód</th>
+						<th class="label-formulario td-hide1">Descrição</th>
+						<th class="label-formulario td-hide2">Nome</th>
+						<th class="label-formulario">Valor</th>
+						<th class="label-formulario">Referência</th>
+					</tr>
+					<ui:repeat
+						value="#{lancamentoBean.listaLancamentosSelecionados}" var="l">
+						<tr>
+							<td><p:outputLabel value="#{l.id}" /></td>
+							<td class="td-hide1"><p:outputLabel value="#{l.descricao}" /></td>
+							<td class="td-hide2"><p:outputLabel value="#{l.pessoa.nome}" /></td>
+							<td><p:outputLabel value="#{l.valorPago}" /></td>
+							<td><p:outputLabel value="#{l.observacao}" /></td>
+						</tr>
+					</ui:repeat>
+				</table>
+
+			</p:panelGrid>
+
+			<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-6">
+
+				<p:inputTextarea value="#{lancamentoBean.motivoCancelar}"
+					validatorMessage="mínimo 15 caracteres" rows="2"
+					placeholder="Qual o motivo para cancelar?" required="true"
+					requiredMessage="É obrigatório informar o motivo para cancelar">
+					<f:validateLength minimum="15" />
+				</p:inputTextarea>
+
+			</p:panelGrid>
+
+			<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-3">
+				<p:panelGrid columns="2" layout="grid"
+					columnClasses="ui-grid-col-5,ui-grid-col-7">
+
+					<p:commandButton value="Voltar" update=":formPrincipal"
+						action="#{lancamentoBean.voltar()}"
+						styleClass="btn btn-default" icon="fa fa-fw fa-mail-reply"
+						immediate="true" process="@this" />
+
+					<p:commandButton value="Confirma cancelar"
+						update=":formPrincipal:div-lista :formPrincipal:div-cancelar :formPrincipal:div-title"
+						actionListener="#{lancamentoBean.cancelar()}"
+						process=":formPrincipal:div-cancelar" styleClass="btn btn-primary"
+						icon="fa fa-fw fa-user-plus"
+						onclick="PF('widgetListaDataTable').unselectAllRows();" />
+
+				</p:panelGrid>
+			</p:panelGrid>
+
+		</h:panelGroup>
+	</h:panelGroup>
+	<!--FIM - DIV CANCELAR -->
+
+</ui:composition>

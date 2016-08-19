@@ -59,8 +59,8 @@
 						<p:panelGrid columns="1" layout="grid"
 							columnClasses="ui-grid-col-12">
 							<p:outputLabel value="Telefone" styleClass="label-formulario" />
-							<p:inputMask id="telefone" mask="(99)9999-9999" autocomplete="off"
-								value="#{pessoaBean.pessoa.telefone}" />
+							<p:inputMask mask="(99)9999-9999?9" id="telefone" autocomplete="off"  
+							value="#{pessoaBean.pessoa.telefone}" maxlength="10" />
 						</p:panelGrid>
 
 						<p:panelGrid columns="1" layout="grid"
@@ -81,11 +81,11 @@
 						<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
 							    <p:outputLabel value="Cep" styleClass="label-formulario" />
 				 			    <h:form style="position:relative;">
-				 			    	<div>
+				 			    	<div id="div-cep">
 					 			    	<p:inputMask mask="99999-999" id="cep" value="#{pessoaBean.pessoa.cep}" autocomplete="off" required="false" size="20" style="width:calc(100% - 33px);"/>
 					 			    	<p:commandButton styleClass="btn btn-info"
-										icon="fa fa-fw fa-search" 
-										update=":formPrincipal:logradouro :formPrincipal:bairro :formPrincipal:cidade :formPrincipal:uf :formPrincipal:msg :formPrincipal" 
+										icon="fa fa-fw fa-search" process="@form"
+										update=":formPrincipal:logradouro :formPrincipal:bairro :formPrincipal:cidade :formPrincipal:uf :formPrincipal:msg" 
 										actionListener="#{pessoaBean.encontraCep(pessoaBean.pessoa.cep)}" style="position:absolute;"/>
 				 			    	</div>
 				 			    </h:form>

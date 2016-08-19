@@ -49,7 +49,7 @@ public class CaixaBean extends AbstractBean{
 	private BigDecimal somaEntradaPago=BigDecimal.ZERO;
 	private BigDecimal somaSaidaPago=BigDecimal.ZERO;
 	private BigDecimal saldoFinal=BigDecimal.ZERO;
-	
+	private String tituloDataTableFiltro="";
 	/*############# ESTORNAR LANÇAMENTOS #############*/
 	private List<Lancamento> listaLancamentosSelecionados = new ArrayList<>();
 	private String motivoEstornar;
@@ -238,7 +238,11 @@ public class CaixaBean extends AbstractBean{
 	public BigDecimal getSaldoFinal() {
 		return saldoFinal;
 	}
-
+	public String getTituloDataTableFiltro() {
+		//Personalizando título no Datatable
+		tituloDataTableFiltro=DataUtil.intervaloDeFiltroLancamento(filtro).replace("Lançamentos ", " ");
+		return tituloDataTableFiltro;
+	}
 	/*############# ESTORNAR GETS e SETS #############*/
 	public List<Lancamento> getListaLancamentosSelecionados() {
 		return listaLancamentosSelecionados;

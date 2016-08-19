@@ -1,0 +1,267 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<!--DIV CADASTRO -->
+	<h:panelGroup layout="block" id="div-cadastro">
+
+		<h:panelGroup layout="block"
+			rendered="#{(lancamentoBean.viewAtiva eq 'INSERINDO') or (lancamentoBean.viewAtiva eq 'EDITANDO')}">
+
+			<div style="display: inline-block; padding-top: 4px; width: 100%">
+				<div style="float: left">
+					<p:commandButton value="Voltar" update=":formPrincipal"
+						action="#{lancamentoBean.voltar()}"
+						styleClass="btn btn-default" icon="fa fa-fw fa-mail-reply"
+						immediate="true" process=":formPrincipal" />
+				</div>
+
+				<div style="float: right">
+					<p:commandButton value="Salvar" update=":formPrincipal"
+						action="#{lancamentoBean.salvar()}"
+						styleClass="btn btn-success" icon="fa fa-fw fa-floppy-o" />
+				</div>
+			</div>
+
+			<div class="ui-fluid" style="border-top: 1px solid #E6E6E6;">
+
+				<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-6">
+
+					<p:panelGrid columns="1" layout="grid"
+						columnClasses="ui-grid-col-12">
+						<p:outputLabel value="Nome" styleClass="label-formulario" />
+						<p:autoComplete value="#{lancamentoBean.lancamento.pessoa}"
+							completeMethod="#{lancamentoBean.autoCompleteNomes}"
+							var="pessoa" itemLabel="#{pessoa.nome}" itemValue="#{pessoa}"
+							forceSelection="true" maxResults="5"
+							converter="#{pessoaConverter}" placeholder="procurar..."
+							autocomplete="off" dropdown="true" />
+					</p:panelGrid>
+
+				</p:panelGrid>
+
+			</div>
+
+			<div class="ui-fluid">
+				<p:panelGrid columns="2" layout="grid"
+					columnClasses="ui-grid-col-4,ui-grid-col-3"
+					styleClass="ui-panelgrid-blank">
+
+					<p:panelGrid columns="1" layout="grid"
+						columnClasses="ui-grid-col-12">
+						<p:outputLabel value="Descrição" styleClass="label-formulario" />
+						<p:inputText id="descricao" autocomplete="off"
+							value="#{lancamentoBean.lancamento.descricao}" />
+					</p:panelGrid>
+
+					<p:panelGrid columns="1" layout="grid"
+						columnClasses="ui-grid-col-12">
+						<p:outputLabel value="Categoria" styleClass="label-formulario" />
+
+						<p:selectOneMenu value="#{lancamentoBean.lancamento.categoria}"
+							converter="#{categoriaConverter}">
+							<f:selectItems value="#{lancamentoBean.listaCategorias}"
+								var="categoria" itemValue="#{categoria}"
+								itemLabel="#{categoria.nome}" />
+						</p:selectOneMenu>
+					</p:panelGrid>
+
+				</p:panelGrid>
+			</div>
+
+			<div class="ui-fluid" style="padding-bottom: 10px;">
+
+				<p:panelGrid columns="3" layout="grid"
+					columnClasses="ui-grid-col-2,ui-grid-col-3,ui-grid-col-2"
+					styleClass="ui-panelgrid-blank">
+
+					<p:panelGrid columns="1" layout="grid"
+						columnClasses="ui-grid-col-12">
+						<p:outputLabel value="Data Vencimento"
+							styleClass="label-formulario" />
+						<p:calendar value="#{lancamentoBean.lancamento.dataVencimento}"
+							navigator="true" pattern="dd-MM-yyyy" mask="true" locale="pt"
+							yearRange="c-20:c+0">
+						</p:calendar>
+					</p:panelGrid>
+
+					<p:panelGrid columns="1" layout="grid"
+						columnClasses="ui-grid-col-12">
+						<p:outputLabel value="Conta" styleClass="label-formulario" />
+						<p:selectOneMenu value="#{lancamentoBean.lancamento.conta}"
+							converter="#{contaConverter}">
+							<f:selectItems value="#{lancamentoBean.listaContas}"
+								var="conta" itemValue="#{conta}" itemLabel="#{conta.nome}" />
+						</p:selectOneMenu>
+					</p:panelGrid>
+
+					<p:panelGrid columns="1" layout="grid"
+						columnClasses="ui-grid-col-12">
+						<p:outputLabel value="Valor" styleClass="label-formulario" />
+						<p:inputText id="valor" autocomplete="off"
+							value="#{lancamentoBean.lancamento.valor}">
+							<f:convertNumber pattern="#,##0.00"></f:convertNumber>
+							<p:ajax update=":formPrincipal:valor :formPrincipal:valorPago"
+								process="valor" event="change" />
+							<f:validator validatorId="moedaValidator" />
+						</p:inputText>
+					</p:panelGrid>
+
+				</p:panelGrid>
+			</div>
+
+			<h:panelGroup layout="block" styleClass="ui-fluid"
+				rendered="#{lancamentoBean.viewAtiva eq 'INSERINDO'}">
+				<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-3">
+
+					<p:panelGrid columns="1" layout="grid"
+						columnClasses="ui-grid-col-12">
+						<h:panelGroup layout="block">
+							<p:selectBooleanCheckbox value="#{lancamentoBean.repetir}">
+								<p:ajax
+									update=":formPrincipal:gridRepetir :formPrincipal:repetirAD" />
+							</p:selectBooleanCheckbox>
+							<p:outputLabel value="Repetir" styleClass="label-formulario"
+								style="vertical-align:20%;margin:5px" />
+						</h:panelGroup>
+					</p:panelGrid>
+
+				</p:panelGrid>
+			</h:panelGroup>
+
+			<h:panelGroup layout="block" styleClass="ui-fluid"
+				style="padding-bottom: 10px;"
+				rendered="#{lancamentoBean.viewAtiva eq 'INSERINDO'}">
+
+				<p:panelGrid columns="2" layout="grid"
+					columnClasses="ui-grid-col-3,ui-grid-col-3" id="gridRepetir">
+
+					<p:panelGrid columns="1" layout="grid"
+						columnClasses="ui-grid-col-12">
+						<p:outputLabel value="Frequência"
+							styleClass="#{lancamentoBean.repetir ? 'label-formulario':'label-formulario label-desabilitar'}" />
+						<p:selectOneMenu
+							value="#{lancamentoBean.frequenciaDeLancamentos}"
+							disabled="#{not lancamentoBean.repetir}">
+							<f:selectItems
+								value="#{lancamentoBean.frequenciaDeLancamentoEnum}"
+								var="frequencia" itemValue="#{frequencia}"
+								itemLabel="#{frequencia}" />
+						</p:selectOneMenu>
+					</p:panelGrid>
+
+					<p:panelGrid columns="1" layout="grid"
+						columnClasses="ui-grid-col-12">
+
+						<p:outputLabel value="Ocorrências"
+							styleClass="#{lancamentoBean.repetir ? 'label-formulario':'label-formulario label-desabilitar'}" />
+						<p:selectOneMenu value="#{lancamentoBean.ocorrencias}"
+							disabled="#{not lancamentoBean.repetir}">
+							<f:selectItems value="#{lancamentoBean.numeroParaRepetir}"
+								var="num" itemValue="#{num}" itemLabel="#{num} vezes ao todo" />
+						</p:selectOneMenu>
+					</p:panelGrid>
+
+				</p:panelGrid>
+			</h:panelGroup>
+
+			<h:panelGroup layout="block" styleClass="ui-fluid" id="repetirAD">
+				<p:panelGrid columns="2" layout="grid"
+					columnClasses="ui-grid-col-2,ui-grid-col-4">
+
+					<p:panelGrid columns="1" layout="grid"
+						columnClasses="ui-grid-col-12">
+						<h:panelGroup layout="block">
+							<p:selectBooleanCheckbox value="#{lancamentoBean.pago}">
+								<p:ajax update=":formPrincipal:gridPago" />
+							</p:selectBooleanCheckbox>
+							<p:outputLabel value="Pago" styleClass="label-formulario"
+								style="vertical-align:20%;margin:5px" />
+						</h:panelGroup>
+					</p:panelGrid>
+
+					<p:panelGrid columns="1" layout="grid"
+						columnClasses="ui-grid-col-12"
+						rendered="#{lancamentoBean.viewAtiva eq 'INSERINDO'}">
+						<h:panelGroup layout="block">
+							<p:selectBooleanCheckbox
+								value="#{lancamentoBean.repetirAcrescimosDescontos}"
+								disabled="#{not lancamentoBean.repetir}" />
+							<p:outputLabel value="Repetir Descontos/Taxas, Juros/Multas"
+								styleClass="#{lancamentoBean.repetir ? 'label-formulario':'label-formulario label-desabilitar'}"
+								style="vertical-align:20%;margin:5px" />
+						</h:panelGroup>
+					</p:panelGrid>
+				</p:panelGrid>
+			</h:panelGroup>
+
+			<div class="ui-fluid">
+
+				<p:panelGrid columns="4" layout="grid"
+					columnClasses="ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2"
+					id="gridPago">
+
+					<p:panelGrid columns="1" layout="grid"
+						columnClasses="ui-grid-col-12">
+						<p:outputLabel value="Data pagamento"
+							styleClass="#{lancamentoBean.pago ? 'label-formulario':'label-formulario label-desabilitar'}" />
+						<p:calendar value="#{lancamentoBean.lancamento.dataPagamento}"
+							navigator="true" pattern="dd-MM-yyyy" mask="true" locale="pt"
+							requiredMessage="Data de vencimento" yearRange="c-20:c+0"
+							required="true" disabled="#{not lancamentoBean.pago}">
+						</p:calendar>
+					</p:panelGrid>
+
+					<p:panelGrid columns="1" layout="grid"
+						columnClasses="ui-grid-col-12">
+						<p:outputLabel value="Descontos/Taxas"
+							styleClass="label-formulario" />
+						<p:inputText autocomplete="off"
+							value="#{lancamentoBean.lancamento.valorDesconto}"
+							id="valorDesconto">
+							<f:convertNumber pattern="#,##0.00"></f:convertNumber>
+							<p:ajax
+								update=":formPrincipal:valorDesconto :formPrincipal:valorPago"
+								process="valorDesconto" event="change" />
+							<f:validator validatorId="moedaValidator" />
+						</p:inputText>
+					</p:panelGrid>
+
+					<p:panelGrid columns="1" layout="grid"
+						columnClasses="ui-grid-col-12">
+						<p:outputLabel value="Juros/Multas" styleClass="label-formulario" />
+						<p:inputText autocomplete="off"
+							value="#{lancamentoBean.lancamento.valorAcrescimo}"
+							id="valorAcrescimo">
+							<f:convertNumber pattern="#,##0.00"></f:convertNumber>
+							<p:ajax
+								update=":formPrincipal:valorAcrescimo :formPrincipal:valorPago"
+								process="valorAcrescimo" event="change" />
+							<f:validator validatorId="moedaValidator" />
+						</p:inputText>
+					</p:panelGrid>
+
+					<p:panelGrid columns="1" layout="grid"
+						columnClasses="ui-grid-col-12">
+						<p:outputLabel value="Valor a pagar" styleClass="label-formulario"
+							style="color:#0996DD" />
+
+						<p:inputText value="#{lancamentoBean.valorPago}"
+							readonly="true" id="valorPago">
+							<f:convertNumber pattern="#,##0.00"></f:convertNumber>
+							<p:ajax update=":formPrincipal:valorPago" process="valorPago"
+								event="change" />
+							<f:validator validatorId="moedaValidator" />
+						</p:inputText>
+					</p:panelGrid>
+
+				</p:panelGrid>
+			</div>
+		</h:panelGroup>
+	</h:panelGroup>
+	<!--FIM - DIV CADASTRO -->
+	
+</ui:composition>

@@ -7,27 +7,38 @@
 	
 	<ui:define name="centro">		
 		<div class="ui-fluid">
-			<p:panelGrid columns="3" layout="grid" columnClasses="ui-grid-col-4,ui-grid-col-3,ui-grid-col-3">
+			<p:panelGrid columns="4" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3">
 				
 				<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-2,ui-grid-col-10" styleClass="bloco-info-dashboard">
 					<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12" >
-						<span><i class="fa fa-fw fa-users fa-2x icon-bloco-info-dashboard"></i></span>
+						<span><i class="fa fa-fw fa-thumbs-o-up fa-2x icon-bloco-info-dashboard"></i></span>
 					</p:panelGrid>
 					
 					<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
-						<p:outputLabel value="#{dashboardBean.qtdClientesAtivos}" styleClass="valor-bloco-info-dashboard" />
-						<p:outputLabel value="Total de clientes" styleClass="label-bloco-info-dashboard" />
+						<p:outputLabel value="(62-91900323)" styleClass="valor-bloco-info-dashboard" />
+						<p:outputLabel value="Suporte técnico" styleClass="label-bloco-info-dashboard" />
 					</p:panelGrid>
 				</p:panelGrid>
 				
 				<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-2,ui-grid-col-10" styleClass="bloco-info-dashboard">
 					<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12" >
-						<span><i class="fa fa-fw fa-users fa-2x icon-bloco-info-dashboard"></i></span>
+						<span><i class="fa fa-fw fa-tag  fa-2x icon-bloco-info-dashboard"></i></span>
 					</p:panelGrid>
 					
 					<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
-						<p:outputLabel value="#{dashboardBean.qtdClientesAtivos}" styleClass="valor-bloco-info-dashboard" />
-						<p:outputLabel value="Total de clientes" styleClass="label-bloco-info-dashboard" />
+						<p:outputLabel styleClass="valor-bloco-info-dashboard" />
+						<p:outputLabel value="" styleClass="label-bloco-info-dashboard" />
+					</p:panelGrid>
+				</p:panelGrid>
+				
+				<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-2,ui-grid-col-10" styleClass="bloco-info-dashboard">
+					<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12" >
+						<span><i class="fa fa-fw fa-cloud fa-2x icon-bloco-info-dashboard"></i></span>
+					</p:panelGrid>
+					
+					<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+						<p:outputLabel styleClass="valor-bloco-info-dashboard" />
+						<p:outputLabel value="" styleClass="label-bloco-info-dashboard" />
 					</p:panelGrid>
 				</p:panelGrid>
 				

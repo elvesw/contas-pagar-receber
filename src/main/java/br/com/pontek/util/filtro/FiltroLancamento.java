@@ -16,6 +16,7 @@ public class FiltroLancamento extends FiltroBaseAbstract{
 	
 	private boolean  btnFiltro = false;//PARA BUG DO PRIMEIRO REGISTRO DA LISTA
 	
+	/* ########### CONSTRUTORES ###########*/
 	public FiltroLancamento(FiltroData fitroData, FiltroStatus fitroStatus, FiltroTipoData filtroTipoData,
 			FiltroTipoLancamento filtroTipoLancamento) {
 		this.fitroData = fitroData;
@@ -23,11 +24,14 @@ public class FiltroLancamento extends FiltroBaseAbstract{
 		this.filtroTipoData = filtroTipoData;
 		this.filtroTipoLancamento = filtroTipoLancamento;
 	}
-	
+	public FiltroLancamento(FiltroData fitroData, FiltroStatus fitroStatus, FiltroTipoData filtroTipoData) {
+		this.fitroData = fitroData;
+		this.fitroStatus = fitroStatus;
+		this.filtroTipoData = filtroTipoData;
+	}
 	public FiltroLancamento() {
 
 	}
-
 
 	public String getTermoParaBusca() {
 		return termoParaBusca;

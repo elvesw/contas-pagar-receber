@@ -22,7 +22,7 @@
 				</h:panelGroup>
 				<h:panelGroup layout="block"
 					rendered="#{caixaBean.listaLancamentosSelecionados.size()==0 and caixaBean.viewAtiva eq 'LISTANDO'}">
-					<h1 class="aw-page-title">Caixa</h1>
+					<h1 class="aw-page-title">Caixa #{caixaBean.tituloDataTableFiltro}</h1>
 				</h:panelGroup>
 				<h:panelGroup layout="block"
 					rendered="#{caixaBean.listaLancamentosSelecionados.size()==0 and caixaBean.viewAtiva eq 'FILTRO'}">

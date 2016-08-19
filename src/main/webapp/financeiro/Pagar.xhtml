@@ -1,0 +1,63 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	template="/WEB-INF/templates/Layout.xhtml"
+	xmlns:p="http://primefaces.org/ui">
+
+	<f:metadata>
+		<f:event type="preRenderView"
+			listener="#{lancamentoBean.tipoPagina('SAÍDA')}" />
+	</f:metadata>
+
+	<ui:define name="titulo">Contas a pagar</ui:define>
+	<ui:define name="centro">
+
+		<h:form id="formPrincipal">
+
+			<!--DIV TITLE -->
+			<h:panelGroup layout="block" id="div-title">
+				<h:panelGroup layout="block"
+					rendered="#{lancamentoBean.viewAtiva eq 'INSERINDO'}">
+					<h1 class="aw-page-title">Novo pagamento</h1>
+				</h:panelGroup>
+				<h:panelGroup layout="block"
+					rendered="#{lancamentoBean.viewAtiva eq 'EDITANDO'}">
+					<h1 class="aw-page-title">Alterando pagamento</h1>
+				</h:panelGroup>
+				<h:panelGroup layout="block"
+					rendered="#{lancamentoBean.listaLancamentosSelecionados.size()>0 and (lancamentoBean.viewAtiva eq 'LISTANDO' or lancamentoBean.viewAtiva eq 'FILTRO')}">
+					<h1 class="aw-page-title">Escolha pagar ou cancelar
+						#{lancamentoBean.listaLancamentosSelecionados.size()}
+						#{lancamentoBean.listaLancamentosSelecionados.size()==1 ?"item
+						selecionado":"itens selecionados"}</h1>
+				</h:panelGroup>
+				<h:panelGroup layout="block"
+					rendered="#{lancamentoBean.viewAtiva eq 'DETALHANDO'}">
+					<h1 class="aw-page-title">Cancelando
+						#{lancamentoBean.listaLancamentosSelecionados.size()} recebimentos
+					</h1>
+				</h:panelGroup>
+				<h:panelGroup layout="block"
+					rendered="#{lancamentoBean.listaLancamentosSelecionados.size()==0 and lancamentoBean.viewAtiva eq 'LISTANDO'}">
+					<h1 class="aw-page-title">
+						<span style="color: #0996DD">Pagamentos </span>
+						#{lancamentoBean.tituloDataTableFiltro}
+					</h1>
+				</h:panelGroup>
+				<h:panelGroup layout="block"
+					rendered="#{lancamentoBean.listaLancamentosSelecionados.size()==0 and lancamentoBean.viewAtiva eq 'FILTRO'}">
+					<h1 class="aw-page-title">Filtro: selecione as opções</h1>
+				</h:panelGroup>
+			</h:panelGroup>
+			<!--FIM - DIV TITLE -->
+
+			<p:messages autoUpdate="true" closable="true" />
+
+			<ui:include src="formCadastroLancamento.xhtml" />
+			<ui:include src="formCancelarLancamento.xhtml" />
+			<ui:include src="formListaLancamentos.xhtml" />
+
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -22,10 +22,8 @@ import br.com.pontek.enums.FiltroStatus;
 import br.com.pontek.enums.FiltroTipoData;
 import br.com.pontek.enums.FiltroTipoLancamento;
 import br.com.pontek.enums.FrequenciaDeLancamento;
-import br.com.pontek.enums.PerfilDePessoa;
 import br.com.pontek.enums.StatusDeLancamento;
 import br.com.pontek.enums.TipoDeLancamento;
-import br.com.pontek.exception.NegocioException;
 import br.com.pontek.exception.RelatorioException;
 import br.com.pontek.model.entidades.Pessoa;
 import br.com.pontek.model.financeiro.Categoria;
@@ -37,15 +35,14 @@ import br.com.pontek.service.financeiro.ContaService;
 import br.com.pontek.service.financeiro.LancamentoService;
 import br.com.pontek.util.DataUtil;
 import br.com.pontek.util.filtro.FiltroLancamento;
-import br.com.pontek.util.filtro.FiltroPessoa;
 import br.com.pontek.util.jsf.FacesUtil;
 import br.com.pontek.util.report.LancamentoDataSource;
 import br.com.pontek.util.report.RelatorioUtil;
 
-@ManagedBean(name = "contasReceberBean")
+@ManagedBean(name = "lancamentoBean")
 @Controller
 @Scope("view")
-public class ContasReceberBean extends AbstractBean{
+public class LancamentoBean extends AbstractBean{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -53,14 +50,19 @@ public class ContasReceberBean extends AbstractBean{
 	@Autowired private PessoaService pessoaService;
 	@Autowired private CategoriaService categoriaService;
 	@Autowired private ContaService contaService;
-	
+	/*########### PERFIL ##############*/
+	private TipoDeLancamento tipoLancamentoPagina;
+	private String tituloRelatorio="";
+	private String nomePDFRelatorio="";
 	/*########### LAZY DATATABLE ##############*/
-	private FiltroLancamento filtro= new FiltroLancamento(FiltroData.Passado_mais_30_dias, FiltroStatus.Somente_pendentes, 
-															FiltroTipoData.Data_de_vencimento, FiltroTipoLancamento.Somente_entrada);
+	private FiltroLancamento filtro= new FiltroLancamento(FiltroData.Passado_mais_30_dias, 
+														FiltroStatus.Somente_pendentes,
+														FiltroTipoData.Data_de_vencimento);
 	private LazyDataModel<Lancamento> model;
 	private String viewAtiva = estadoDaView.LISTANDO.toString();
 	private BigDecimal somaTodosValorPago;
 	private BigDecimal somaSomentePago;
+	private String tituloDataTableFiltro="";
 	/*########### FIM - LAZY DATATABLE ##############*/
 	
 	/*############# NOVO LANÇAMENTO #############*/
@@ -89,7 +91,7 @@ public class ContasReceberBean extends AbstractBean{
 
 
 	//CONSTRUTOR
-	public ContasReceberBean() {
+	public LancamentoBean() {
 		model = new LazyDataModel<Lancamento>() {
 			private static final long serialVersionUID = 1L;
 			public List<Lancamento> load(int first, int pageSize, String sortField, SortOrder sortOrder, Map<String, Object> filters){
@@ -104,6 +106,8 @@ public class ContasReceberBean extends AbstractBean{
 				filtro.setPropriedadeOrdenacao(sortField);
 				setRowCount(lancamentoService.quantidadeFiltrados(filtro));
 				List<Lancamento> listaTemp = lancamentoService.filtrados(filtro);
+				//Personalizando título no Datatable
+				tituloDataTableFiltro=DataUtil.intervaloDeFiltroLancamento(filtro);
 				//Relatório
 				filtroRelatorio=filtro; 
 				filtroRelatorio.setQuantidadeRegistros(getRowCount());
@@ -131,9 +135,10 @@ public class ContasReceberBean extends AbstractBean{
 		};
 	}
 	
-	/*############# FUNÇÕES #############*/
+	/*############# FUNÇÕES GERAL #############*/
 	
-	/* ##FUNÇÕES DE RELATÓRIO PARA IMPRESSÃO ############################################################################*/
+	
+	/*############ 1º BLOCO FUNÇÕES PARA O DATATABLE #######*/
 	/**Função para listar no formato PDF no navegador para impressão*/
 	public String verPDF(ActionEvent actionEvent) throws Exception{
 		List<Lancamento> listaTemp = lancamentoService.filtrados(filtroRelatorio);
@@ -143,21 +148,86 @@ public class ContasReceberBean extends AbstractBean{
 		}
 		try {
 			Map<String, Object> parametros = new HashMap<String,Object>();
-				parametros.put("titulo","Contas a receber");
+				parametros.put("titulo",tituloRelatorio);//perfil
 				parametros.put("intervaloData",DataUtil.intervaloDeFiltroLancamento(filtroRelatorio));
 			LancamentoDataSource lancamentoDS = new LancamentoDataSource();
 				lancamentoDS.prepareDataSource(listaTemp);
 			RelatorioUtil relatorio=new RelatorioUtil();
-				relatorio.verPdfBrowser(lancamentoDS,parametros,"Lancamentos.jrxml","ContasReceber"+DataUtil.ddMMyy(new Date()));
+				relatorio.verPdfBrowser(lancamentoDS,parametros,"Lancamentos.jrxml",nomePDFRelatorio+DataUtil.ddMMyy(new Date()));
 		} catch (Exception e) {
 			 FacesUtil.exibirMensagemErro("Erro : "+ e.getMessage());
 			 new RelatorioException("Erro ao gerar relatório :" +e);
 		} 	
 		return null;
-	}/* ##FIM DAS FUNÇÕES DE RELATÓRIO PARA IMPRESSÃO ############################################################################*/
+	}
 	
-	/*####### FUNÇÕES de SALVAR/EDITAR/EXCLUIR ##########*/
-	/**Função do autocomplete de nomes*/	
+	
+	/*####### FUNÇÕES PAGAR LANÇAMENTOS SELECIONADOS ##########*/
+	/**Função que muda o status para pago dos lançamentos selecionados pelo multiSelect do datatable*/
+	public void pagar(){
+		BigDecimal somaTotalTemp=BigDecimal.ZERO;
+		for (Lancamento l : listaLancamentosSelecionados) {
+			l.setStatusLancamento(StatusDeLancamento.Pago);
+			l.setDataPagamento(new Date());
+			l.setMotivoCancelamento(null);
+			lancamentoService.salvar(l);
+			somaTotalTemp=somaTotalTemp.add(l.getValorPago());//Soma Temporária
+		}
+		FacesUtil.exibirMensagemSucesso("Soma total: R$"+somaTotalTemp+ " foi pago com data de hoje.");
+		reset();	
+	}
+	
+	
+	/*####### FUNÇÕES CANCELAR LANÇAMENTOS SELECIONADOS ##########*/
+	/**Função que muda o status para cancelado dos lançamentos selecionados pelo multiSelect do datatable*/
+	public void cancelar() {
+		BigDecimal somaTotalTemp=BigDecimal.ZERO;
+		for (Lancamento l : listaLancamentosSelecionados) {
+			l.setMotivoCancelamento(this.motivoCancelar);
+			l.setStatusLancamento(StatusDeLancamento.Cancelado);
+			l.setDataPagamento(null);
+			lancamentoService.salvar(l);
+			somaTotalTemp=somaTotalTemp.add(l.getValorPago());//Soma Temporária
+		}
+		FacesUtil.exibirMensagemSucesso("Soma total: R$"+somaTotalTemp+ " foram cancelados.");
+		reset();
+    }
+	
+	
+	/**Função que altera o estado da view durante o cancelamento dos lançamentos selecionados pelo multiSelect do datatable*/
+	public void cancelando(){
+		viewAtiva=estadoDaView.DETALHANDO.toString();
+	}
+	
+	
+	/*####### FUNÇÕES PARA O FILTRO ##########*/
+	/**Função que altera o estado da view ,deixando o filtro disponível*/
+	public void filtrando(){
+		viewAtiva=estadoDaView.FILTRO.toString();
+	}
+	
+	
+	/**Função filtrar, somente para validar o filtro, o resolver o bug do primeiro registro*/
+	public void filtrar(){
+		this.filtro.setBtnFiltro(true);//pela btn do filtro
+	}
+	
+	
+	/**Reset filtro da view e altera o estado da view ,deixando o datatable disponível*/
+	public void filtroReset(){
+		filtro.setFiltroTipoData(FiltroTipoData.Data_de_vencimento);
+		filtro.setFitroStatus(FiltroStatus.Somente_pendentes);
+		filtro.setFitroData(FiltroData.Passado_mais_30_dias);
+		filtro.setTermoParaBusca(null);
+		viewAtiva=estadoDaView.LISTANDO.toString();
+	}
+	/*############ FIM - 1º BLOCO FUNÇÕES PARA O DATATABLE #######*/
+	
+	
+	
+	
+	/*############ 2º BLOCO FUNÇÕES PARA FORM DE CADASTRO #######*/
+	/**Função do autocomplete de nomes para o form cadastro*/	
 	public List<Pessoa> autoCompleteNomes(String nome) {
 			List<Pessoa> lista = listaPessoas;
 	        List<Pessoa> filtroLista = new ArrayList<Pessoa>();
@@ -169,6 +239,9 @@ public class ContasReceberBean extends AbstractBean{
 	        }
 	    return filtroLista;
 	 }
+	
+	
+	/**Função que confere os objetos usados no cadastro e persiste no banco de dados um ou mais lançamentos*/
 	public String salvar() {
 		/*Pode lançar um valor zerado, como se for uma bolsa, um desconto 100% mais que precisa ficar registrado*/
 		try {
@@ -232,12 +305,19 @@ public class ContasReceberBean extends AbstractBean{
 		return null;
 	}
 	
+	
+	/**Função para inserir lançamento, faz o reset dos componentes de cadastro,
+	 *  carrega a listas e muda o estado da view para INSERINDO(Muda o título e mostra os componentes de repetir no cadastro)*/
 	public void novo() {
 		reset();
 		carregaListas();
 		viewAtiva=estadoDaView.INSERINDO.toString();
     } 
 	
+	
+	/**Função que recebe um lançamento do datatable,
+	 *  carrega a listas e muda o estado da view para EDITANDO(Muda o título e esconde os componentes de repetir no cadastro)
+	 *  @param lancamento selecionado pelo datatable*/
 	public void editar(Lancamento lancamento){
 		if(lancamento.getId()!=null){
 			carregaListas();
@@ -245,23 +325,13 @@ public class ContasReceberBean extends AbstractBean{
 			viewAtiva=estadoDaView.EDITANDO.toString();
 		}
 	}
-	/*Função vai ficar desabilitada, porque não vamos excluir, somente cancelar*/
-	public void excluir(Lancamento lancamento) {
-		try {
-			lancamentoService.excluir(lancamento);
-			FacesUtil.exibirMensagemSucesso("Excluído com sucesso!");
-			reset();
-		} catch (Exception e) {
-			FacesUtil.exibirMensagemErro("Erro: "+ e.getMessage());
-			  new NegocioException("Problema ao excluir: "+e);
-		}
-	}
 	
-	/*############# FUNÇÕES PRIVATE #############*/
+	
+	/** Faz o reset dos objetos usados no cadastro*/
 	private void reset(){
 		valorPago=BigDecimal.ZERO;
 		lancamento = new Lancamento();
-		lancamento.setTipoLancamento(TipoDeLancamento.ENTRADA);
+		lancamento.setTipoLancamento(tipoLancamentoPagina);//perfil
 		lancamento.setDataVencimento(new Date());
 		lancamento.setStatusLancamento(StatusDeLancamento.Pendente);
 		frequenciaDeLancamentos=FrequenciaDeLancamento.Mensal;
@@ -274,59 +344,59 @@ public class ContasReceberBean extends AbstractBean{
 		motivoCancelar=null;
 	}
 	
+	
+	/**Carrega listas usadas no cadastro, não foi no PosConstruct por existir a 
+	 * possibilidade de entrar na página sem entrar no cadastro fazendo uma chamada desnecessária*/
 	private void carregaListas(){
 		if(listaCategorias.isEmpty()){
-			listaCategorias=categoriaService.listaCategoriasPorTipo(TipoDeLancamento.ENTRADA);
+			listaCategorias=categoriaService.listaCategoriasPorTipo(tipoLancamentoPagina);//perfil
 		}
 		if(listaPessoas.isEmpty()){
-			listaPessoas=pessoaService.filtrados(new FiltroPessoa(null,PerfilDePessoa.Clientes));
+			listaPessoas=pessoaService.listaDePessoas();
 		}
 		if(listaContas.isEmpty()){
 			listaContas=contaService.listaTodos();
 		}
 	}
+	/*############ FIM - 2º BLOCO PARA FORM DE CADASTRO #######*/
 	
-	/*####### FUNÇÕES CANCELAR LANÇAMENTOS SELECIONADOS ##########*/
-	/*Função que muda o status para canceldo dos lançamentos selecionados*/
-	public void cancelar() {
-		BigDecimal somaTotalTemp=BigDecimal.ZERO;
-		System.out.println("ContasReceberBean.cancelar()");
-		for (Lancamento l : listaLancamentosSelecionados) {
-			l.setMotivoCancelamento(this.motivoCancelar);
-			l.setStatusLancamento(StatusDeLancamento.Cancelado);
-			l.setDataPagamento(null);
-			lancamentoService.salvar(l);
-			somaTotalTemp=somaTotalTemp.add(l.getValorPago());//Soma Temporária
+	
+	/*############ 3º BLOCO FUNÇÕES OUTRAS  #######*/
+	
+	
+	/*############# FUNÇOES PARA PERFIL DA VIEW #############*/
+	/**Aplica as configurações conforme a chamada do preRenderView*/
+	private void checkTipoPagina(){
+		if(tipoLancamentoPagina.equals(TipoDeLancamento.ENTRADA)){
+			filtro.setFiltroTipoLancamento(FiltroTipoLancamento.Somente_entrada);
+			tituloRelatorio="Lançamentos a receber";
+			nomePDFRelatorio="ListaReceber";
+			tituloDataTableFiltro=DataUtil.intervaloDeFiltroLancamento(filtro).replace("Lançamentos ", " ");
+		}else if(tipoLancamentoPagina.equals(TipoDeLancamento.SAÍDA)){
+			filtro.setFiltroTipoLancamento(FiltroTipoLancamento.Somente_saída);
+			tituloRelatorio="Lançamentos a pagar";
+			nomePDFRelatorio="ListaPagar";
+			tituloDataTableFiltro=DataUtil.intervaloDeFiltroLancamento(filtro).replace("Lançamentos ", " ");
 		}
-		FacesUtil.exibirMensagemSucesso("Soma total: R$"+somaTotalTemp+ " foram cancelados.");
-		reset();
-    }
-	
-	/*Função que altera o estado da view durante o cancelamento dos lançamentos selecionados*/
-	public void cancelando(){
-		viewAtiva=estadoDaView.DETALHANDO.toString();
-
 	}
 	
-	/*####### FUNÇÕES PAGAR LANÇAMENTOS SELECIONADOS ##########*/
-	/*Função que muda o status para pago dos lançamentos selecionados*/
-	public void pagar(){
-		BigDecimal somaTotalTemp=BigDecimal.ZERO;
-		System.out.println("ContasReceberBean.pagar()");
-		for (Lancamento l : listaLancamentosSelecionados) {
-			l.setStatusLancamento(StatusDeLancamento.Pago);
-			l.setDataPagamento(new Date());
-			l.setMotivoCancelamento(null);
-			lancamentoService.salvar(l);
-			somaTotalTemp=somaTotalTemp.add(l.getValorPago());//Soma Temporária
-			
+	
+	/**Chamada do preRenderView para o bean diferenciar se o 
+	 * TipoDeLancamento de lançamentos da view é de ENTRADA ou SAÍDA
+	 * @param EntradaOuSaida  ENTRADA ou SAÍDA*/
+	public void tipoPagina(String EntradaOuSaida){
+		 System.out.println("Valor EntradaOuSaida: "+EntradaOuSaida);
+		tipoLancamentoPagina=TipoDeLancamento.valueOf(EntradaOuSaida);
+		if(tipoLancamentoPagina!=null){
+			 System.out.println("Valor tipoLancamentoPagina: "+tipoLancamentoPagina);
+			 checkTipoPagina();
 		}
-		FacesUtil.exibirMensagemSucesso("Soma total: R$"+somaTotalTemp+ " foi pago com data de hoje.");
-		reset();	
 	}
 	
-	/*####### FUNÇÕES OUTROS ##########*/
-	/*Função que valida se a data e vencimento esta em atrazo em relaçao a data de hoje*/
+	
+	/**Função que valida se a data e vencimento esta em atrazo em relaçao a data de hoje usada no datatable
+	 * @param dtVencimento data de vencimento para comparar com a data de hoje
+	 * @param status para verificar se o status é pendente */
 	public boolean verificaLancamentoVencido(Date dtVencimento,StatusDeLancamento status){
 		if(status==StatusDeLancamento.Pendente){
 			//Se a data de hoje for maior , return true
@@ -336,29 +406,16 @@ public class ContasReceberBean extends AbstractBean{
 		}
 		return false;
 	}
-	/*Função que reset os componentes e coloca a view selecionada como Listando*/
+	
+	
+	/**Função que faz o reset nos componentes e coloca o estado da view selecionada como Listando*/
 	public void voltar() {
 		reset();
     } 
+	/*############ FIM - 3º BLOCO OUTRAS #######*/
 	
-	/*####### FUNÇÕES FILTRO ##########*/
-	/*Função que altera o estado da view ,deixando o filtro disponível*/
-	public void filtrando(){
-		viewAtiva=estadoDaView.FILTRO.toString();
-	}
-	public void filtroReset(){
-		filtro.setFiltroTipoData(FiltroTipoData.Data_de_vencimento);
-		filtro.setFiltroTipoLancamento(FiltroTipoLancamento.Somente_entrada);
-		filtro.setFitroStatus(FiltroStatus.Somente_pendentes);
-		filtro.setFitroData(FiltroData.Passado_mais_30_dias);
-		filtro.setTermoParaBusca(null);
-		viewAtiva=estadoDaView.LISTANDO.toString();
-	}
-	/**Função filtrar, somente para validar o filtro, o resolver o bug do primeiro registro*/
-	public void filtrar(){
-		this.filtro.setBtnFiltro(true);//pela btn do filtro
-	}
-	/*############# FIM - FUNÇÕES #############*/
+	
+	
 	
 	
 	/*####### ENUMS  e OUTROS ##########*/
@@ -366,7 +423,7 @@ public class ContasReceberBean extends AbstractBean{
 		return FrequenciaDeLancamento.values();
 	}
 	public Integer [] getNumeroParaRepetir(){
-		Integer[] quantidades={2,3,4,5,6,7,8,9,10,11,12,24,36};
+		Integer[] quantidades={2,3,4,5,6,7,8,9,10,11,12};
 		return quantidades;
 	}
 	public FiltroData[] getFiltroDataEnums() {
@@ -383,6 +440,9 @@ public class ContasReceberBean extends AbstractBean{
 		return FiltroTipoLancamento.values();
 	}
 	
+	
+	
+
 	/*####### GETS E SETS##########*/
 	public Lancamento getLancamento() {
 		return lancamento;
@@ -447,7 +507,9 @@ public class ContasReceberBean extends AbstractBean{
 	public BigDecimal getSomaSomentePago() {
 		return somaSomentePago;
 	}
-
+	public String getTituloDataTableFiltro() {
+		return tituloDataTableFiltro;
+	}
 	/*####### GETS DE LISTAS  ##########*/
 	public List<Categoria> getListaCategorias() {
 		return listaCategorias;
@@ -455,8 +517,6 @@ public class ContasReceberBean extends AbstractBean{
 	public List<Conta> getListaContas() {
 		return listaContas;
 	}
-	/*####### FIM - GETS DE LISTAS  ##########*/
-	
 	/*############# CANCELAR GETS e SETS #############*/
 	public List<Lancamento> getListaLancamentosSelecionados() {
 		return listaLancamentosSelecionados;
@@ -470,7 +530,4 @@ public class ContasReceberBean extends AbstractBean{
 	public void setMotivoCancelar(String motivoCancelar) {
 		this.motivoCancelar = motivoCancelar;
 	}
-	/*############# FIM - CANCELAR GETS e SETS #############*/
-
-
 }
