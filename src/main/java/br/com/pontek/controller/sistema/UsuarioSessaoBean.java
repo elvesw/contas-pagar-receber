@@ -49,7 +49,6 @@ public class UsuarioSessaoBean implements Serializable{
 		return usuarioLogado;
 	}
 
-
 	public void checkLogado() throws IOException {
 		ExternalContext ec = FacesContext.getCurrentInstance().getExternalContext();
 	    if (SecurityContextHolder.getContext().getAuthentication().getName().equalsIgnoreCase("anonymousUser")) {
@@ -58,5 +57,9 @@ public class UsuarioSessaoBean implements Serializable{
 		    ec.redirect(ec.getRequestContextPath() + "/sistema/Dashboard.jsf");
 	    }
 	}
-	
+
+	/*############# GETS E SETS ##################*/
+	public Usuario getUsuario() {
+		return usuario;
+	}
 }

@@ -1,0 +1,63 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+    
+   	<h:panelGroup layout="block" id="div-lista" rendered="#{usuarioBean.viewAtiva eq 'LISTANDO'}">
+
+				<div style="display: inline-block; padding-top: 4px; width: 100%" class="remove-span-text">
+					<div style="float: left">
+						<p:commandButton value="Novo" update=":formPrincipal"
+							action="#{usuarioBean.novo()}" styleClass="btn btn-primary"
+							icon="fa fa-fw fa-user-plus" immediate="true" process="@form" />
+					</div>
+					<div style="float: right">
+
+					</div>
+				</div>
+
+				<p:dataTable var="usuario" value="#{usuarioBean.listaUsuarios}" reflow="true"
+					rowIndexVar="rowIx" id="dataTableLista" rows="12"
+					emptyMessage="Nenhum cadastro ..." paginator="true"
+					paginatorPosition="bottom">
+
+					<p:column headerText="ID" width="3%">
+						<h:outputText value="#{usuario.id}" />
+					</p:column>
+
+					<p:column headerText="Nome" width="20%">
+						<h:outputText value="#{usuario.nome}" />
+					</p:column>
+
+					<p:column headerText="Email" width="30%">
+						<h:outputText value="#{usuario.email}" />
+					</p:column>
+					
+					<p:column headerText="Grupo" width="8%">
+						<h:outputText value="#{usuario.role}" />
+					</p:column>
+					
+					<p:column headerText="Ações" width="11%" selectRow="false">
+							<div class="ui-acoes-datatable">
+									
+								<p:commandLink immediate="true" styleClass="ui-command-link"
+									action="#{usuarioBean.editar(usuario)}"
+									update=":formPrincipal"
+									title="Alterar" process=":formPrincipal" >
+									<span><i class="fa fa-fw fa-pencil"></i></span>
+								</p:commandLink>
+								
+								<p:commandLink styleClass="ui-command-link"
+									action="#{usuarioBean.excluir(usuario)}"
+									update=":formPrincipal" title="Excluir">
+									<span><i class="fa fa-fw fa-trash"></i></span>
+								</p:commandLink>
+									
+							</div>
+					</p:column>
+					
+				</p:dataTable>
+			</h:panelGroup>
+    
+</ui:composition>

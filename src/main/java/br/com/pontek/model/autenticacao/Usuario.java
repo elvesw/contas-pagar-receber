@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.Email;
+
 @Entity
 @Table(name = "usuario")
 public class Usuario implements Serializable {
@@ -21,12 +23,26 @@ public class Usuario implements Serializable {
 	@Basic(optional = false)
 	private Integer id;
 	private String nome;
+	@Email(message="Email inválido")
 	private String email;
 	private String senha;
 	private String role="USER";
 	@Column(name="cadastro_ativo")
 	private boolean cadastroAtivo=true;
 	
+
+	public Usuario(Integer id, String nome, String email, String senha, String role, boolean cadastroAtivo) {
+		this.id = id;
+		this.nome = nome;
+		this.email = email;
+		this.senha = senha;
+		this.role = role;
+		this.cadastroAtivo = cadastroAtivo;
+	}
+
+	public Usuario() {
+
+	}
 
 	public Integer getId() {
 		return id;

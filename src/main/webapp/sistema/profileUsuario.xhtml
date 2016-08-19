@@ -1,0 +1,83 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	template="/WEB-INF/templates/Layout.xhtml"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="centro">
+
+		<h:form id="formPrincipal">
+
+			<h:panelGroup layout="block">
+				<h1 class="aw-page-title">Suas informações</h1>
+			</h:panelGroup>
+			<p:messages id="msg" autoUpdate="true" closable="true" />
+
+			<h:panelGroup layout="block" id="div-cadastro">
+				<div style="display: inline-block; padding-top: 4px; width: 100%">
+					<div style="float: left"></div>
+					<div style="float: right">
+						<p:commandButton value="Salvar" update=":formPrincipal"
+							action="#{perfilUsuarioBean.salvar()}"
+							styleClass="btn btn-success" icon="fa fa-fw fa-floppy-o" />
+					</div>
+				</div>
+
+				<div class="ui-fluid">
+					<p:panelGrid columns="2" layout="grid"
+						columnClasses="ui-grid-col-1,ui-grid-col-4">
+						<p:outputLabel value="Nome" styleClass="label-formulario" />
+						<p:inputText id="nome" value="#{perfilUsuarioBean.usuario.nome}"
+							autocomplete="off" />
+					</p:panelGrid>
+
+					<p:panelGrid columns="2" layout="grid"
+						columnClasses="ui-grid-col-1,ui-grid-col-4">
+						<p:outputLabel value="Email" styleClass="label-formulario" />
+						<p:inputText id="email" value="#{perfilUsuarioBean.usuario.email}"
+							autocomplete="off" />
+					</p:panelGrid>
+					
+					<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-6">
+							<h:panelGroup layout="block">
+								<p:selectBooleanCheckbox value="#{perfilUsuarioBean.alterarSenha}" >
+									<p:ajax  event="change" update=":formPrincipal"/>
+								</p:selectBooleanCheckbox>
+								<p:outputLabel value="alterar senha" styleClass="label-formulario"
+									style="vertical-align:20%;margin:5px" />
+							</h:panelGroup>
+					</p:panelGrid>
+
+					<p:panelGrid columns="2" layout="grid"
+						columnClasses="ui-grid-col-2,ui-grid-col-2">
+						<p:outputLabel value="Senha"
+							styleClass="#{perfilUsuarioBean.alterarSenha?'label-formulario':'label-formulario label-desabilitar'}"/>
+						<p:password id="senha" value="#{perfilUsuarioBean.senhaTemp}" feedback="true"
+						promptLabel="Altere a senha" weakLabel="fraca"
+                    	goodLabel="bom" strongLabel="perfeito"
+						autocomplete="off" 
+						disabled="#{!perfilUsuarioBean.alterarSenha}"/>
+					</p:panelGrid>
+
+					<p:panelGrid columns="2" layout="grid"
+						columnClasses="ui-grid-col-2,ui-grid-col-2">
+						<p:outputLabel value="Confirme senha"
+							styleClass="#{perfilUsuarioBean.alterarSenha?'label-formulario':'label-formulario label-desabilitar'}"/>
+						<p:password id="confirme-senha" disabled="#{!perfilUsuarioBean.alterarSenha}"
+							value="#{perfilUsuarioBean.senhaTempConfirme}" autocomplete="off"/>
+					</p:panelGrid>
+				</div>
+			</h:panelGroup>
+		</h:form>
+
+	</ui:define>
+	<ui:define name="scripts">
+		<style>
+			.ui-grid-col-2 {
+    		width: 12% !important;
+			}
+	</style>
+	</ui:define>
+
+</ui:composition>

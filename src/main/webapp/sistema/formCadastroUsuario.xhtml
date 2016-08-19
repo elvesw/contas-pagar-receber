@@ -1,0 +1,72 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+	<h:panelGroup layout="block" id="div-cadastro"
+		rendered="#{usuarioBean.viewAtiva eq 'INSERINDO' or usuarioBean.viewAtiva eq 'EDITANDO'}">
+		<div style="display: inline-block; padding-top: 4px; width: 100%">
+			<div style="float: left">
+				<p:commandButton value="Voltar" update=":formPrincipal"
+					action="#{usuarioBean.voltar()}" styleClass="btn btn-default"
+					icon="fa fa-fw fa-mail-reply" immediate="true" process="@form" />
+			</div>
+			<div style="float: right">
+				<p:commandButton value="Salvar" update=":formPrincipal"
+					action="#{usuarioBean.salvar()}" styleClass="btn btn-success"
+					icon="fa fa-fw fa-floppy-o" />
+			</div>
+		</div>
+
+		<div class="ui-fluid">
+			<p:panelGrid columns="2" layout="grid"
+				columnClasses="ui-grid-col-1,ui-grid-col-4">
+				<p:outputLabel value="Nome" styleClass="label-formulario" />
+				<p:inputText id="nome" value="#{usuarioBean.usuario.nome}"
+					autocomplete="off" disabled="#{usuarioBean.usuario.id ne null}"/>
+			</p:panelGrid>
+
+			<p:panelGrid columns="2" layout="grid"
+				columnClasses="ui-grid-col-1,ui-grid-col-4">
+				<p:outputLabel value="Email" styleClass="label-formulario" />
+				<p:inputText id="email" value="#{usuarioBean.usuario.email}"
+					autocomplete="off" disabled="#{usuarioBean.usuario.id ne null}"/>
+			</p:panelGrid>
+
+			<p:panelGrid columns="2" layout="grid"
+				columnClasses="ui-grid-col-2,ui-grid-col-3">
+				<p:outputLabel value="Grupo" styleClass="label-formulario" />
+				<p:selectOneMenu id="grupo" value="#{usuarioBean.usuario.role}">
+					<f:selectItem itemLabel="Administrador" itemValue="#{'ADMIN'}" />
+					<f:selectItem itemLabel="Usuário" itemValue="#{'USER'}" />
+				</p:selectOneMenu>
+			</p:panelGrid>
+
+			<p:panelGrid columns="2" layout="grid"
+				columnClasses="ui-grid-col-2,ui-grid-col-3">
+				<p:outputLabel value="Cadastro Ativo" styleClass="label-formulario" />
+				<p:selectOneMenu id="ativo"
+					value="#{usuarioBean.usuario.cadastroAtivo}">
+					<f:selectItem itemLabel="SIM" itemValue="#{true}" />
+					<f:selectItem itemLabel="NÃO" itemValue="#{false}" />
+				</p:selectOneMenu>
+			</p:panelGrid>
+
+			<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-6" rendered="#{usuarioBean.viewAtiva eq 'INSERINDO'}">
+				<p:outputLabel
+					value="Em email será enviado com a senha e poderá ser alterada no perfil do usuário"
+					styleClass="label-formulario" />
+			</p:panelGrid>
+			
+			<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-6" rendered="#{usuarioBean.viewAtiva eq 'EDITANDO'}">
+				<h:panelGroup layout="block">
+					<p:selectBooleanCheckbox value="#{usuarioBean.novaSenha}" />
+					<p:outputLabel value="Enviar nova senha por email" styleClass="label-formulario" style="vertical-align:20%;margin:5px" />
+				</h:panelGroup>
+			</p:panelGrid>
+		</div>
+	</h:panelGroup>
+
+</ui:composition>
