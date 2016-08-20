@@ -1,0 +1,162 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	template="/WEB-INF/templates/Layout.xhtml"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="centro">
+
+		<h:form id="formPrincipal">
+			<p:messages id="msg" autoUpdate="true" closable="true" />
+
+			<!--DIV CADASTRO -->
+			<h:panelGroup layout="block" id="div-cadastro">
+
+				<h:panelGroup layout="block">
+
+					<div style="display: inline-block; padding-top: 4px; width: 100%;">
+						<div style="float: left"></div>
+							<h1 class="aw-page-title" style="display:inline-block;">Informações da empresa</h1>
+						<div style="float: right">
+							<p:commandButton value="Salvar" update=":formPrincipal"
+								action="#{empresaBean.salvar()}" styleClass="btn btn-success"
+								icon="fa fa-fw fa-floppy-o" />
+						</div>
+					</div>
+
+					<div class="ui-fluid empresa-bloco-form" >
+						<h1 class="empresa-bloco-form-title">Sobre a empresa</h1>
+						<p:panelGrid columns="1" layout="grid"	columnClasses="ui-grid-col-4">
+							<p:panelGrid columns="1" layout="grid"	columnClasses="ui-grid-col-12">
+								<p:outputLabel value="Nome empresa"	styleClass="label-formulario" />
+								<p:inputText id="nome-empresa"	value="#{empresaBean.empresa.nomeEmpresa}" />
+							</p:panelGrid>
+						</p:panelGrid>
+						
+						<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-6">
+							<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+								<p:outputLabel value="Razão social" styleClass="label-formulario" />
+								<p:inputText id="razao" value="#{empresaBean.empresa.razaoSocial}" />
+							</p:panelGrid>
+						</p:panelGrid>
+						
+						<p:panelGrid columns="3" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-2,ui-grid-col-2">
+							<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+									<p:outputLabel value="CNPJ" styleClass="label-formulario" />
+									<p:inputText id="cnpj" autocomplete="off"	value="#{empresaBean.empresa.cnpj}" />
+							</p:panelGrid>
+							<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+									<p:outputLabel value="Ins. Estadual" styleClass="label-formulario" />
+									<p:inputMask mask="9?999999999999999" id="ins-estadual" autocomplete="off"	value="#{empresaBean.empresa.insEstadual}" />
+							</p:panelGrid>
+							<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+									<p:outputLabel value="Ins. Municipal" styleClass="label-formulario" />
+									<p:inputMask mask="9?999999999999999" id="ins-municipal" autocomplete="off"	value="#{empresaBean.empresa.insMunicipal}" />
+							</p:panelGrid>
+						</p:panelGrid>
+						
+					</div>
+					
+					<div class="ui-fluid empresa-bloco-form" >
+					<h1 class="empresa-bloco-form-title">Informações para contato</h1>
+						<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-3">
+							<p:panelGrid columns="1" layout="grid"
+								columnClasses="ui-grid-col-12">
+								<p:outputLabel value="Telefone 1" styleClass="label-formulario" />
+								<p:inputText id="telefone1" autocomplete="off"
+									value="#{empresaBean.empresa.telefone1}" />
+							</p:panelGrid>
+
+							<p:panelGrid columns="1" layout="grid"
+								columnClasses="ui-grid-col-12">
+								<p:outputLabel value="Telefone 2" styleClass="label-formulario" />
+								<p:inputText id="telefone2" autocomplete="off"
+									value="#{empresaBean.empresa.telefone2}" />
+							</p:panelGrid>
+						</p:panelGrid>
+						
+						<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-3">
+							<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+									<p:outputLabel value="Email" styleClass="label-formulario" />
+									<p:inputText id="email" autocomplete="off"	value="#{empresaBean.empresa.email}" />
+							</p:panelGrid>
+							<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+									<p:outputLabel value="Site" styleClass="label-formulario" />
+									<p:inputText id="site" autocomplete="off"	value="#{empresaBean.empresa.site}" />
+							</p:panelGrid>
+						</p:panelGrid>
+						
+				</div>
+					
+				
+				<div class="ui-fluid empresa-bloco-form" >
+				<h1 class="empresa-bloco-form-title">Localização</h1>
+					<p:panelGrid columns="4" layout="grid" columnClasses="ui-grid-col-2,ui-grid-col-3,ui-grid-col-2,ui-grid-col-1">
+
+
+						<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+							    <p:outputLabel value="Cep" styleClass="label-formulario" />
+				 			    <h:form style="position:relative;">
+				 			    	<div id="div-cep">
+					 			    	<p:inputMask mask="99999-999" id="cep" value="#{empresaBean.empresa.cep}" autocomplete="off" required="false" size="20" style="width:calc(100% - 33px);"/>
+				 			    	<p:commandButton styleClass="btn btn-info"
+										icon="fa fa-fw fa-search" process="@form"
+										update=":formPrincipal:logradouro :formPrincipal:bairro :formPrincipal:cidade :formPrincipal:uf :formPrincipal:msg" 
+										actionListener="#{empresaBean.encontraCep(empresaBean.empresa.cep)}" style="position:absolute;"/>
+				 			    	</div>
+				 			    </h:form>
+							<!-- Deu trabalho fazer esse button ficar sempre ao lado do input-->
+						</p:panelGrid>
+
+
+						<p:panelGrid columns="1" layout="grid"
+							columnClasses="ui-grid-col-12">
+							<p:outputLabel value="Logradouro" styleClass="label-formulario" />
+							<p:inputText id="logradouro" autocomplete="off"
+								value="#{empresaBean.empresa.logradouro}" />
+						</p:panelGrid>
+
+						<p:panelGrid columns="1" layout="grid"
+							columnClasses="ui-grid-col-12">
+							<p:outputLabel value="Bairro" styleClass="label-formulario" />
+							<p:inputText id="bairro" value="#{empresaBean.empresa.bairro}" autocomplete="off"/>
+						</p:panelGrid>
+
+						<p:panelGrid columns="1" layout="grid"
+							columnClasses="ui-grid-col-12">
+							<p:outputLabel value="Número" styleClass="label-formulario" />
+							<p:inputText id="numero" value="#{empresaBean.empresa.numero}" autocomplete="off"/>
+						</p:panelGrid>
+
+					</p:panelGrid>
+		
+				
+			
+					<p:panelGrid columns="3" layout="grid" columnClasses="ui-grid-col-2,ui-grid-col-1,ui-grid-col-4">
+
+						<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+							<p:outputLabel value="Cidade" styleClass="label-formulario" />
+							<p:inputText id="cidade" value="#{empresaBean.empresa.cidade}" autocomplete="off"/>
+						</p:panelGrid>
+						
+						<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+							<p:outputLabel value="Uf" styleClass="label-formulario" />
+							<p:inputText id="uf" value="#{empresaBean.empresa.uf}" autocomplete="off"/>
+						</p:panelGrid>
+						
+						<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+							<p:outputLabel value="Complemento" styleClass="label-formulario" />
+							<p:inputText id="complemento" value="#{empresaBean.empresa.complemento}" autocomplete="off"/>
+						</p:panelGrid>
+	
+					</p:panelGrid>
+			
+					</div>
+				</h:panelGroup>
+			</h:panelGroup>
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

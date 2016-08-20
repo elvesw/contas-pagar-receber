@@ -4,30 +4,170 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	template="/WEB-INF/templates/Layout.xhtml"
 	xmlns:p="http://primefaces.org/ui">
-	
-	<ui:define name="centro">
-		<h1 class="aw-page-title">Configurações</h1>
-	<p:messages id="msg" autoUpdate="true" closable="true" />
-    <p:tabView>
 
-        <p:tab title="Usuário">
-            <h:panelGrid columns="1" cellpadding="0">
-                  <h:outputText value="Configurações usuário" />
-            </h:panelGrid>
-        </p:tab>
-        <p:tab title="Financeiro">
-            <h:panelGrid columns="2" cellpadding="0">
-                <h:outputText value="Configurações financeiro" />
-            </h:panelGrid>
-        </p:tab>
-        <p:tab title="Sistema">
-            <h:panelGrid columns="2" cellpadding="0">
-                <h:outputText value="Configurações para  sistema" />
-            </h:panelGrid>
-        </p:tab>
-    </p:tabView>
-		
-		
+	<ui:define name="centro">
+
+		<h:form id="formPrincipal">
+			
+			
+			<div style="display: inline-block; padding-top: 4px; width: 100%;">
+				<div style="float: left"></div>
+						<h1 class="aw-page-title" style="display:inline-block;">Configurações</h1>
+				<div style="float: right">
+				<p:commandButton value="Salvar" update=":formPrincipal"
+								action="#{configuracaoBean.salvar()}" styleClass="btn btn-success"
+								icon="fa fa-fw fa-floppy-o" />
+				</div>
+			</div>
+			
+			<p:messages id="msg" autoUpdate="true" closable="true" />
+			
+			<p:tabView styleClass="configuracao-tab-view" id="tab-view">
+
+				<p:tab title="Financeiro" id="tab-financeiro">
+					<div class="ui-fluid configuracao-bloco-form">
+
+						<p:panelGrid columns="2" layout="grid"	columnClasses="ui-grid-col-6,ui-grid-col-1" styleClass="configuracao-padding-top">
+						
+								<span class="configuracao-descricao">Exibir clientes em contas a receber</span>
+								<p:selectBooleanButton id="b1" disabled="true"
+									value="#{configuracaoBean.configuracao.exibirClientesEmLancamentosEntrada}"
+									onLabel="Sim" offLabel="Não" onIcon="fa fa-fw fa-check"
+									offIcon="fa fa-fw fa-times" 
+									styleClass="#{configuracaoBean.configuracao.exibirClientesEmLancamentosEntrada?'btn btn-info':'btn btn-danger'}">
+									<p:ajax update=":formPrincipal:tab-view:b1" />
+								</p:selectBooleanButton>
+							
+						</p:panelGrid>
+						
+						<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-6,ui-grid-col-1" styleClass="configuracao-padding-top">
+
+								<span class="configuracao-descricao">Exibir fornecedores em contas a receber</span>
+							
+								<p:selectBooleanButton id="b2"
+									value="#{configuracaoBean.configuracao.exibirFornecedoresEmLancamentosEntrada}"
+									onLabel="Sim" offLabel="Não" onIcon="fa fa-fw fa-check"
+									offIcon="fa fa-fw fa-times" 
+									styleClass="#{configuracaoBean.configuracao.exibirFornecedoresEmLancamentosEntrada?'btn btn-info':'btn btn-danger'}">
+									<p:ajax update=":formPrincipal:tab-view:b2" />
+								</p:selectBooleanButton>
+							
+						</p:panelGrid>
+						
+						<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-6,ui-grid-col-1" styleClass="configuracao-padding-top">
+						
+								<span class="configuracao-descricao">Exibir funcionários em contas a receber</span>
+
+								<p:selectBooleanButton id="b3"
+									value="#{configuracaoBean.configuracao.exibirFuncionariosEmLancamentosEntrada}"
+									onLabel="Sim" offLabel="Não" onIcon="fa fa-fw fa-check"
+									offIcon="fa fa-fw fa-times" 
+									styleClass="#{configuracaoBean.configuracao.exibirFuncionariosEmLancamentosEntrada?'btn btn-info':'btn btn-danger'}">
+									<p:ajax update=":formPrincipal:tab-view:b3" />
+								</p:selectBooleanButton>
+							
+						</p:panelGrid>
+						
+						<p:separator style="width:100%"/>
+						
+						<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-6,ui-grid-col-1" styleClass="configuracao-padding-top">
+						
+							<span class="configuracao-descricao">Exibir clientes em contas a pagar</span>
+
+							<p:selectBooleanButton id="b4"
+									value="#{configuracaoBean.configuracao.exibirClientesEmLancamentosSaida}"
+									onLabel="Sim" offLabel="Não" onIcon="fa fa-fw fa-check"
+									offIcon="fa fa-fw fa-times" 
+									styleClass="#{configuracaoBean.configuracao.exibirClientesEmLancamentosSaida?'btn btn-info':'btn btn-danger'}">
+									<p:ajax update=":formPrincipal:tab-view:b4" />
+							</p:selectBooleanButton>
+							
+						</p:panelGrid>
+						
+						<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-6,ui-grid-col-1" styleClass="configuracao-padding-top">
+							
+							<span class="configuracao-descricao">Exibir fornecedores em contas a pagar</span>
+							
+							<p:selectBooleanButton id="b5" disabled="true"
+									value="#{configuracaoBean.configuracao.exibirFornecedoresEmLancamentosSaida}"
+									onLabel="Sim" offLabel="Não" onIcon="fa fa-fw fa-check"
+									offIcon="fa fa-fw fa-times" 
+									styleClass="#{configuracaoBean.configuracao.exibirFornecedoresEmLancamentosSaida?'btn btn-info':'btn btn-danger'}">
+									<p:ajax update=":formPrincipal:tab-view:b5" />
+							</p:selectBooleanButton>
+							
+						</p:panelGrid>
+						
+						<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-6,ui-grid-col-1" styleClass="configuracao-padding-top">
+							
+							<span class="configuracao-descricao">Exibir funcionários em contas a pagar</span>
+							
+							<p:selectBooleanButton id="b6"
+									value="#{configuracaoBean.configuracao.exibirFuncionariosEmLancamentosSaida}"
+									onLabel="Sim" offLabel="Não" onIcon="fa fa-fw fa-check"
+									offIcon="fa fa-fw fa-times" 
+									styleClass="#{configuracaoBean.configuracao.exibirFuncionariosEmLancamentosSaida?'btn btn-info':'btn btn-danger'}">
+									<p:ajax update=":formPrincipal:tab-view:b6" />
+							</p:selectBooleanButton>
+							
+						</p:panelGrid>
+						
+					</div>
+					
+					
+				</p:tab>
+				<p:tab title="Cadastro">
+					
+					
+					<div class="ui-fluid configuracao-bloco-form">
+					
+						<p:panelGrid columns="2" layout="grid"	columnClasses="ui-grid-col-6,ui-grid-col-1" styleClass="configuracao-padding-top">
+						
+								<span class="configuracao-descricao">Exibir outros perfis no cadastro de cliente</span>
+								<p:selectBooleanButton id="b7" 
+									value="#{configuracaoBean.configuracao.exibirOutrosPerfisNoCliente}"
+									onLabel="Sim" offLabel="Não" onIcon="fa fa-fw fa-check"
+									offIcon="fa fa-fw fa-times" 
+									styleClass="#{configuracaoBean.configuracao.exibirOutrosPerfisNoCliente?'btn btn-info':'btn btn-danger'}">
+									<p:ajax update=":formPrincipal:tab-view:b7" />
+								</p:selectBooleanButton>
+							
+						</p:panelGrid>
+						
+						<p:panelGrid columns="2" layout="grid"	columnClasses="ui-grid-col-6,ui-grid-col-1" styleClass="configuracao-padding-top">
+						
+								<span class="configuracao-descricao">Exibir outros perfis no cadastro de fornecedor</span>
+								<p:selectBooleanButton id="b8" 
+									value="#{configuracaoBean.configuracao.exibirOutrosPerfisNoFornecedor}"
+									onLabel="Sim" offLabel="Não" onIcon="fa fa-fw fa-check"
+									offIcon="fa fa-fw fa-times" 
+									styleClass="#{configuracaoBean.configuracao.exibirOutrosPerfisNoFornecedor?'btn btn-info':'btn btn-danger'}">
+									<p:ajax update=":formPrincipal:tab-view:b8" />
+								</p:selectBooleanButton>
+							
+						</p:panelGrid>
+						
+						<p:panelGrid columns="2" layout="grid"	columnClasses="ui-grid-col-6,ui-grid-col-1" styleClass="configuracao-padding-top">
+						
+								<span class="configuracao-descricao">Exibir outros perfis no cadastro de funcionário</span>
+								<p:selectBooleanButton id="b9" 
+									value="#{configuracaoBean.configuracao.exibirOutrosPerfisNoFuncionario}"
+									onLabel="Sim" offLabel="Não" onIcon="fa fa-fw fa-check"
+									offIcon="fa fa-fw fa-times" 
+									styleClass="#{configuracaoBean.configuracao.exibirOutrosPerfisNoFuncionario?'btn btn-info':'btn btn-danger'}">
+									<p:ajax update=":formPrincipal:tab-view:b9" />
+								</p:selectBooleanButton>
+							
+						</p:panelGrid>
+					
+					
+					</div>
+					
+					
+				</p:tab>
+			</p:tabView>
+		</h:form>
+
 	</ui:define>
-	
+
 </ui:composition>

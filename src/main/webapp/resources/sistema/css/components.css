@@ -318,3 +318,41 @@
 	color:#0996DD;
 }
 
+.empresa-bloco-form{
+	border:1px solid #CCCCCC;
+	border-radius:8px;
+	margin:5px;
+	padding:8px;
+}
+.empresa-bloco-form-title {
+	margin: 0;
+	padding: 5px 0 !important;
+	font-size: 1.2em;
+	color: #37b9f7; 
+}
+
+
+.configuracao-bloco-form{
+	border:1px solid #CCCCCC;
+	border-radius:8px;
+	margin:5px;
+	padding:8px;
+}
+.configuracao-bloco-form-title {
+	margin: 0;
+	padding: 5px 0 !important;
+	font-size: 1.2em;
+	color: #37b9f7; 
+}
+.configuracao-tab-view .ui-tabs-panel {
+    padding: 0 0 !important;
+}
+.configuracao-padding-top{
+	padding-top:5px;"	
+}
+
+.configuracao-descricao{
+	margin: 0;
+	font-size: 1.1em;
+	color: #373737; 
+}

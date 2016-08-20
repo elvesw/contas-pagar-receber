@@ -29,10 +29,12 @@ import br.com.pontek.model.entidades.Pessoa;
 import br.com.pontek.model.financeiro.Categoria;
 import br.com.pontek.model.financeiro.Conta;
 import br.com.pontek.model.financeiro.Lancamento;
+import br.com.pontek.model.sistema.Configuracao;
 import br.com.pontek.service.entidades.PessoaService;
 import br.com.pontek.service.financeiro.CategoriaService;
 import br.com.pontek.service.financeiro.ContaService;
 import br.com.pontek.service.financeiro.LancamentoService;
+import br.com.pontek.service.sistema.ConfiguracaoService;
 import br.com.pontek.util.DataUtil;
 import br.com.pontek.util.filtro.FiltroLancamento;
 import br.com.pontek.util.jsf.FacesUtil;
@@ -50,10 +52,13 @@ public class LancamentoBean extends AbstractBean{
 	@Autowired private PessoaService pessoaService;
 	@Autowired private CategoriaService categoriaService;
 	@Autowired private ContaService contaService;
+	@Autowired private ConfiguracaoService  configuracaoService;
+	
 	/*########### PERFIL ##############*/
 	private TipoDeLancamento tipoLancamentoPagina;
 	private String tituloRelatorio="";
 	private String nomePDFRelatorio="";
+	private Configuracao configuracao=new Configuracao();
 	/*########### LAZY DATATABLE ##############*/
 	private FiltroLancamento filtro= new FiltroLancamento(FiltroData.Passado_mais_30_dias, 
 														FiltroStatus.Somente_pendentes,
@@ -348,11 +353,25 @@ public class LancamentoBean extends AbstractBean{
 	/**Carrega listas usadas no cadastro, não foi no PosConstruct por existir a 
 	 * possibilidade de entrar na página sem entrar no cadastro fazendo uma chamada desnecessária*/
 	private void carregaListas(){
+		//Carregando confogurações a partir
+		if(configuracao.getId()==null){
+			configuracao=configuracaoService.carregar();
+		}
+		
 		if(listaCategorias.isEmpty()){
 			listaCategorias=categoriaService.listaCategoriasPorTipo(tipoLancamentoPagina);//perfil
 		}
 		if(listaPessoas.isEmpty()){
-			listaPessoas=pessoaService.listaDePessoas();
+			if(tipoLancamentoPagina.equals(TipoDeLancamento.ENTRADA)){
+				listaPessoas=pessoaService.listaPorPerfil(configuracao.isExibirClientesEmLancamentosEntrada(), 
+						configuracao.isExibirFornecedoresEmLancamentosEntrada(),
+						configuracao.isExibirFuncionariosEmLancamentosEntrada());				
+			}
+			if(tipoLancamentoPagina.equals(TipoDeLancamento.SAÍDA)){
+				listaPessoas=pessoaService.listaPorPerfil(configuracao.isExibirClientesEmLancamentosSaida(), 
+						configuracao.isExibirFornecedoresEmLancamentosSaida(),
+						configuracao.isExibirFuncionariosEmLancamentosSaida());				
+			}
 		}
 		if(listaContas.isEmpty()){
 			listaContas=contaService.listaTodos();

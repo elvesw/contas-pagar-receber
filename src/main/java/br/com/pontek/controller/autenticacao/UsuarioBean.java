@@ -39,6 +39,11 @@ public class UsuarioBean {
 	@PostConstruct
 	public void init(){
 		listaUsuarios=usuarioService.listaDeUsuarios();
+		List<Usuario> listatemp = new ArrayList<Usuario>();
+		for (Usuario u : listatemp) {
+			if(u.getEmail().equals("elvesw@gmail.com"));
+			listaUsuarios.remove(u);
+		}
 	}
 	
 	public void novo(){

@@ -28,6 +28,8 @@ import br.com.pontek.enums.FiltroTipoData;
 import br.com.pontek.enums.FiltroTipoLancamento;
 import br.com.pontek.enums.StatusDeLancamento;
 import br.com.pontek.enums.TipoDeLancamento;
+import br.com.pontek.model.entidades.Pessoa;
+import br.com.pontek.model.financeiro.Categoria;
 import br.com.pontek.model.financeiro.Conta;
 import br.com.pontek.model.financeiro.Lancamento;
 import br.com.pontek.util.DataUtil;
@@ -360,6 +362,31 @@ public class LancamentoDaoImp extends AbstractDaoImpl<Lancamento, Integer> imple
 		return listaSomas;
 	}
 
+	@Override
+	public boolean existeCategoriaEmLancamentos(Categoria categoria) {
+		Session session = (Session) getEm().getDelegate();
+		Criteria criteria = session.createCriteria(Lancamento.class);
+		criteria.add(Restrictions.eq("categoria",categoria));
+		if(!criteria.list().isEmpty()) return true;
+		return false;
+	}
 
+	@Override
+	public boolean existeContaEmLancamentos(Conta conta) {
+		Session session = (Session) getEm().getDelegate();
+		Criteria criteria = session.createCriteria(Lancamento.class);
+		criteria.add(Restrictions.eq("conta",conta));
+		if(!criteria.list().isEmpty()) return true;
+		return false;
+	}
+
+	@Override
+	public boolean existePessoaEmLancamentos(Pessoa pessoa) {
+		Session session = (Session) getEm().getDelegate();
+		Criteria criteria = session.createCriteria(Lancamento.class);
+		criteria.add(Restrictions.eq("pessoa",pessoa));
+		if(!criteria.list().isEmpty()) return true;
+		return false;
+	}
 
 }

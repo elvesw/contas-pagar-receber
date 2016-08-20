@@ -1,5 +1,8 @@
 package br.com.pontek.dao.sistema;
 
-public class ConfiguracaoDao {
+import br.com.pontek.dao.AbstractDao;
+import br.com.pontek.model.sistema.Configuracao;
+
+public  interface ConfiguracaoDao extends AbstractDao<Configuracao, Integer>{
 
 }

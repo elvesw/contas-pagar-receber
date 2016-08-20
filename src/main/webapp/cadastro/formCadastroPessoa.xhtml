@@ -137,27 +137,28 @@
 				</div>
 				
 				<div class="ui-fluid" style="border-top: 1px solid #E6E6E6;">
-					<p:panelGrid columns="3" layout="grid" columnClasses="ui-grid-col-2,ui-grid-col-2,ui-grid-col-2">
+					<p:panelGrid columns="3" layout="grid" columnClasses="ui-grid-col-2,ui-grid-col-2,ui-grid-col-2"
+					rendered="#{pessoaBean.exibirPerfil()}">
 					
-						<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+						<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12" >
 							<h:panelGroup layout="block">
-								<p:selectBooleanCheckbox value="#{pessoaBean.pessoa.cliente}" />
+								<p:selectBooleanCheckbox value="#{pessoaBean.pessoa.cliente}" disabled="#{pessoaBean.perfil eq 'Clientes'}"/>
 								<p:outputLabel value="Cliente" styleClass="label-formulario"
 							style="vertical-align:20%;margin:5px" />
 							</h:panelGroup>
 						</p:panelGrid>
 						
-						<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+						<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12" >
 							<h:panelGroup layout="block">
-								<p:selectBooleanCheckbox value="#{pessoaBean.pessoa.funcionario}" />
+								<p:selectBooleanCheckbox value="#{pessoaBean.pessoa.funcionario}" disabled="#{pessoaBean.perfil eq 'Funcionários'}"/>
 								<p:outputLabel value="Funcionário" styleClass="label-formulario"
 							style="vertical-align:20%;margin:5px" />
 							</h:panelGroup>
 						</p:panelGrid>
 						
-						<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+						<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12" >
 							<h:panelGroup layout="block">
-								<p:selectBooleanCheckbox value="#{pessoaBean.pessoa.fornecedor}" />
+								<p:selectBooleanCheckbox value="#{pessoaBean.pessoa.fornecedor}" disabled="#{pessoaBean.perfil eq 'Fornecedores'}"/>
 								<p:outputLabel value="Fornecedor" styleClass="label-formulario"
 									style="vertical-align:20%;margin:5px" />
 							</h:panelGroup>

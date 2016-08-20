@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import br.com.pontek.dao.AbstractDao;
+import br.com.pontek.model.entidades.Pessoa;
+import br.com.pontek.model.financeiro.Categoria;
 import br.com.pontek.model.financeiro.Conta;
 import br.com.pontek.model.financeiro.Lancamento;
 import br.com.pontek.util.filtro.FiltroLancamento;
@@ -29,5 +31,10 @@ public interface LancamentoDao extends AbstractDao<Lancamento, Integer> {
 	
 	//bean Dashboard
 	List<LancamentosPeriodo> historicoSeisMeses();
+	
+	//Faz o confere antes de excluir
+	boolean existeCategoriaEmLancamentos(Categoria categoria);
+	boolean existeContaEmLancamentos(Conta conta);
+	boolean existePessoaEmLancamentos(Pessoa pessoa);
 	
 }

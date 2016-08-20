@@ -14,10 +14,14 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class EmailUtil {
 
+	
 	public static void sendEmail(String assunto, String corpoEmailHTML, String destinatario) {
-
+		
 		final String login = "pontekti@gmail.com";
 		final String senha = "Um4M3rd4D3$3nh4";
 

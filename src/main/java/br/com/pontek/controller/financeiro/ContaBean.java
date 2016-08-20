@@ -17,6 +17,7 @@ import br.com.pontek.enums.TipoDeLancamento;
 import br.com.pontek.model.financeiro.Conta;
 import br.com.pontek.model.financeiro.Lancamento;
 import br.com.pontek.service.financeiro.ContaService;
+import br.com.pontek.service.financeiro.LancamentoService;
 import br.com.pontek.util.jsf.FacesUtil;
 
 @ManagedBean(name = "contaBean")
@@ -28,6 +29,8 @@ public class ContaBean extends AbstractBean{
 
 	@Autowired
 	ContaService contaService;
+	@Autowired
+	LancamentoService lancamentoService;
 	
 	/*############# NOVO LANÇAMENTO #############*/
 	private Conta conta = new Conta();
@@ -101,13 +104,18 @@ public class ContaBean extends AbstractBean{
 		}
 	}
 	
-	public void excluir(Conta conta) {
+	public String excluir(Conta conta) {
+		if(lancamentoService.existeContaEmLancamentos(conta)){
+			FacesUtil.exibirMensagemErro("Não permitido, existe lançamentos nessa conta");
+			return null;
+		}
 		try {
 			contaService.excluir(conta);
 			listaContas.remove(conta);
 		} catch (Exception e) {
 			FacesUtil.exibirMensagemErro("Erro: "+ e.getMessage());
 		}
+		return null;
 	}
 	
 	private void reset(){

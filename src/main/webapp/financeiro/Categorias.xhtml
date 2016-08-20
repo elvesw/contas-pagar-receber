@@ -33,7 +33,7 @@
 					</div>
 					<div style="float:right">
 							<p:commandButton  value="Salvar" update=":formPrincipal" action="#{categoriaBean.salvar()}" 
-							styleClass="btn btn-success" icon="fa fa-fw fa-floppy-o" oncomplete="PF('widgetCategoriaDT').filter()"/>
+							styleClass="btn btn-success" icon="fa fa-fw fa-floppy-o" />
 					</div>
 	 			</div>
 	 			
@@ -81,7 +81,7 @@
 					</div>
 	 		</div>
 			
-				<p:dataTable var="categoria" value="#{categoriaBean.listaCategorias}" reflow="true" lazy="false"
+				<p:dataTable var="categoria" value="#{categoriaBean.model}" reflow="true" lazy="true"
 					rowIndexVar="rowIx" id="dataTableLista" rows="12"
 					emptyMessage="Nenhum cadastro ..." paginator="true" widgetVar="widgetCategoriaDT"
 					paginatorPosition="bottom">
@@ -96,9 +96,10 @@
 				styleClass="#{categoria.tipoDeLancamento eq 'ENTRADA'?'lista-categoria-entrada':'lista-categoria-saida'}"/>
 					</p:column>
 					
-					<p:column filterBy="#{categoria.tipoDeLancamento}" filterMatchMode="exact" width="10%">
-			            <f:facet name="filter">
-			                <p:selectOneMenu onchange="PF('widgetCategoriaDT').filter()" autoWidth="false">
+					<p:column  width="10%">
+			            <f:facet name="header">
+			                <p:selectOneMenu value="#{categoriaBean.filtro.tipoDeLancamento}" autoWidth="false">
+			                	<p:ajax  event="change" update=":formPrincipal"/>
 			                    <f:selectItems
 										value="#{categoriaBean.tipoDeLancamentoEnums}"
 										var="tipo" itemValue="#{tipo}"
@@ -120,7 +121,7 @@
 								</p:commandLink>
 								
 								<p:commandLink styleClass="ui-command-link"
-									action="#{categoriaBean.excluir(categoria)}" oncomplete="PF('widgetCategoriaDT').filter()"
+									action="#{categoriaBean.excluir(categoria)}" 
 									update=":formPrincipal" title="Excluir">
 									<span><i class="fa fa-fw fa-trash"></i></span>
 								</p:commandLink>
@@ -128,7 +129,7 @@
 							</div>
 					</p:column>
 					<f:facet name="footer">
-						Total de : #{categoriaBean.listaCategorias.size()}
+						Total de : #{categoriaBean.model.rowCount}
 				</f:facet>
 				</p:dataTable>
 		</h:panelGroup>

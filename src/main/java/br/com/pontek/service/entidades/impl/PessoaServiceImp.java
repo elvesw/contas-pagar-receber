@@ -84,6 +84,12 @@ public class PessoaServiceImp implements PessoaService ,Serializable {
 		return pessoaDao.quantidadeFiltrados(filtro);
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public List<Pessoa> listaPorPerfil(boolean perfilCliente, boolean perfilFornecedor, boolean perfilFuncionario) {
+		return pessoaDao.listaPorPerfil(perfilCliente,perfilFornecedor,perfilFuncionario);
+	}
+
 	
 
 }

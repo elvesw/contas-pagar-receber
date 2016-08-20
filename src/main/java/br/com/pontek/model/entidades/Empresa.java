@@ -4,23 +4,17 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.br.CNPJ;
-
-import br.com.pontek.model.sistema.Configuracao;
 
 @Entity
 @Table(name = "empresa")
@@ -40,7 +34,7 @@ public class Empresa implements Serializable {
 	private String telefone1;
 	@Column(name = "telefone2")
 	private String telefone2;
-	@Email(message="Formato do email incorreto")
+	@Email(message="Email incorreto")
 	@Column(name = "email")
 	private String email;
 	@Column(name = "site")
@@ -50,6 +44,8 @@ public class Empresa implements Serializable {
 	private String cnpj;
 	@Column(name = "ins_estadual")
 	private String insEstadual;
+	@Column(name = "ins_municipal")
+	private String insMunicipal;
 
 	@Column(name = "msg1")
 	private String msg1;
@@ -80,13 +76,9 @@ public class Empresa implements Serializable {
 	@Column(name = "uf")
 	private String uf;
 	
-	@JoinColumn(name = "configuracao", referencedColumnName = "id")
-	@OneToOne(optional=false,fetch=FetchType.LAZY,cascade=CascadeType.ALL,orphanRemoval=true)
-    private Configuracao configuracao;
-	
 	/* ###### CONFIGURAÇÕES ######### */
 	public Empresa() {
-		
+
 	}
 	
 	public Integer getId() {
@@ -142,6 +134,12 @@ public class Empresa implements Serializable {
 	}
 	public void setInsEstadual(String insEstadual) {
 		this.insEstadual = insEstadual;
+	}
+	public String getInsMunicipal() {
+		return insMunicipal;
+	}
+	public void setInsMunicipal(String insMunicipal) {
+		this.insMunicipal = insMunicipal;
 	}
 	public String getMsg1() {
 		return msg1;
@@ -215,12 +213,7 @@ public class Empresa implements Serializable {
 	public void setUf(String uf) {
 		this.uf = uf;
 	}
-	public Configuracao getConfiguracao() {
-		return configuracao;
-	}
-	public void setConfiguracao(Configuracao configuracao) {
-		this.configuracao = configuracao;
-	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

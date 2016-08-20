@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.event.ActionEvent;
 
@@ -18,7 +19,10 @@ import br.com.pontek.controller.AbstractBean;
 import br.com.pontek.enums.PerfilDePessoa;
 import br.com.pontek.exception.RelatorioException;
 import br.com.pontek.model.entidades.Pessoa;
+import br.com.pontek.model.sistema.Configuracao;
 import br.com.pontek.service.entidades.PessoaService;
+import br.com.pontek.service.financeiro.LancamentoService;
+import br.com.pontek.service.sistema.ConfiguracaoService;
 import br.com.pontek.util.DataUtil;
 import br.com.pontek.util.filtro.FiltroPessoa;
 import br.com.pontek.util.jsf.CepWebService;
@@ -34,12 +38,17 @@ public  class PessoaBean extends AbstractBean{
 
 	@Autowired
 	private PessoaService pessoaService;
+	@Autowired
+	LancamentoService lancamentoService;
+	@Autowired
+	ConfiguracaoService configuracaoService;
 	
 	private Pessoa pessoa = new Pessoa();
 	private String viewAtiva = estadoDaView.LISTANDO.toString();
 	
 	/*Perfil setado pela pagina*/
-	PerfilDePessoa perfil;
+	private PerfilDePessoa perfil;
+	private Configuracao configuracao=new Configuracao();
 	
 	/*OBJETOS DE PAGINAÇÃO LAZY DATATABLE*/
 	private FiltroPessoa filtro  = new FiltroPessoa();
@@ -93,7 +102,23 @@ public  class PessoaBean extends AbstractBean{
 		return null;
 	}/* ##FIM DAS FUNÇÕES DE RELATÓRIO PARA IMPRESSÃO ############################################################################*/
 	
-
+	@PostConstruct
+	private void init(){
+		if(configuracao.getId()==null){
+			configuracao=configuracaoService.carregar();
+		}
+	}
+	public boolean exibirPerfil(){
+		if(perfil.equals(PerfilDePessoa.Clientes)){
+			return configuracao.isExibirOutrosPerfisNoCliente();
+		}else if(perfil.equals(PerfilDePessoa.Fornecedores)){
+			return configuracao.isExibirOutrosPerfisNoFornecedor();
+		}else if(perfil.equals(PerfilDePessoa.Funcionários)){
+			return configuracao.isExibirOutrosPerfisNoFuncionario();
+		}
+		return false;
+	}
+	
 	public String salvar() {
 			checkPerfil();
 			try {
@@ -123,13 +148,26 @@ public  class PessoaBean extends AbstractBean{
 	}
 
 	/* ##(EXCLUIR) #####################*/
-	public void excluir(Pessoa pessoa) {
+	public String excluir(Pessoa pessoa) {
+		if(lancamentoService.existePessoaEmLancamentos(pessoa)){
+			String infoPerfil="";
+			if(filtro.getPerfil().equals(PerfilDePessoa.Clientes)){
+				infoPerfil="cliente";
+			}else if(filtro.getPerfil().equals(PerfilDePessoa.Fornecedores)){
+				infoPerfil="fornecedor";
+			}else if(filtro.getPerfil().equals(PerfilDePessoa.Funcionários)){
+				infoPerfil="funcionário";
+			}
+			FacesUtil.exibirMensagemErro("O "+infoPerfil+" tem lancamentos financeiros, nessa caso desative o cadastro.");
+			return null;
+		}
 		try {
 			pessoaService.excluir(pessoa);
 			FacesUtil.exibirMensagemSucesso("Excluído com sucesso!");
 		} catch (Exception e) {
 			FacesUtil.exibirMensagemErro("Erro: "+ e.getMessage());
 		}
+		return null;
 	}
 	
 	private void reset(){
@@ -180,14 +218,12 @@ public  class PessoaBean extends AbstractBean{
 	public PerfilDePessoa[] getPerfilDePessoaEnums() {
 		return PerfilDePessoa.values();
 	}
-	
-	/*####### MENSAGENS  ##########*/
-	public void addMessageCadastroAtivo(boolean ativo) {
-		if(ativo){
-			FacesUtil.exibirMensagemSucesso("Somente cadastros ativos");
-		}else{
-			FacesUtil.exibirMensagemAlerta("Somente cadastros desativados");			
-		}
+	/*############# PERFIL PAGINA ###############*/
+	public PerfilDePessoa getPerfil() {
+		return perfil;
+	}
+	public Configuracao getConfiguracao() {
+		return configuracao;
 	}
 
 	/*####### GETS DE PAGINAÇÃO LAZY DATATABLE  ##########*/
@@ -196,6 +232,15 @@ public  class PessoaBean extends AbstractBean{
 	}
 	public LazyDataModel<Pessoa> getModel() {
 		return model;
+	}
+	
+	/*####### MENSAGENS  ##########*/
+	public void addMessageCadastroAtivo(boolean ativo) {
+		if(ativo){
+			FacesUtil.exibirMensagemSucesso("Somente cadastros ativos");
+		}else{
+			FacesUtil.exibirMensagemAlerta("Somente cadastros desativados");			
+		}
 	}
 
 	/*preRenderView e seta o filtro conforme o perfil do cadastro*/

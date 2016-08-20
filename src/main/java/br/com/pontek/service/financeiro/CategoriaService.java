@@ -4,6 +4,7 @@ import java.util.List;
 
 import br.com.pontek.enums.TipoDeLancamento;
 import br.com.pontek.model.financeiro.Categoria;
+import br.com.pontek.util.filtro.FiltroCategoria;
 
 public interface CategoriaService {
 	
@@ -19,4 +20,8 @@ public interface CategoriaService {
     List<Categoria> listaDeCategorias();
     
     List<Categoria> listaCategoriasPorTipo(TipoDeLancamento tipo);
+    
+	/*PAGINAÇÃO LAZY DATATABLE*/
+	List<Categoria> filtrados(FiltroCategoria filtro);
+	Integer quantidadeFiltrados(FiltroCategoria filtro);
 }

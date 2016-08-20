@@ -12,6 +12,7 @@ import br.com.pontek.dao.financeiro.LancamentoDao;
 import br.com.pontek.enums.TipoDeLancamento;
 import br.com.pontek.model.financeiro.Categoria;
 import br.com.pontek.service.financeiro.CategoriaService;
+import br.com.pontek.util.filtro.FiltroCategoria;
 
 
 @Service
@@ -61,5 +62,17 @@ public class CategoriaServiceImp implements CategoriaService ,Serializable {
 	@Transactional(readOnly=true)
 	public List<Categoria> listaCategoriasPorTipo(TipoDeLancamento tipo) {
 		return categoriaDao.listaCategoriasPorTipo(tipo);
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public List<Categoria> filtrados(FiltroCategoria filtro) {
+		return categoriaDao.filtrados(filtro);
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public Integer quantidadeFiltrados(FiltroCategoria filtro) {
+		return categoriaDao.quantidadeFiltrados(filtro);
 	}
 }

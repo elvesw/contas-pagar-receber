@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
-import br.com.pontek.controller.sistema.UsuarioSessaoBean;
+import br.com.pontek.controller.sistema.SessaoBean;
 import br.com.pontek.model.autenticacao.Usuario;
 import br.com.pontek.service.autenticacao.UsuarioService;
 import br.com.pontek.util.jsf.FacesUtil;
@@ -34,7 +34,7 @@ public class PerfilUsuarioBean {
 	@PostConstruct
 	public void init() {
 		if (usuario.getId() == null) {
-			UsuarioSessaoBean bean = (UsuarioSessaoBean) ServiceFactory.getBean("usuarioSessaoBean");
+			SessaoBean bean = (SessaoBean) ServiceFactory.getBean("sessaoBean");
 			usuario = bean.getUsuario();
 		}
 	}

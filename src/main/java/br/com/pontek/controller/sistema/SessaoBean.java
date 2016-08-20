@@ -3,6 +3,7 @@ package br.com.pontek.controller.sistema;
 import java.io.IOException;
 import java.io.Serializable;
 
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -13,22 +14,33 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 
 import br.com.pontek.model.autenticacao.Usuario;
+import br.com.pontek.model.sistema.Configuracao;
 import br.com.pontek.service.autenticacao.UsuarioService;
+import br.com.pontek.service.sistema.ConfiguracaoService;
 
 
-@ManagedBean(name = "usuarioSessaoBean")
+@ManagedBean(name = "sessaoBean")
 @Controller
 @Scope("session")
-public class UsuarioSessaoBean implements Serializable{
+public class SessaoBean implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 
 	@Autowired
 	UsuarioService usuarioService;
+	@Autowired
+	ConfiguracaoService  configuracaoService;
 
 	private String usuarioLogado= "Não logado...";
 	private Usuario usuario = null;
+	private Configuracao configuracao=null;
 	
+	@PostConstruct
+	public void init(){
+		if(configuracao==null){
+			configuracao=configuracaoService.carregar();
+		}
+	}
 
 	/**Mostrar na tela o usuario logado no sistema*/
 	public String getUsuarioLogado() {
@@ -62,4 +74,12 @@ public class UsuarioSessaoBean implements Serializable{
 	public Usuario getUsuario() {
 		return usuario;
 	}
+
+	public Configuracao getConfiguracao() {
+		return configuracao;
+	}
+	public void setConfiguracao(Configuracao configuracao) {
+		this.configuracao = configuracao;
+	}
+
 }

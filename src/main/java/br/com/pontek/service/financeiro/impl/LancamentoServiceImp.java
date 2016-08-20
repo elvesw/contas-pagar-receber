@@ -10,6 +10,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.pontek.dao.financeiro.LancamentoDao;
+import br.com.pontek.model.entidades.Pessoa;
+import br.com.pontek.model.financeiro.Categoria;
+import br.com.pontek.model.financeiro.Conta;
 import br.com.pontek.model.financeiro.Lancamento;
 import br.com.pontek.service.financeiro.LancamentoService;
 import br.com.pontek.util.filtro.FiltroLancamento;
@@ -116,6 +119,24 @@ public class LancamentoServiceImp implements LancamentoService ,Serializable {
 	@Transactional(readOnly = true)
 	public List<LancamentosPeriodo> historicoSeisMeses() {
 		return lancamentoDao.historicoSeisMeses();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public boolean existeCategoriaEmLancamentos(Categoria categoria) {
+		return lancamentoDao.existeCategoriaEmLancamentos(categoria);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public boolean existeContaEmLancamentos(Conta conta) {
+		return lancamentoDao.existeContaEmLancamentos(conta);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public boolean existePessoaEmLancamentos(Pessoa pessoa) {
+		return lancamentoDao.existePessoaEmLancamentos(pessoa);
 	}
 
 

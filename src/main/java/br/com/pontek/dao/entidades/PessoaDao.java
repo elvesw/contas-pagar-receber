@@ -12,4 +12,6 @@ public interface PessoaDao extends AbstractDao<Pessoa, Integer> {
 	/*PAGINAÇÃO LAZY DATATABLE*/
 	List<Pessoa> filtrados(FiltroPessoa filtro);
 	Integer quantidadeFiltrados(FiltroPessoa filtro);
+	
+	List<Pessoa> listaPorPerfil(boolean perfilCliente,boolean perfilFornecedor,boolean perfilFuncionario);
 }

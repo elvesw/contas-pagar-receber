@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Conjunction;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
@@ -65,4 +66,22 @@ public class PessoaDaoImp extends AbstractDaoImpl<Pessoa, Integer> implements Pe
 		return criteria;
 	}
 	/*FIM - PAGINAÇÃO LAZY DATATABLE*/
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Pessoa> listaPorPerfil(boolean perfilCliente, boolean perfilFornecedor, boolean perfilFuncionario) {
+		Session session = (Session) getEm().getDelegate();
+		Criteria criteria = session.createCriteria(Pessoa.class);
+		Conjunction conjunction = Restrictions.conjunction();
+		
+		conjunction.add(Restrictions.eq("cadastroAtivo",true));
+		/*Lógica doida, fiz pelo rumo e funcionou*/
+		conjunction.add(Restrictions.or(Restrictions.eq("cliente",perfilCliente?true:null),
+										Restrictions.eq("fornecedor",perfilFornecedor?true:null),
+										Restrictions.eq("funcionario",perfilFuncionario?true:null)));
+		criteria.add(conjunction);
+		return criteria.list();
+	}
+	
 }

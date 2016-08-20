@@ -1,6 +1,7 @@
 package br.com.pontek.model.sistema;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -8,13 +9,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.validator.constraints.Email;
-
-import br.com.pontek.model.entidades.Empresa;
 
 @Entity
 @Table(name = "configuracao")
@@ -28,15 +27,60 @@ public class Configuracao implements Serializable {
 	@Column(name = "id")
 	private Integer id;
 	
+	//CONFIGURAÇÕES DE EMAIL
 	@Email(message="Email inválido")
-	private String envioEmailParaResponder;
+	@Column(name = "email_smpt")
+	private String emailSmtp;
+	
+	@Column(name = "senha_email_smtp")
+	private String senhaEmailSmtp;
+	
 	@Email(message="Email inválido")
-	private String envioEmailParaCopia;
+	@Column(name = "email_empresa_para_responder")
+	private String emailEmpresaParaResponder;
 	
-	@JoinColumn(name = "empresa", referencedColumnName = "id")
-	@OneToOne(optional=false)
-    private Empresa empresa;
+	@Email(message="Email inválido")
+	@Column(name = "email_empresa_para_copia")
+	private String emailEmpresaParaCopia;
 	
+	
+	//CONFIGURAÇÕES DE LANÇAMENTOS
+	@Column(name = "exibir_clientes_em_lancamentos_entrada")
+	private boolean exibirClientesEmLancamentosEntrada=false;
+	
+	@Column(name = "exibir_funcionarios_em_lancamentos_entrada")
+	private boolean exibirFuncionariosEmLancamentosEntrada=false;
+	
+	@Column(name = "exibir_fornecedores_em_lancamentos_entrada")
+	private boolean exibirFornecedoresEmLancamentosEntrada=false;
+	
+	@Column(name = "exibir_clientes_em_lancamentos_saida")
+	private boolean exibirClientesEmLancamentosSaida=false;
+	
+	@Column(name = "exibir_funcionarios_em_lancamentos_saida")
+	private boolean exibirFuncionariosEmLancamentosSaida=false;
+	
+	@Column(name = "exibir_fornecedores_em_lancamentos_saida")
+	private boolean exibirFornecedoresEmLancamentosSaida=false;
+	
+	
+	//CONFIGURAÇÕES DE CADASTRO
+	@Column(name = "exibir_outros_perfis_no_cliente")
+	private boolean exibirOutrosPerfisNoCliente=false;
+	
+	@Column(name = "exibir_outros_perfis_no_fornecedor")
+	private boolean exibirOutrosPerfisNoFornecedor=false;
+	
+	@Column(name = "exibir_outros_perfis_no_funcionario")
+	private boolean exibirOutrosPerfisNoFuncionario=false;
+	
+	
+	//OUTROS
+    @Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "data_alteracao")
+	private Date dataAlteracao;//ULTIMA ALTERAÇÃO FEITA POR UM USUÁRIO
+	
+
 	/*######## CONSTRUTORES ########*/
 	public Configuracao() {
 		
@@ -48,23 +92,89 @@ public class Configuracao implements Serializable {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-	public String getEnvioEmailParaResponder() {
-		return envioEmailParaResponder;
+	public String getEmailSmtp() {
+		return emailSmtp;
 	}
-	public void setEnvioEmailParaResponder(String envioEmailParaResponder) {
-		this.envioEmailParaResponder = envioEmailParaResponder;
+	public void setEmailSmtp(String emailSmtp) {
+		this.emailSmtp = emailSmtp;
 	}
-	public String getEnvioEmailParaCopia() {
-		return envioEmailParaCopia;
+	public String getSenhaEmailSmtp() {
+		return senhaEmailSmtp;
 	}
-	public void setEnvioEmailParaCopia(String envioEmailParaCopia) {
-		this.envioEmailParaCopia = envioEmailParaCopia;
+	public void setSenhaEmailSmtp(String senhaEmailSmtp) {
+		this.senhaEmailSmtp = senhaEmailSmtp;
 	}
-	public Empresa getEmpresa() {
-		return empresa;
+	public String getEmailEmpresaParaResponder() {
+		return emailEmpresaParaResponder;
 	}
-	public void setEmpresa(Empresa empresa) {
-		this.empresa = empresa;
+	public void setEmailEmpresaParaResponder(String emailEmpresaParaResponder) {
+		this.emailEmpresaParaResponder = emailEmpresaParaResponder;
+	}
+	public String getEmailEmpresaParaCopia() {
+		return emailEmpresaParaCopia;
+	}
+	public void setEmailEmpresaParaCopia(String emailEmpresaParaCopia) {
+		this.emailEmpresaParaCopia = emailEmpresaParaCopia;
+	}
+	public boolean isExibirClientesEmLancamentosEntrada() {
+		return exibirClientesEmLancamentosEntrada;
+	}
+	public void setExibirClientesEmLancamentosEntrada(boolean exibirClientesEmLancamentosEntrada) {
+		this.exibirClientesEmLancamentosEntrada = exibirClientesEmLancamentosEntrada;
+	}
+	public boolean isExibirFuncionariosEmLancamentosEntrada() {
+		return exibirFuncionariosEmLancamentosEntrada;
+	}
+	public void setExibirFuncionariosEmLancamentosEntrada(boolean exibirFuncionariosEmLancamentosEntrada) {
+		this.exibirFuncionariosEmLancamentosEntrada = exibirFuncionariosEmLancamentosEntrada;
+	}
+	public boolean isExibirFornecedoresEmLancamentosEntrada() {
+		return exibirFornecedoresEmLancamentosEntrada;
+	}
+	public void setExibirFornecedoresEmLancamentosEntrada(boolean exibirFornecedoresEmLancamentosEntrada) {
+		this.exibirFornecedoresEmLancamentosEntrada = exibirFornecedoresEmLancamentosEntrada;
+	}
+	public boolean isExibirClientesEmLancamentosSaida() {
+		return exibirClientesEmLancamentosSaida;
+	}
+	public void setExibirClientesEmLancamentosSaida(boolean exibirClientesEmLancamentosSaida) {
+		this.exibirClientesEmLancamentosSaida = exibirClientesEmLancamentosSaida;
+	}
+	public boolean isExibirFuncionariosEmLancamentosSaida() {
+		return exibirFuncionariosEmLancamentosSaida;
+	}
+	public void setExibirFuncionariosEmLancamentosSaida(boolean exibirFuncionariosEmLancamentosSaida) {
+		this.exibirFuncionariosEmLancamentosSaida = exibirFuncionariosEmLancamentosSaida;
+	}
+	public boolean isExibirFornecedoresEmLancamentosSaida() {
+		return exibirFornecedoresEmLancamentosSaida;
+	}
+	public void setExibirFornecedoresEmLancamentosSaida(boolean exibirFornecedoresEmLancamentosSaida) {
+		this.exibirFornecedoresEmLancamentosSaida = exibirFornecedoresEmLancamentosSaida;
+	}
+	public boolean isExibirOutrosPerfisNoCliente() {
+		return exibirOutrosPerfisNoCliente;
+	}
+	public void setExibirOutrosPerfisNoCliente(boolean exibirOutrosPerfisNoCliente) {
+		this.exibirOutrosPerfisNoCliente = exibirOutrosPerfisNoCliente;
+	}
+	public boolean isExibirOutrosPerfisNoFornecedor() {
+		return exibirOutrosPerfisNoFornecedor;
+	}
+	public void setExibirOutrosPerfisNoFornecedor(boolean exibirOutrosPerfisNoFornecedor) {
+		this.exibirOutrosPerfisNoFornecedor = exibirOutrosPerfisNoFornecedor;
+	}
+	public boolean isExibirOutrosPerfisNoFuncionario() {
+		return exibirOutrosPerfisNoFuncionario;
+	}
+	public void setExibirOutrosPerfisNoFuncionario(boolean exibirOutrosPerfisNoFuncionario) {
+		this.exibirOutrosPerfisNoFuncionario = exibirOutrosPerfisNoFuncionario;
+	}
+	public Date getDataAlteracao() {
+		return dataAlteracao;
+	}
+	public void setDataAlteracao(Date dataAlteracao) {
+		this.dataAlteracao = dataAlteracao;
 	}
 	/*######## hashCode e equals ########*/
 	@Override
@@ -74,6 +184,7 @@ public class Configuracao implements Serializable {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
+	
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
