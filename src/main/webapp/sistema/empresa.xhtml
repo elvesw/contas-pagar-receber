@@ -12,7 +12,7 @@
 
 			<!--DIV CADASTRO -->
 			<h:panelGroup layout="block" id="div-cadastro">
-
+			
 				<h:panelGroup layout="block">
 
 					<div style="display: inline-block; padding-top: 4px; width: 100%;">
@@ -23,6 +23,37 @@
 								action="#{empresaBean.salvar()}" styleClass="btn btn-success"
 								icon="fa fa-fw fa-floppy-o" />
 						</div>
+					</div>
+					
+					<div class="ui-fluid empresa-bloco-form" >
+					
+							<h1 class="empresa-bloco-form-title">Logo da empresa</h1>
+							
+					
+						
+						
+						<p:panelGrid columns="1" layout="grid"	columnClasses="ui-grid-col-5">
+							<p:panelGrid columns="1" layout="grid"	columnClasses="ui-grid-col-12">
+								<p:fileUpload fileUploadListener="#{empresaBean.upImagem}"
+									fileLimitMessage="Ultrapassou o número máximo, somente 1"
+									rendered="#{empty empresaBean.empresa.logo}"
+									invalidSizeMessage="A imagem deve ser menor que essa, limite 1024KB, "
+									invalidFileMessage="Os formatos aceitos são: gif, jpeg, png"
+									mode="advanced" dragDropSupport="false" auto="true"
+									update=":formPrincipal" sizeLimit="1024000" 
+									fileLimit="1" allowTypes="/(\.|\/)(gif|jpe?g|png)$/" multiple="false" 
+									label="Selecionar" cancelLabel="Cancelar" uploadLabel="Enviar"
+									previewWidth="200" />
+								
+								<h:graphicImage value="/imagem?n=#{empresaBean.empresa.logo}" width="136" height="131" 
+								rendered="#{not empty empresaBean.empresa.logo}"/>
+								<p:commandButton  update=":formPrincipal"
+									actionListener="#{empresaBean.excluirImagem()}" styleClass="btn btn-danger"
+									icon="fa fa-fw fa-trash" rendered="#{not empty empresaBean.empresa.logo}"/>
+
+							</p:panelGrid>
+						</p:panelGrid>
+						
 					</div>
 
 					<div class="ui-fluid empresa-bloco-form" >
@@ -44,7 +75,7 @@
 						<p:panelGrid columns="3" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-2,ui-grid-col-2">
 							<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
 									<p:outputLabel value="CNPJ" styleClass="label-formulario" />
-									<p:inputText id="cnpj" autocomplete="off"	value="#{empresaBean.empresa.cnpj}" />
+									<p:inputMask mask="99.999.999/9999-99" id="cnpj" autocomplete="off"	value="#{empresaBean.empresa.cnpj}" />
 							</p:panelGrid>
 							<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
 									<p:outputLabel value="Ins. Estadual" styleClass="label-formulario" />

@@ -17,7 +17,7 @@
 
 					<p:panelGrid columns="1" layout="grid"
 						columnClasses="ui-grid-col-12">
-						<p:outputLabel value="Descrição" styleClass="label-formulario" />
+						<p:outputLabel value="Nome ou Descrição" styleClass="label-formulario" />
 						<p:inputText value="#{lancamentoBean.filtro.termoParaBusca}" />
 					</p:panelGrid>
 
@@ -33,23 +33,13 @@
 
 					<p:panelGrid columns="1" layout="grid"
 						columnClasses="ui-grid-col-12">
-						<p:outputLabel value="Data rápida" styleClass="label-formulario" />
+						<p:outputLabel value="Data rápida (de vencimento)" styleClass="label-formulario" />
 						<p:selectOneMenu value="#{lancamentoBean.filtro.fitroData}">
 							<f:selectItems value="#{lancamentoBean.filtroDataEnums}"
 								var="dt" itemValue="#{dt}" itemLabel="#{dt.stringEnum}" />
 						</p:selectOneMenu>
 					</p:panelGrid>
 
-					<p:panelGrid columns="1" layout="grid"
-						columnClasses="ui-grid-col-12">
-						<p:outputLabel value="Tipo de data" styleClass="label-formulario" />
-						<p:selectOneMenu
-							value="#{lancamentoBean.filtro.filtroTipoData}">
-							<f:selectItems value="#{lancamentoBean.filtroTipoDataEnums}"
-								var="tipoDt" itemValue="#{tipoDt}"
-								itemLabel="#{tipoDt.stringEnum}" />
-						</p:selectOneMenu>
-					</p:panelGrid>
 
 				</p:panelGrid>
 			</h:panelGroup>
@@ -154,7 +144,7 @@
 				<p:column width="5%" selectionMode="multiple" selectRow="false"
 					styleClass="icon-cor-preto" />
 
-				<p:column headerText="Cod" width="8%" selectRow="false"
+				<p:column headerText="Cod" width="5%" selectRow="false"
 					sortBy="#{lancamento.id}">
 					<h:outputText value="#{lancamento.id}" />
 				</p:column>

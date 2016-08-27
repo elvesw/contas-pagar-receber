@@ -41,6 +41,15 @@ public class FacesUtil {
         return FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
     }
     
+    public static String pathImagens() {
+		String path = "";
+		if (System.getProperties().get("os.name").toString().trim().equalsIgnoreCase("Linux")) {
+			path = "/home/elves/imagens/";
+		} else {
+			path = "C://imagens//";
+		}
+		return path;
+    }
     
    /* ##############################################*/
 	public static void exibirMensagemSucessoForMessages(String forMessages,String mensagem) {

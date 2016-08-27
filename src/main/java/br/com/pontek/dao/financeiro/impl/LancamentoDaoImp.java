@@ -14,6 +14,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Conjunction;
+import org.hibernate.criterion.Criterion;
+import org.hibernate.criterion.LogicalExpression;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
@@ -94,11 +96,15 @@ public class LancamentoDaoImp extends AbstractDaoImpl<Lancamento, Integer> imple
 		
 		/*Termo para busca OK*/
 		if(StringUtils.isNotEmpty(filtro.getTermoParaBusca())){
-			/*criteria.createAlias("pessoa","p");//alias para pessoa
-			conjunction.add(Restrictions.or(Restrictions.and((Restrictions.ilike("p.nome", filtro.getTermoParaBusca(), MatchMode.ANYWHERE))),
-											Restrictions.and((Restrictions.ilike("descricao", filtro.getTermoParaBusca(), MatchMode.ANYWHERE)))));*/
-			conjunction.add(Restrictions.ilike("descricao", filtro.getTermoParaBusca(), MatchMode.ANYWHERE));
+			Criterion porDescricao = Restrictions.ilike("descricao", filtro.getTermoParaBusca(), MatchMode.ANYWHERE);
 			
+			Criteria c = criteria;//funcionou depois de criar um novo criteria para o alias
+			c.createAlias("pessoa", "p");
+			Criterion porNomePessoa=Restrictions.ilike("p.nome", filtro.getTermoParaBusca(), MatchMode.ANYWHERE);
+			
+			LogicalExpression orExp = Restrictions.or(porDescricao,porNomePessoa);
+
+			conjunction.add(orExp);
 		}
 	
 		/*Tipo de data e data inicial e final OK*/

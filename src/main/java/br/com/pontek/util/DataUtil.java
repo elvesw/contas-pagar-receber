@@ -4,8 +4,11 @@ import java.text.SimpleDateFormat;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.format.TextStyle;
 import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
+import java.util.Locale;
+
 import br.com.pontek.enums.FiltroData;
 import br.com.pontek.enums.FrequenciaDeLancamento;
 import br.com.pontek.util.filtro.FiltroLancamento;
@@ -167,6 +170,17 @@ public class DataUtil {
 			return sdf.format(data);
 		}
 		return null;
+	}
+	
+	/**Formata Date
+	 * @param  data a ser convertido
+	 * @return String ex: 22 de agosto de 2016*/
+	public static String extenso(Date data){
+		LocalDate lDate =data.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		String mes_estenso = lDate.getMonth().getDisplayName(TextStyle.FULL, new Locale("pt"));
+		Integer dia= lDate.getDayOfMonth();
+		Integer ano= lDate.getYear();
+		return dia.toString()+" de "+mes_estenso+" de "+ano.toString();
 	}
 	
 	

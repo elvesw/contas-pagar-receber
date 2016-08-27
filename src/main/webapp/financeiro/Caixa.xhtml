@@ -3,7 +3,7 @@
 	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	template="/WEB-INF/templates/Layout.xhtml"
-	xmlns:p="http://primefaces.org/ui"> 
+	xmlns:p="http://primefaces.org/ui">
 
 	<ui:define name="titulo">Caixa</ui:define>
 	<ui:define name="centro">
@@ -14,15 +14,20 @@
 			<h:panelGroup layout="block" id="div-title">
 				<h:panelGroup layout="block"
 					rendered="#{caixaBean.listaLancamentosSelecionados.size()>0 and (caixaBean.viewAtiva eq 'LISTANDO' or caixaBean.viewAtiva eq 'FILTRO')}">
-					<h1 class="aw-page-title">Estornar #{caixaBean.listaLancamentosSelecionados.size()} #{caixaBean.listaLancamentosSelecionados.size()==1 ?"item selecionado":"itens selecionados"}</h1>
+					<h1 class="aw-page-title">Estornar
+						#{caixaBean.listaLancamentosSelecionados.size()}
+						#{caixaBean.listaLancamentosSelecionados.size()==1 ?"item
+						selecionado":"itens selecionados"}</h1>
 				</h:panelGroup>
 				<h:panelGroup layout="block"
 					rendered="#{caixaBean.viewAtiva eq 'DETALHANDO'}">
-					<h1 class="aw-page-title">Estornando #{caixaBean.listaLancamentosSelecionados.size()}</h1>
+					<h1 class="aw-page-title">Estornando
+						#{caixaBean.listaLancamentosSelecionados.size()}</h1>
 				</h:panelGroup>
 				<h:panelGroup layout="block"
 					rendered="#{caixaBean.listaLancamentosSelecionados.size()==0 and caixaBean.viewAtiva eq 'LISTANDO'}">
-					<h1 class="aw-page-title">Caixa #{caixaBean.tituloDataTableFiltro}</h1>
+					<h1 class="aw-page-title">Caixa
+						#{caixaBean.tituloDataTableFiltro}</h1>
 				</h:panelGroup>
 				<h:panelGroup layout="block"
 					rendered="#{caixaBean.listaLancamentosSelecionados.size()==0 and caixaBean.viewAtiva eq 'FILTRO'}">
@@ -31,52 +36,100 @@
 			</h:panelGroup>
 			<!--FIM - DIV TITLE -->
 
-			<p:messages autoUpdate="true" closable="true" />
+			<p:messages id="msg" autoUpdate="true" closable="true" />
+			
+			
+			<!--DIV RECIBO -->
+			<div id="div-recibo">
+				<h:panelGroup layout="block" rendered="#{caixaBean.viewAtiva eq 'RECIBO'}">
+				
+					<!-- 1º div botoes -->
+					<div style="display: inline-block; padding-top: 4px; width: 100%">
+						<div style="float: left">
+							<p:commandButton value="Voltar" update=":formPrincipal"
+								action="#{caixaBean.voltar()}" styleClass="btn btn-default"
+								icon="fa fa-fw fa-mail-reply" immediate="true"
+								process=":formPrincipal" />
+						</div>
+						<div style="float: right;">
+							<h:panelGroup layout="block">
+								<p:selectBooleanCheckbox value="#{caixaBean.dtoRecibo.via2}">
+									<p:ajax update=":formPrincipal:recibo"/> 
+								</p:selectBooleanCheckbox>
+								<p:outputLabel value="2ºvia" styleClass="label-formulario"
+									style="vertical-align:20%;margin:5px;" />
+							</h:panelGroup>
+							<p:commandButton value="Imprimir" icon="fa fa-fw fa-print"
+								type="button" style="display:inline-block;">
+								<p:printer target="recibo" />
+							</p:commandButton>
+						</div>
+					</div><!-- fim 1º div botoes -->
+					
+					<!-- 2º div h:panelGroup dados recibo -->
+					<h:panelGroup layout="block" id="recibo" styleClass="bloco-recibo">
+						<h:panelGroup layout="block" rendered="#{caixaBean.tipoParaRecibo eq 'ENTRADA'}">
+							<ui:include src="reciboEntrada.xhtml" />
+						</h:panelGroup>
+						<h:panelGroup layout="block" rendered="#{caixaBean.tipoParaRecibo eq 'SAÍDA'}">
+							<ui:include src="reciboSaida.xhtml" />
+						</h:panelGroup>
+					</h:panelGroup> <!-- fim 2º div h:panelGroup dados recibo -->
+					
+				</h:panelGroup>
+			</div> <!--fim DIV RECIBO -->
 
+			
+			
 			<!--DIV DETALHAR -->
 			<h:panelGroup layout="block" styleClass="ui-fluid" id="div-detalhar">
 				<h:panelGroup layout="block"
 					rendered="#{caixaBean.viewAtiva eq 'DETALHANDO'}">
-					
-					<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
-					
-						  <table class="table-cancelar">
-							    <tr>
-							        <th class="label-formulario">Cód</th>
-							        <th class="label-formulario td-hide1">Descrição</th>
-							        <th class="label-formulario td-hide2">Nome</th>
-							        <th class="label-formulario">Valor</th>
-							        <th class="label-formulario">Referência</th>
-							    </tr>
-    							<ui:repeat value="#{caixaBean.listaLancamentosSelecionados}" var="l">
-    								<tr>
-									    <td><p:outputLabel value="#{l.id}"/></td>
-									    <td class="td-hide1"><p:outputLabel value="#{l.descricao}"/></td>
-									    <td class="td-hide2"><p:outputLabel value="#{l.pessoa.nome}"/></td>
-									    <td><p:outputLabel value="#{l.valorPago}"/></td>
-									    <td><p:outputLabel value="#{l.observacao}"/></td>
-    								</tr>
-								</ui:repeat>
-    						</table>
+
+					<p:panelGrid columns="1" layout="grid"
+						columnClasses="ui-grid-col-12">
+
+						<table class="table-cancelar">
+							<tr>
+								<th class="label-formulario">Cód</th>
+								<th class="label-formulario td-hide1">Descrição</th>
+								<th class="label-formulario td-hide2">Nome</th>
+								<th class="label-formulario">Valor</th>
+								<th class="label-formulario">Referência</th>
+							</tr>
+							<ui:repeat value="#{caixaBean.listaLancamentosSelecionados}"
+								var="l">
+								<tr>
+									<td><p:outputLabel value="#{l.id}" /></td>
+									<td class="td-hide1"><p:outputLabel value="#{l.descricao}" /></td>
+									<td class="td-hide2"><p:outputLabel
+											value="#{l.pessoa.nome}" /></td>
+									<td><p:outputLabel value="#{l.valorPago}" /></td>
+									<td><p:outputLabel value="#{l.observacao}" /></td>
+								</tr>
+							</ui:repeat>
+						</table>
 
 					</p:panelGrid>
 
-					<p:panelGrid columns="1" layout="grid"	columnClasses="ui-grid-col-6">
-							<p:inputText value="#{caixaBean.motivoEstornar}"
-								validatorMessage="mínimo 15 caracteres"
-								placeholder="Qual o motivo para estornar?" required="true"
-								requiredMessage="É obrigatório informar o motivo para estornar">
-								<f:validateLength minimum="15" />
-							</p:inputText>
+					<p:panelGrid columns="1" layout="grid"
+						columnClasses="ui-grid-col-6">
+						<p:inputText value="#{caixaBean.motivoEstornar}"
+							validatorMessage="mínimo 15 caracteres"
+							placeholder="Qual o motivo para estornar?" required="true"
+							requiredMessage="É obrigatório informar o motivo para estornar">
+							<f:validateLength minimum="15" />
+						</p:inputText>
 					</p:panelGrid>
 
-					<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-3">
-						<p:panelGrid columns="2" layout="grid"	columnClasses="ui-grid-col-5,ui-grid-col-7">
+					<p:panelGrid columns="1" layout="grid"
+						columnClasses="ui-grid-col-3">
+						<p:panelGrid columns="2" layout="grid"
+							columnClasses="ui-grid-col-5,ui-grid-col-7">
 
 							<p:commandButton value="Voltar" update=":formPrincipal"
-								action="#{caixaBean.voltar()}"
-								styleClass="btn btn-default" icon="fa fa-fw fa-mail-reply"
-								immediate="true" process="@this" />
+								action="#{caixaBean.voltar()}" styleClass="btn btn-default"
+								icon="fa fa-fw fa-mail-reply" immediate="true" process="@this" />
 
 							<p:commandButton value="Confirma estornar"
 								update=":formPrincipal:div-lista :formPrincipal:div-detalhar :formPrincipal:div-title"
@@ -95,83 +148,104 @@
 			<h:panelGroup layout="block" id="div-lista">
 				<h:panelGroup layout="block"
 					rendered="#{caixaBean.viewAtiva eq 'LISTANDO' or caixaBean.viewAtiva eq 'FILTRO'}">
-					
+
 					<h:panelGroup layout="block" class="ui-fluid">
 
-						<p:panelGrid columns="3" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3"
-						rendered="#{caixaBean.listaLancamentosSelecionados.size()==0 and caixaBean.viewAtiva eq 'FILTRO'}">
+						<p:panelGrid columns="3" layout="grid"
+							columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3"
+							rendered="#{caixaBean.listaLancamentosSelecionados.size()==0 and caixaBean.viewAtiva eq 'FILTRO'}">
 
-							<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
-								<p:outputLabel value="Nome ou descrição" styleClass="label-formulario" />
-								<p:inputText value="#{caixaBean.filtro.termoParaBusca}"/>
+							<p:panelGrid columns="1" layout="grid"
+								columnClasses="ui-grid-col-12">
+								<p:outputLabel value="Nome ou Descrição"
+									styleClass="label-formulario" />
+								<p:inputText value="#{caixaBean.filtro.termoParaBusca}" />
 							</p:panelGrid>
-							
-							<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+
+							<p:panelGrid columns="1" layout="grid"
+								columnClasses="ui-grid-col-12">
 								<p:outputLabel value="Tipo" styleClass="label-formulario" />
-								<p:selectOneMenu value="#{caixaBean.filtro.filtroTipoLancamento}">
+								<p:selectOneMenu
+									value="#{caixaBean.filtro.filtroTipoLancamento}">
 									<f:selectItems value="#{caixaBean.filtroTipoLancamentoEnums}"
-									var="tipoLancamento" itemValue="#{tipoLancamento}" itemLabel="#{tipoLancamento.stringEnum}"/>
+										var="tipoLancamento" itemValue="#{tipoLancamento}"
+										itemLabel="#{tipoLancamento.stringEnum}" />
 								</p:selectOneMenu>
 							</p:panelGrid>
 
-							<p:panelGrid columns="1" layout="grid" 	columnClasses="ui-grid-col-12">
-								<p:outputLabel value="Data rápida" styleClass="label-formulario" />
+							<p:panelGrid columns="1" layout="grid"
+								columnClasses="ui-grid-col-12">
+								<p:outputLabel value="Data rápida (de pagamento)" styleClass="label-formulario" />
 								<p:selectOneMenu value="#{caixaBean.filtro.fitroData}">
-									<f:selectItems value="#{caixaBean.filtroDataEnums}" 
-									var="dt" itemValue="#{dt}" itemLabel="#{dt.stringEnum}"/>
+									<f:selectItems value="#{caixaBean.filtroDataEnums}" var="dt"
+										itemValue="#{dt}" itemLabel="#{dt.stringEnum}" />
 								</p:selectOneMenu>
 							</p:panelGrid>
 
 						</p:panelGrid>
 					</h:panelGroup>
 
-						<!-- #################### -->
+					<!-- #################### -->
 
-					<div style="display: inline-block; padding-top: 4px; width: 100%;" class="remove-span-text">
-						<h:panelGroup layout="block" style="float:left"	id="div-lista-menu-esquerdo">
-							
+					<div style="display: inline-block; padding-top: 4px; width: 100%;"
+						class="remove-span-text">
+						<h:panelGroup layout="block" style="float:left"
+							id="div-lista-menu-esquerdo">
+
 							<!-- btn filtro -->
-							<h:panelGroup layout="block" rendered="#{caixaBean.listaLancamentosSelecionados.size()==0 and caixaBean.viewAtiva eq 'FILTRO'}">
-								
-								<p:commandButton value="Voltar" styleClass="btn btn-default" icon="fa fa-fw fa-mail-reply"
-								update=":formPrincipal:div-lista :formPrincipal:div-title"
-								process="@this" immediate="true" action="#{caixaBean.voltar()}" title="Voltar"/>
-								
+							<h:panelGroup layout="block"
+								rendered="#{caixaBean.listaLancamentosSelecionados.size()==0 and caixaBean.viewAtiva eq 'FILTRO'}">
+
+								<p:commandButton value="Voltar" styleClass="btn btn-default"
+									icon="fa fa-fw fa-mail-reply"
+									update=":formPrincipal:div-lista :formPrincipal:div-title"
+									process="@this" immediate="true" action="#{caixaBean.voltar()}"
+									title="Voltar" />
+
 							</h:panelGroup>
 
 						</h:panelGroup>
-						<h:panelGroup layout="block" style="float:right;" id="div-lista-menu-direito">
-							
+						<h:panelGroup layout="block" style="float:right;"
+							id="div-lista-menu-direito">
+
 							<!-- btn selecionados -->
-							<h:panelGroup layout="block" rendered="#{caixaBean.listaLancamentosSelecionados.size()>0}" >
+							<h:panelGroup layout="block"
+								rendered="#{caixaBean.listaLancamentosSelecionados.size()>0}">
 								<p:commandButton value="Estornar"
 									update=":formPrincipal:div-detalhar :formPrincipal:div-lista :formPrincipal:div-title"
 									styleClass="btn btn-danger" icon="fa fa-fw fa-ban"
-									process=":@this :formPrincipal:dataTableLista" title="Cancelar selecionados"
-									action="#{caixaBean.estornando}"/>
+									process=":@this :formPrincipal:dataTableLista"
+									title="Cancelar selecionados" action="#{caixaBean.estornando}" />
 							</h:panelGroup>
-							
+
 							<!-- btn lista -->
-							<h:panelGroup layout="block" rendered="#{caixaBean.listaLancamentosSelecionados.size()==0 and caixaBean.viewAtiva ne 'FILTRO'}" >
+							<h:panelGroup layout="block"
+								rendered="#{caixaBean.listaLancamentosSelecionados.size()==0 and caixaBean.viewAtiva ne 'FILTRO'}">
 								<p:commandButton value="Filtro"
 									update=":formPrincipal:div-lista :formPrincipal:div-title"
 									styleClass="btn btn-warning" icon="fa fa-fw fa-filter"
 									action="#{caixaBean.filtrando()}" immediate="true"
-									process=":formPrincipal:div-lista-menu-direito" title="Filtro"/>
-								
-								<p:commandButton value="Imprimir" icon="fa fa-fw fa-print"  immediate="true"
-										styleClass="btn btn-default"   actionListener="#{caixaBean.verPDF}" ajax="false"
-										onclick="this.form.target='_blank'" title="Imprimir lista"/>
+									process=":formPrincipal:div-lista-menu-direito" title="Filtro" />
+
+								<p:commandButton value="Imprimir" icon="fa fa-fw fa-print"
+									immediate="true" styleClass="btn btn-default"
+									actionListener="#{caixaBean.verPDF}" ajax="false"
+									onclick="this.form.target='_blank'" title="Imprimir lista" />
 							</h:panelGroup>
-							
+
 							<!-- btn filtro -->
-							<h:panelGroup layout="block" rendered="#{caixaBean.listaLancamentosSelecionados.size()==0 and caixaBean.viewAtiva eq 'FILTRO'}">
-								<p:commandButton value="Limpar" styleClass="btn btn-primary" icon="fa fa-fw fa-ban" 
-								title="Limpar filtro" action="#{caixaBean.filtroReset()}" 
-								update=":formPrincipal:div-lista :formPrincipal:div-title" process="@this"/>
-								<p:commandButton value="OK" styleClass="btn btn-success" icon="fa fa-fw fa-floppy-o" 
-								title="OK, filtrar" action="#{caixaBean.filtrar()}"
-								update=":formPrincipal:div-lista :formPrincipal:div-title" process=":formPrincipal:div-lista"/>
+							<h:panelGroup layout="block"
+								rendered="#{caixaBean.listaLancamentosSelecionados.size()==0 and caixaBean.viewAtiva eq 'FILTRO'}">
+								<p:commandButton value="Limpar" styleClass="btn btn-primary"
+									icon="fa fa-fw fa-ban" title="Limpar filtro"
+									action="#{caixaBean.filtroReset()}"
+									update=":formPrincipal:div-lista :formPrincipal:div-title"
+									process="@this" />
+								<p:commandButton value="OK" styleClass="btn btn-success"
+									icon="fa fa-fw fa-floppy-o" title="OK, filtrar"
+									action="#{caixaBean.filtrar()}"
+									update=":formPrincipal:div-lista :formPrincipal:div-title"
+									process=":formPrincipal:div-lista" />
 							</h:panelGroup>
 
 						</h:panelGroup>
@@ -180,8 +254,8 @@
 					<p:dataTable var="lancamento" value="#{caixaBean.model}"
 						reflow="true" lazy="true" rowIndexVar="rowIx" id="dataTableLista"
 						rows="14" emptyMessage="Nenhum cadastro ..." paginator="true"
-						paginatorPosition="bottom" widgetVar="widgetListaDataTable" 
-						selection="#{caixaBean.listaLancamentosSelecionados}" >
+						paginatorPosition="bottom" widgetVar="widgetListaDataTable"
+						selection="#{caixaBean.listaLancamentosSelecionados}">
 
 						<p:ajax event="rowSelectCheckbox"
 							update=":formPrincipal:div-lista-menu-esquerdo :formPrincipal:div-lista-menu-direito :formPrincipal:div-title" />
@@ -193,49 +267,75 @@
 						<p:column width="3%" selectionMode="multiple" selectRow="false"
 							styleClass="icon-cor-preto" />
 
-						<p:column headerText="Cod" width="8%" selectRow="false" sortBy="#{lancamento.id}">
+						<p:column headerText="Cod" width="5%" selectRow="false"
+							sortBy="#{lancamento.id}">
 							<h:outputText value="#{lancamento.id}" />
 						</p:column>
-						
-						<p:column headerText="Conta" width="12%" selectRow="false">
-							<h:outputText value="#{lancamento.conta.nome}" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"/>
+
+						<p:column headerText="Categoria" width="14%" selectRow="false">
+							<h:outputText value="#{lancamento.categoria.nome}"
+								style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" />
 						</p:column>
 
-						<p:column headerText="Descrição" width="25%" selectRow="false">
-							<h:outputText value="#{lancamento.descricao}" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="#{lancamento.descricao}"/>
+						<p:column headerText="Descrição" width="23%" selectRow="false">
+							<h:outputText value="#{lancamento.descricao}"
+								style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"
+								title="#{lancamento.descricao}" />
 						</p:column>
 
 						<p:column headerText="Nome" width="20%" selectRow="false">
-							<h:outputText value="#{lancamento.pessoa.nome}" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="#{lancamento.pessoa.nome}"/>
+							<h:outputText value="#{lancamento.pessoa.nome}"
+								style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"
+								title="#{lancamento.pessoa.nome}" />
 						</p:column>
 
-						<p:column headerText="Pagamento" width="13%" selectRow="false" sortBy="#{lancamento.dataPagamento}">
+						<p:column headerText="Pagamento" width="12%" selectRow="false"
+							sortBy="#{lancamento.dataPagamento}">
 							<h:outputText value="#{lancamento.dataPagamento}">
 								<f:convertDateTime pattern="dd/MM/yyyy" />
 							</h:outputText>
 						</p:column>
 
-						<p:column headerText="Valor" width="15%" selectRow="false">
-							<h:outputText rendered="#{lancamento.tipoLancamento eq 'SAÍDA'}" value="-" styleClass="tipo-saida"/>
-							<h:outputText value="#{lancamento.valorPago}" styleClass="#{lancamento.tipoLancamento eq 'ENTRADA' ? 'tipo-entrada':'tipo-saida'}">
+						<p:column headerText="Valor" width="8%" selectRow="false">
+							<h:outputText rendered="#{lancamento.tipoLancamento eq 'SAÍDA'}"
+								value="-" styleClass="tipo-saida" />
+							<h:outputText value="#{lancamento.valorPago}"
+								styleClass="#{lancamento.tipoLancamento eq 'ENTRADA' ? 'tipo-entrada':'tipo-saida'}">
 								<f:convertNumber pattern="#,##0.00" minFractionDigits="2" />
 							</h:outputText>
 						</p:column>
 
+						<p:column width="3%" selectRow="false">
+							<div class="ui-acoes-datatable">
+								<p:commandLink immediate="true" styleClass="ui-command-link" rendered="#{lancamento.pessoa ne null}"
+									update=":formPrincipal"
+									action="#{caixaBean.imprimirRecibo(lancamento)}"
+									title="Imprimir recibo">
+									<span><i class="fa fa-fw fa-file-text"></i></span>
+								</p:commandLink>
+							</div>
+						</p:column>
+
 						<p:columnGroup type="footer">
-				             <p:row>
-				                <p:column colspan="6" styleClass="label-formulario" style="text-align:right" footerText="Entradas no período:" />
-				                <p:column footerText="#{caixaBean.somaEntradaPago}" style="text-align:left" styleClass="tipo-entrada"/>
-				            </p:row>
-				             <p:row>
-				                <p:column colspan="6" styleClass="label-formulario" style="text-align:right" footerText="Saídas no período:" />
-				                <p:column footerText="-#{caixaBean.somaSaidaPago}" style="text-align:left" styleClass="tipo-saida"/>
-				            </p:row>
-				            <p:row>
-				                <p:column colspan="6" styleClass="label-formulario" style="text-align:right" footerText="Saldo final:" />
-				                <p:column footerText="R$ #{caixaBean.saldoFinal}" style="text-align:left;" styleClass="label-formulario"/>
-				            </p:row>
-        				</p:columnGroup>
+							<p:row>
+								<p:column colspan="6" styleClass="label-formulario"
+									style="text-align:right" footerText="Entradas no período:" />
+								<p:column colspan="2" footerText="#{caixaBean.somaEntradaPago}"
+									style="text-align:left" styleClass="tipo-entrada" />
+							</p:row>
+							<p:row>
+								<p:column colspan="6" styleClass="label-formulario"
+									style="text-align:right" footerText="Saídas no período:" />
+								<p:column colspan="2" footerText="-#{caixaBean.somaSaidaPago}"
+									style="text-align:left" styleClass="tipo-saida" />
+							</p:row>
+							<p:row>
+								<p:column colspan="6" styleClass="label-formulario"
+									style="text-align:right" footerText="Saldo final:" />
+								<p:column colspan="2" footerText="R$ #{caixaBean.saldoFinal}"
+									style="text-align:left;" styleClass="label-formulario" />
+							</p:row>
+						</p:columnGroup>
 						<f:facet name="footer">
 							Total de : #{caixaBean.model.rowCount}
 						</f:facet>

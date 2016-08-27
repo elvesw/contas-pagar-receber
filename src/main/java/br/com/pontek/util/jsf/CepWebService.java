@@ -40,11 +40,10 @@ public class CepWebService {
 					this.bairro=(element.getText());
 				}
 				if (element.getQualifiedName().equals("tipo_logradouro")) {
-					this.logradouro=(element.getText());
+					 setTipoLogradouro(element.getText());
 				}
 				if (element.getQualifiedName().equals("logradouro")) {
-					this.logradouro=(getTipoLogradouro() + " "
-							+ element.getText());
+					this.logradouro=(getTipoLogradouro()+ " "+ element.getText());
 				}
 				if (element.getQualifiedName().equals("resultado")) {
 					setResultado(Integer.parseInt(element.getText()));

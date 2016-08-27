@@ -25,6 +25,8 @@ public class UsuarioBean {
 
 	@Autowired
 	UsuarioService usuarioService;
+	@Autowired
+	EmailUtil emailUtil;
 	
 	private List<Usuario> listaUsuarios = new ArrayList<Usuario>();
 	private String viewAtiva = estadoDaView.LISTANDO.toString();
@@ -84,7 +86,7 @@ public class UsuarioBean {
 					String corpoEmail="<p style=\"font-weight:bold;display:inline-block;\">Login: </p><p style=\"display:inline-block;\">"+"&nbsp;"+usuario.getEmail()+"</p>"
 							+"<br/>"+"<p style=\"font-weight:bold;display:inline-block;\">Senha: </p><p style=\"display:inline-block;\">"+"&nbsp;"+senha+"</p>"
 							+endereco;
-					EmailUtil.sendEmail("Solicitação de nova senha", corpoEmail, usuario.getEmail());
+				emailUtil.sendEmail("Solicitação de nova senha", corpoEmail, usuario.getEmail());
 					usuario.setSenha(MD5.convertPasswordToMD5(senha));
 					usuarioService.salvar(usuario);
 					FacesUtil.exibirMensagemSucesso("Senha solicitada foi enviada por email");
@@ -95,7 +97,7 @@ public class UsuarioBean {
 				String corpoEmail="<p style=\"font-weight:bold;display:inline-block;\">Login: </p><p style=\"display:inline-block;\">"+"&nbsp;"+usuario.getEmail()+"</p>"
 						+"<br/>"+"<p style=\"font-weight:bold;display:inline-block;\">Senha: </p><p style=\"display:inline-block;\">"+"&nbsp;"+senha+"</p>"
 						+endereco;
-					EmailUtil.sendEmail("Novo cadastro no sistema", corpoEmail, usuario.getEmail());
+				emailUtil.sendEmail("Novo cadastro no sistema", corpoEmail, usuario.getEmail());
 					usuario.setSenha(MD5.convertPasswordToMD5(senha));
 					usuarioService.salvar(usuario);
 					FacesUtil.exibirMensagemSucesso("Salvo com sucesso, senha enviada por email");
@@ -108,6 +110,7 @@ public class UsuarioBean {
 			
 		} catch (Exception e) {
 			FacesUtil.exibirMensagemErro("Erro :"+e.getMessage());
+			e.printStackTrace();
 		}
 	}
 	

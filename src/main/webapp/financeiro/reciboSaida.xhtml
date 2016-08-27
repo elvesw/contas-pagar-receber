@@ -1,0 +1,80 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<div class="recibo-container">
+		<div class="recibo-conteudo">
+			<div style="display: inline-block;width: 100%;">
+				<div style="float: left">
+					<h2>#{caixaBean.dtoRecibo.nomeEmpresa}</h2>
+					<br />
+					<h4>#{caixaBean.dtoRecibo.telefoneEmpresa}</h4>
+					<br />
+					<h4>#{caixaBean.dtoRecibo.emailEmpresa}</h4>
+					<br />
+					<h4>#{caixaBean.dtoRecibo.enderecoEmpresa}</h4>	
+				</div>
+				<div style="float: right;">
+					<h:graphicImage value="/imagem?n=#{caixaBean.dtoRecibo.logoEmpresa}" 
+					width="136" height="131" rendered="#{not empty caixaBean.dtoRecibo.logoEmpresa}"/>
+				</div>
+			</div>
+			<div class="recibo-centralizado">
+				<h1>RECIBO</h1>
+			</div>
+
+			<p style="line-height: 1.8">
+				Eu, <span>#{caixaBean.dtoRecibo.nome}
+					#{caixaBean.dtoRecibo.documento}</span> declaro que recebi da empresa <span>#{caixaBean.dtoRecibo.nomeEmpresa}</span> CNPJ: <span>#{caixaBean.dtoRecibo.cnpjEmpresa}</span> a quantia de <span>R$
+					#{caixaBean.dtoRecibo.valor}</span>
+				(#{caixaBean.dtoRecibo.valorPorExtenso}), referente à <span>#{caixaBean.dtoRecibo.descricao}</span>
+			</p>
+
+			<div class="recibo-centralizado">
+				<p>#{caixaBean.dtoRecibo.dataHoje}</p>
+				<p>______________________________</p>
+				<p>#{caixaBean.dtoRecibo.nome}</p>
+			</div>
+		</div>
+		<h:panelGroup layout="block" rendered="#{caixaBean.dtoRecibo.via2}">
+			<div class="recibo-conteudo">
+				<div style="display: inline-block;width: 100%;">
+				<div style="float: left">
+					<h2>#{caixaBean.dtoRecibo.nomeEmpresa}</h2>
+					<br />
+					<h4>#{caixaBean.dtoRecibo.telefoneEmpresa}</h4>
+					<br />
+					<h4>#{caixaBean.dtoRecibo.emailEmpresa}</h4>
+					<br />
+					<h4>#{caixaBean.dtoRecibo.enderecoEmpresa}</h4>	
+				</div>
+				<div style="float: right;">
+					<h:graphicImage value="/imagem?n=#{caixaBean.dtoRecibo.logoEmpresa}" 
+					width="136" height="131" rendered="#{not empty caixaBean.dtoRecibo.logoEmpresa}"/>
+				</div>
+			</div>
+				<div class="recibo-centralizado">
+					<h1>RECIBO - 2ºvia</h1>
+				</div>
+	
+				<p style="line-height: 1.8">
+					Eu, <span>#{caixaBean.dtoRecibo.nome}
+						#{caixaBean.dtoRecibo.documento}</span> declaro que recebi da empresa <span>#{caixaBean.dtoRecibo.nomeEmpresa}</span> CNPJ: <span>#{caixaBean.dtoRecibo.cnpjEmpresa}</span> a quantia de <span>R$
+						#{caixaBean.dtoRecibo.valor}</span>
+					(#{caixaBean.dtoRecibo.valorPorExtenso}), referente à <span>#{caixaBean.dtoRecibo.descricao}</span>
+				</p>
+	
+				<div class="recibo-centralizado">
+					<p>#{caixaBean.dtoRecibo.dataHoje}</p>
+					<p>______________________________</p>
+					<p>#{caixaBean.dtoRecibo.nome}</p>
+				</div>
+			</div>		
+		</h:panelGroup>
+	</div>
+	
+	
+	
+	</ui:composition>

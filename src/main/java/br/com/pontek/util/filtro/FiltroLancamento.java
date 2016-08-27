@@ -13,7 +13,7 @@ public class FiltroLancamento extends FiltroBaseAbstract{
 	private FiltroStatus fitroStatus;
 	private FiltroTipoData filtroTipoData;
 	private FiltroTipoLancamento filtroTipoLancamento;
-	
+
 	private boolean  btnFiltro = false;//PARA BUG DO PRIMEIRO REGISTRO DA LISTA
 	
 	/* ########### CONSTRUTORES ###########*/

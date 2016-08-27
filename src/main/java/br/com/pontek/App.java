@@ -1,5 +1,8 @@
 package br.com.pontek;
+import static java.nio.file.FileSystems.getDefault;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -26,17 +29,21 @@ public class App {
 	@Autowired
 	LancamentoService lancamentoService;
 
-	@SuppressWarnings({ "resource", "unused"})
+	@SuppressWarnings({ "resource"})
 	public static void main(String[] args) throws ParseException {
 		final ApplicationContext context = new ClassPathXmlApplicationContext("spring/applicationContext.xml");
 
 		final App app = context.getBean(App.class);
 		System.out.println("App.main(): "+LocalDate.now().atStartOfDay().atZone(ZoneId.of("America/Sao_Paulo")).toInstant());
-
-		System.out.println("u"+System.currentTimeMillis());
 		
+			app.verificaPathTomcat();
 	}
 	
-
+	void verificaPathTomcat(){
+		Path path = Paths.get("c://files//avaliacao//7PASSOS.png");
+		System.out.println("App.verificaPathTomcat()"+path);
+		System.out.println("SISTEMA OPERACIONAL: "+System.getProperties().get("os.name")); 
+		
+	}
 	
 }

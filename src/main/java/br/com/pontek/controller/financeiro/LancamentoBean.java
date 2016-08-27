@@ -238,7 +238,7 @@ public class LancamentoBean extends AbstractBean{
 	        List<Pessoa> filtroLista = new ArrayList<Pessoa>();
 	        for (Integer i = 0; i < lista.size(); i++) {
 	        	Pessoa temp = lista.get(i);
-	            if(temp.getNome().toLowerCase().startsWith(nome)){
+	            if(temp.getNome().toLowerCase().startsWith(nome.toLowerCase())){
 	            	filtroLista.add(temp);
 	            }
 	        }
@@ -357,10 +357,6 @@ public class LancamentoBean extends AbstractBean{
 		if(configuracao.getId()==null){
 			configuracao=configuracaoService.carregar();
 		}
-		
-		if(listaCategorias.isEmpty()){
-			listaCategorias=categoriaService.listaCategoriasPorTipo(tipoLancamentoPagina);//perfil
-		}
 		if(listaPessoas.isEmpty()){
 			if(tipoLancamentoPagina.equals(TipoDeLancamento.ENTRADA)){
 				listaPessoas=pessoaService.listaPorPerfil(configuracao.isExibirClientesEmLancamentosEntrada(), 
@@ -373,6 +369,10 @@ public class LancamentoBean extends AbstractBean{
 						configuracao.isExibirFuncionariosEmLancamentosSaida());				
 			}
 		}
+		if(listaCategorias.isEmpty()){
+			listaCategorias=categoriaService.listaCategoriasPorTipo(tipoLancamentoPagina);//perfil
+		}
+		
 		if(listaContas.isEmpty()){
 			listaContas=contaService.listaTodos();
 		}

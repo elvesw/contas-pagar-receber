@@ -53,7 +53,8 @@
 					<p:panelGrid columns="1" layout="grid"
 						columnClasses="ui-grid-col-12">
 						<p:outputLabel value="Descrição" styleClass="label-formulario" />
-						<p:inputText id="descricao" autocomplete="off"
+						<p:inputText id="descricao" autocomplete="off" required="true"
+						requiredMessage="Informe uma descrição"
 							value="#{lancamentoBean.lancamento.descricao}" />
 					</p:panelGrid>
 

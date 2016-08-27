@@ -36,6 +36,17 @@ public class Pessoa implements Serializable {
 	@NotEmpty(message="O nome é obrigatório")
 	@Column(name="nome")
 	private String nome;
+	@Column(name = "eh_responsavel_financeiro")
+	private Boolean ehResponsavelFinanceiro=true;//caso false tem que colocar o nome e cpf de quem é
+    @Column(name = "observacoes")
+    private String observacoes;
+    
+    /*####RESPONSAVEL FINANCEIRO#### */
+    @Column(name = "nome_responsavel")
+    private String nomeResponsavel;
+    @Column(name = "cpf_responsavel")
+    private String cpfResponsavel;
+    
 	
 	/* ####PERFIL#### */
 	@Column(name="cliente")
@@ -109,6 +120,22 @@ public class Pessoa implements Serializable {
 		this.nome = nome;
 	}
 
+	public Boolean getEhResponsavelFinanceiro() {
+		return ehResponsavelFinanceiro;
+	}
+
+	public void setEhResponsavelFinanceiro(Boolean ehResponsavelFinanceiro) {
+		this.ehResponsavelFinanceiro = ehResponsavelFinanceiro;
+	}
+
+	public String getObservacoes() {
+		return observacoes;
+	}
+
+	public void setObservacoes(String observacoes) {
+		this.observacoes = observacoes;
+	}
+
 	public Boolean getCliente() {
 		return cliente;
 	}
@@ -131,6 +158,22 @@ public class Pessoa implements Serializable {
 
 	public void setFuncionario(Boolean funcionario) {
 		this.funcionario = funcionario;
+	}
+
+	public String getNomeResponsavel() {
+		return nomeResponsavel;
+	}
+
+	public void setNomeResponsavel(String nomeResponsavel) {
+		this.nomeResponsavel = nomeResponsavel;
+	}
+
+	public String getCpfResponsavel() {
+		return cpfResponsavel;
+	}
+
+	public void setCpfResponsavel(String cpfResponsavel) {
+		this.cpfResponsavel = cpfResponsavel;
 	}
 
 	public String getCpfCnpj() {

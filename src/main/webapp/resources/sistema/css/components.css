@@ -330,7 +330,11 @@
 	font-size: 1.2em;
 	color: #37b9f7; 
 }
-
+/* background do button do fileupload */
+.ui-fileupload-buttonbar.ui-widget-header {
+    background-color: transparent;
+    border: 0 none;
+}
 
 .configuracao-bloco-form{
 	border:1px solid #CCCCCC;
@@ -355,4 +359,49 @@
 	margin: 0;
 	font-size: 1.1em;
 	color: #373737; 
+}
+
+
+.cadastro-bloco-form{
+	border:1px solid #CCCCCC;
+	border-radius:8px;
+	margin:5px;
+	padding:8px;
+}
+.cadastro-bloco-form-title {
+	margin: 0;
+	padding: 5px 0 !important;
+	font-size: 1.2em;
+	color: #37b9f7; 
+}
+
+/* RECIBO */
+.recibo-container {
+	width: 100%;
+	overflow-x: auto;
+	white-space: nowrap;
+}
+.recibo-conteudo{
+	width:670px;
+	background-color: #ffff80;
+	border:1px solid #CCCCCC;
+	border-radius:8px;
+	margin:5px;
+	padding:8px;
+}
+.recibo-conteudo h1,
+.recibo-conteudo h2, 
+.recibo-conteudo h3,
+.recibo-conteudo h4{
+	display: inline;
+}
+.recibo-conteudo p{
+	font-size:20px;
+	white-space: normal;
+}
+.recibo-conteudo span{
+	font-weight: bold;
+}
+.recibo-centralizado{
+	text-align:center;
 }

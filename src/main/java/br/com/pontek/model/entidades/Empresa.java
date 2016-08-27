@@ -39,6 +39,10 @@ public class Empresa implements Serializable {
 	private String email;
 	@Column(name = "site")
 	private String site;
+
+	@Column(name = "logo")
+	private String logo;
+	
 	@CNPJ
 	@Column(name = "cnpj")
 	private String cnpj;
@@ -122,6 +126,12 @@ public class Empresa implements Serializable {
 	}
 	public void setSite(String site) {
 		this.site = site;
+	}
+	public String getLogo() {
+		return logo;
+	}
+	public void setLogo(String logo) {
+		this.logo = logo;
 	}
 	public String getCnpj() {
 		return cnpj;

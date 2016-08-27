@@ -1,9 +1,13 @@
 package br.com.pontek.controller.entidades;
 
+import java.io.File;
+
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.event.ActionEvent;
+import javax.imageio.stream.FileImageOutputStream;
 
+import org.primefaces.event.FileUploadEvent;
+import org.primefaces.model.UploadedFile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -34,16 +38,6 @@ public class EmpresaBean {
 	}
 	
 	
-	public String verCadastroPDF(ActionEvent actionEvent) throws Exception{
-		try {
-			
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		return null;	
-	}
-	
-	
 	public void salvar(){
 		try {
 			empresaService.salvar(empresa);
@@ -53,6 +47,31 @@ public class EmpresaBean {
 		}
 	}
 
+	
+	public void upImagem(FileUploadEvent event){
+		 UploadedFile uf = event.getFile();
+		 String extensaoArquivo =uf.getFileName().substring(uf.getFileName().length()-4,uf.getFileName().length());
+	     String pathArquivo = FacesUtil.pathImagens()+"empresa"+empresa.getId()+extensaoArquivo;
+	     empresa.setLogo("empresa"+empresa.getId()+extensaoArquivo);
+	     
+	      FileImageOutputStream imageOutput;
+	        try {
+	            imageOutput = new FileImageOutputStream(new File(pathArquivo));
+	            imageOutput.write(uf.getContents(),0,uf.getContents().length);
+	            
+	            imageOutput.close();
+	        } catch (Exception e) {
+	        	FacesUtil.exibirMensagemErro("Upload falhou, tente novamente");
+	            return;
+	        }
+	        empresaService.salvar(empresa);
+	         FacesUtil.exibirMensagemSucesso("Upload realidado com sucesso");
+	}
+	
+	public void excluirImagem(){
+		empresa.setLogo(null);
+		empresaService.salvar(empresa);
+	}
 	
 	/* #####CEP WEB SERVIÇE###### */
 	public void encontraCep(String cep) {

@@ -14,17 +14,29 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-@Service
+import br.com.pontek.model.sistema.Configuracao;
+import br.com.pontek.service.sistema.ConfiguracaoService;
+
+@Component
 public class EmailUtil {
-
 	
-	public static void sendEmail(String assunto, String corpoEmailHTML, String destinatario) {
-		
-		final String login = "pontekti@gmail.com";
-		final String senha = "Um4M3rd4D3$3nh4";
+	@Autowired
+	private ConfiguracaoService configuracaoService;
+	Configuracao configuracao=new Configuracao();
 
+	private void carregaConfiguracao(){
+		if(configuracao.getId()==null){
+			configuracao=configuracaoService.carregar();
+		}
+	}
+	
+	public void sendEmail(String assunto, String corpoEmailHTML, String destinatario) {
+		carregaConfiguracao();
+		final String login = configuracao.getEmailSmtp();
+		final String senha = configuracao.getSenhaEmailSmtp();
 		final String enviarDe = "pontekti@gmail.com";
 
 		System.out.println("EmailUtil.sendEmail() - Iniciando envio email TLSGmail.");
