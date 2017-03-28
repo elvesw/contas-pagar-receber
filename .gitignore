@@ -6,10 +6,6 @@
 /build/
 /bin/
 /target/
-*/target/*
-/target/**
-*/target/**
-target/
 .settings/
 .metadata/
 .target/

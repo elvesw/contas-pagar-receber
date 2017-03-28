@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.0.final using JasperReports Library version 6.3.0  -->
-<!-- 2016-08-12T18:44:19 -->
+<!-- 2016-12-07T13:56:34 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Lancamentos" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6ba8c772-1ff7-4071-ae48-8e0a75a34a75">
 	<property name="ireport.zoom" value="1.6934217901613384"/>
 	<property name="ireport.x" value="0"/>
@@ -36,6 +36,7 @@
 	<field name="statusLancamento" class="java.lang.String"/>
 	<field name="descricao" class="java.lang.String"/>
 	<field name="dataVencimento" class="java.util.Date"/>
+	<field name="categoriaNome" class="java.lang.String"/>
 	<variable name="somaValor" class="java.math.BigDecimal" calculation="Sum">
 		<variableExpression><![CDATA[$F{valorPago}]]></variableExpression>
 		<initialValueExpression><![CDATA[BigDecimal.ZERO]]></initialValueExpression>
@@ -115,7 +116,7 @@
 				<text><![CDATA[ Valor]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="200" y="0" width="157" height="14" forecolor="#726343" uuid="bf462de8-1e3d-46aa-bc9c-45b60ac68ec7">
+				<reportElement x="200" y="0" width="90" height="14" forecolor="#726343" uuid="bf462de8-1e3d-46aa-bc9c-45b60ac68ec7">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement>
@@ -123,10 +124,19 @@
 				</textElement>
 				<text><![CDATA[ Descrição]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="290" y="0" width="67" height="14" forecolor="#726343" uuid="a37dcad7-0518-49db-83bf-933c8e03d285">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement>
+					<font fontName="Arial" size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[ Categoria]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="14" splitType="Stretch">
+		<band height="19" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 			<textField isBlankWhenNull="true">
 				<reportElement style="zebrado" x="530" y="0" width="25" height="14" uuid="8cfae527-d3d4-413e-adc9-bc84a737da42"/>
@@ -173,13 +183,22 @@
 				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
 			</textField>
 			<textField isBlankWhenNull="true">
-				<reportElement style="zebrado" positionType="Float" x="200" y="0" width="157" height="14" uuid="9b727732-b086-4dbe-8507-3032b78de5cf">
+				<reportElement style="zebrado" positionType="Float" x="200" y="0" width="90" height="14" uuid="9b727732-b086-4dbe-8507-3032b78de5cf">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 				</reportElement>
 				<textElement verticalAlignment="Middle">
 					<font fontName="Arial"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
+			</textField>
+			<textField isBlankWhenNull="true">
+				<reportElement style="zebrado" positionType="Float" x="290" y="0" width="67" height="14" uuid="07e9cece-ba94-423e-99c2-acfad59364b6">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<textElement verticalAlignment="Middle">
+					<font fontName="Arial"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{categoriaNome}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

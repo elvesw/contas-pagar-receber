@@ -4,6 +4,7 @@ import br.com.pontek.enums.FiltroData;
 import br.com.pontek.enums.FiltroStatus;
 import br.com.pontek.enums.FiltroTipoData;
 import br.com.pontek.enums.FiltroTipoLancamento;
+import br.com.pontek.model.financeiro.Categoria;
 
 public class FiltroLancamento extends FiltroBaseAbstract{
 
@@ -13,6 +14,7 @@ public class FiltroLancamento extends FiltroBaseAbstract{
 	private FiltroStatus fitroStatus;
 	private FiltroTipoData filtroTipoData;
 	private FiltroTipoLancamento filtroTipoLancamento;
+	private Categoria filtroCategoria=new Categoria();
 
 	private boolean  btnFiltro = false;//PARA BUG DO PRIMEIRO REGISTRO DA LISTA
 	
@@ -66,6 +68,13 @@ public class FiltroLancamento extends FiltroBaseAbstract{
 	}
 	public void setFiltroTipoLancamento(FiltroTipoLancamento filtroTipoLancamento) {
 		this.filtroTipoLancamento = filtroTipoLancamento;
+	}
+	
+	public Categoria getFiltroCategoria() {
+		return filtroCategoria;
+	}
+	public void setFiltroCategoria(Categoria filtroCategoria) {
+		this.filtroCategoria = filtroCategoria;
 	}
 	public boolean isBtnFiltro() {
 		return btnFiltro;

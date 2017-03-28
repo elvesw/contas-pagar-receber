@@ -209,6 +209,10 @@ public class LancamentoBean extends AbstractBean{
 	/**Função que altera o estado da view ,deixando o filtro disponível*/
 	public void filtrando(){
 		viewAtiva=estadoDaView.FILTRO.toString();
+		//Carregando as categorias para o filtro
+		if(listaCategorias.isEmpty()){
+			listaCategorias=categoriaService.listaCategoriasPorTipo(tipoLancamentoPagina);//perfil
+		}
 	}
 	
 	
@@ -224,6 +228,7 @@ public class LancamentoBean extends AbstractBean{
 		filtro.setFitroStatus(FiltroStatus.Somente_pendentes);
 		filtro.setFitroData(FiltroData.Passado_mais_30_dias);
 		filtro.setTermoParaBusca(null);
+		filtro.setFiltroCategoria(new Categoria());
 		viewAtiva=estadoDaView.LISTANDO.toString();
 	}
 	/*############ FIM - 1º BLOCO FUNÇÕES PARA O DATATABLE #######*/

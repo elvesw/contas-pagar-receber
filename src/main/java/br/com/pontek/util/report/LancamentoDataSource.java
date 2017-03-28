@@ -48,6 +48,8 @@ public class LancamentoDataSource implements JRDataSource {
 			return lancamento.getDataVencimento();
 		}else if(field.getName().equals("dataPagamento")){
 			return lancamento.getDataPagamento();
+		}else if(field.getName().equals("categoriaNome")){
+			return lancamento.getCategoria().getNome(); //up 07/12/16, add categoriaNome no relatorio
 		}
 		return null;
 	}

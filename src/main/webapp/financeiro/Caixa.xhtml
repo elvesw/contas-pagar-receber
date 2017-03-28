@@ -277,13 +277,13 @@
 								style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" />
 						</p:column>
 
-						<p:column headerText="Descrição" width="23%" selectRow="false">
+						<p:column headerText="Descrição" width="23%" selectRow="false" sortBy="#{lancamento.descricao}">
 							<h:outputText value="#{lancamento.descricao}"
 								style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"
 								title="#{lancamento.descricao}" />
 						</p:column>
 
-						<p:column headerText="Nome" width="20%" selectRow="false">
+						<p:column headerText="Nome" width="20%" selectRow="false" sortBy="#{lancamento.pessoa}">
 							<h:outputText value="#{lancamento.pessoa.nome}"
 								style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"
 								title="#{lancamento.pessoa.nome}" />
@@ -336,6 +336,7 @@
 									style="text-align:left;" styleClass="label-formulario" />
 							</p:row>
 						</p:columnGroup>
+						
 						<f:facet name="footer">
 							Total de : #{caixaBean.model.rowCount}
 						</f:facet>

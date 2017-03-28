@@ -54,17 +54,30 @@ public class LancamentoDaoImp extends AbstractDaoImpl<Lancamento, Integer> imple
 		criteria.setFirstResult(filtro.getPrimeiroRegistro());
 		criteria.setMaxResults(filtro.getQuantidadeRegistros());
 		
-		if (filtro.isAscendente() && filtro.getPropriedadeOrdenacao() != null) {
-			criteria.addOrder(Order.asc(filtro.getPropriedadeOrdenacao()));
-		} else if (filtro.getPropriedadeOrdenacao() != null) {
-			criteria.addOrder(Order.desc(filtro.getPropriedadeOrdenacao()));
-		}else if(filtro.getFiltroTipoData().equals(FiltroTipoData.Data_de_vencimento)){
-			criteria.addOrder(Order.desc("dataVencimento"));
-		}else if(filtro.getFiltroTipoData().equals(FiltroTipoData.Data_de_pagamento)){
-			criteria.addOrder(Order.desc("dataPagamento"));
-		}else if(filtro.getFiltroTipoData().equals(FiltroTipoData.Data_de_cadastro)){
-			criteria.addOrder(Order.desc("dataCadastro"));
+		//Alias na ordenação por nome de pessoa up - 29/10/2016
+		if(filtro.getPropriedadeOrdenacao() != null){
+			if(filtro.getPropriedadeOrdenacao().equalsIgnoreCase("pessoa")){
+				Criteria c = criteria;//funcionou depois que eu condicionei pessoa depois os outros
+				c.createAlias("pessoa", "p");
+				if (filtro.isAscendente()){
+					c.addOrder(Order.asc("p.nome"));
+				} else {
+					c.addOrder(Order.desc("p.nome"));
+				}
+			}else if (filtro.isAscendente() && filtro.getPropriedadeOrdenacao() != null){
+				criteria.addOrder(Order.asc(filtro.getPropriedadeOrdenacao()));
+			} else if (filtro.getPropriedadeOrdenacao() != null) {
+				criteria.addOrder(Order.desc(filtro.getPropriedadeOrdenacao()));
+			}else if(filtro.getFiltroTipoData().equals(FiltroTipoData.Data_de_vencimento)){
+				criteria.addOrder(Order.desc("dataVencimento"));
+			}else if(filtro.getFiltroTipoData().equals(FiltroTipoData.Data_de_pagamento)){
+				criteria.addOrder(Order.desc("dataPagamento"));
+			}else if(filtro.getFiltroTipoData().equals(FiltroTipoData.Data_de_cadastro)){
+				criteria.addOrder(Order.desc("dataCadastro"));
+			}
 		}
+		
+		
 		return criteria.list();
 	}
 
@@ -93,6 +106,7 @@ public class LancamentoDaoImp extends AbstractDaoImpl<Lancamento, Integer> imple
 		Criteria criteria = session.createCriteria(Lancamento.class);
 		
 		Conjunction conjunction = Restrictions.conjunction();
+		
 		
 		/*Termo para busca OK*/
 		if(StringUtils.isNotEmpty(filtro.getTermoParaBusca())){
@@ -204,6 +218,14 @@ public class LancamentoDaoImp extends AbstractDaoImpl<Lancamento, Integer> imple
 												Restrictions.eq("tipoLancamento", TipoDeLancamento.SAÍDA)));
 			}
 		}
+		
+		// Filtro Categoria up 29-10-2016
+		if(filtro.getFiltroCategoria()!=null){
+			if (filtro.getFiltroCategoria().getId() != null) {
+				conjunction.add(Restrictions.eq("categoria", filtro.getFiltroCategoria()));
+			}			
+		}
+		
 		criteria.add(conjunction);
 		return criteria;
 	}
