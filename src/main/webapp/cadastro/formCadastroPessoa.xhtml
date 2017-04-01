@@ -3,8 +3,7 @@
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:p="http://primefaces.org/ui">
-   
-   
+
    			<h:panelGroup layout="block" id="div-cadastro" rendered="#{pessoaBean.viewAtiva eq 'INSERINDO' or pessoaBean.viewAtiva eq 'EDITANDO'}">
 
 				<div style="display: inline-block; padding-top: 4px; width: 100%">
@@ -22,8 +21,8 @@
 				
 				<div class="ui-fluid cadastro-bloco-form">
 					<h1 class="cadastro-bloco-form-title">Dados principais</h1>
-					<p:panelGrid columns="3" layout="grid"
-						columnClasses="ui-grid-col-5,ui-grid-col-2,ui-grid-col-1"
+					<p:panelGrid columns="4" layout="grid"
+						columnClasses="ui-grid-col-5,ui-grid-col-2,ui-grid-col-1,ui-grid-col-2"
 						styleClass="ui-panelgrid-blank">
 
 						<p:panelGrid columns="1" layout="grid"
@@ -49,14 +48,38 @@
 							</p:selectOneMenu>
 						</p:panelGrid>
 						
+						<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+							<p:outputLabel value="Data Nascimento" styleClass="label-formulario" />
+							<p:calendar id="data-nascimento" value="#{pessoaBean.pessoa.dataNascimento}" autocomplete="off"
+							navigator="true" pattern="dd-MM-yyyy" mask="true" locale="pt"
+							yearRange="c-20:c+0">
+							</p:calendar>
+						</p:panelGrid>
+						
+					</p:panelGrid>
+					<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-5,ui-grid-col-5"
+						styleClass="ui-panelgrid-blank" id="filiacao">
+						
+						<p:panelGrid columns="1" layout="grid"
+							columnClasses="ui-grid-col-12">
+							<p:outputLabel value="Nome Mãe" styleClass="label-formulario" />
+							<p:inputText id="nome-mae" value="#{pessoaBean.pessoa.nomeMae}" autocomplete="off"/>
+						</p:panelGrid>
+						
+						<p:panelGrid columns="1" layout="grid"
+							columnClasses="ui-grid-col-12">
+							<p:outputLabel value="Nome Pai" styleClass="label-formulario" />
+							<p:inputText id="nome-pai" value="#{pessoaBean.pessoa.nomePai}" autocomplete="off"/>
+						</p:panelGrid>
+						
 					</p:panelGrid>
 					
 					<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-2,ui-grid-col-1" 
-					rendered="#{pessoaBean.perfil eq 'Clientes'}">
+					rendered="#{pessoaBean.perfil eq 'Clientes'}" >
 						
-							<p:outputLabel value="Responsável financeiro" styleClass="label-formulario"/>
+							<p:outputLabel value="Responsável financeiro" styleClass="label-formulario" style="background-color:#37b9f7;padding:2px;"/>
 							<p:selectOneMenu value="#{pessoaBean.pessoa.ehResponsavelFinanceiro}" autoWidth="false">
-								<p:ajax update=":formPrincipal:div-cadastro"/>
+								<p:ajax update=":formPrincipal:responsavel-financeiro"/>
 								<f:selectItem itemLabel="SIM" itemValue="#{true}" />
 								<f:selectItem itemLabel="NÃO" itemValue="#{false}" />
 							</p:selectOneMenu>
@@ -65,30 +88,52 @@
 
 				</div>
 				
+				<h:panelGroup layout="block" id="responsavel-financeiro" ><!-- SO PARA NÃO REDENRIZAR O FORM TODO -->
 				
-				<h:panelGroup layout="block" class="ui-fluid cadastro-bloco-form" id="responsavel-financeiro" 
-				rendered="#{!pessoaBean.pessoa.ehResponsavelFinanceiro}">
-					<h1 class="cadastro-bloco-form-title">Responsável financeiro</h1>
-					<p:panelGrid columns="3" layout="grid"
-						columnClasses="ui-grid-col-5,ui-grid-col-2"
-						styleClass="ui-panelgrid-blank">
+					<h:panelGroup layout="block" class="ui-fluid cadastro-bloco-form"
+					rendered="#{!pessoaBean.pessoa.ehResponsavelFinanceiro}">
 						
-						<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
-								<p:outputLabel value="Nome" styleClass="label-formulario" />
-								<p:inputText id="nome-responsavel" value="#{pessoaBean.pessoa.nomeResponsavel}" autocomplete="off"
-								required="#{!pessoaBean.pessoa.ehResponsavelFinanceiro}" 
-								requiredMessage="Nome do responsável financeiro obrigatório"/>
+						<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-1"
+							styleClass="ui-panelgrid-blank">
+							<h1 class="cadastro-bloco-form-title">Responsável financeiro</h1>
+							
+							<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+								<p:selectOneMenu  id="tipo-responsavel" value="#{pessoaBean.pessoa.tipoResponsavel}" autoWidth="false">
+
+									<p:ajax update=":formPrincipal:nome-responsavel" />
+									<f:selectItems
+										value="#{pessoaBean.tiposDeResponsaveisEnums}"
+										var="tipo" itemValue="#{tipo}" itemLabel="#{tipo.stringEnum}" />
+								</p:selectOneMenu>
 							</p:panelGrid>
-	
-							<p:panelGrid columns="1" layout="grid"
-								columnClasses="ui-grid-col-12">
-								<p:outputLabel value="CPF" styleClass="label-formulario" />
-								<p:inputMask mask="999.999.999-99" id="cpf-responsavel" value="#{pessoaBean.pessoa.cpfResponsavel}" autocomplete="off"
-								required="#{!pessoaBean.pessoa.ehResponsavelFinanceiro}" 
-								requiredMessage="Cpf do responsável financeiro obrigatório"/>
-							</p:panelGrid>
-					</p:panelGrid>
-				</h:panelGroup>
+							
+						</p:panelGrid>
+						
+							
+						<p:panelGrid columns="3" layout="grid"
+							columnClasses="ui-grid-col-5,ui-grid-col-2"
+							styleClass="ui-panelgrid-blank">
+							
+							<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+									<p:outputLabel value="Nome" styleClass="label-formulario" />
+									<p:inputText id="nome-responsavel" value="#{pessoaBean.pessoa.nomeResponsavel}" autocomplete="off"
+									required="#{!pessoaBean.pessoa.ehResponsavelFinanceiro}" 
+									requiredMessage="Nome do responsável financeiro obrigatório"
+									disabled="#{pessoaBean.pessoa.tipoResponsavel ne 'Outro'}"
+									styleClass="#{pessoaBean.pessoa.tipoResponsavel ne 'Outro'?'desabilitar-nome-responsavel':''}"/>
+								</p:panelGrid>
+		
+								<p:panelGrid columns="1" layout="grid"
+									columnClasses="ui-grid-col-12">
+									<p:outputLabel value="CPF" styleClass="label-formulario" />
+									<p:inputMask mask="999.999.999-99" id="cpf-responsavel" value="#{pessoaBean.pessoa.cpfResponsavel}" autocomplete="off"
+									required="#{!pessoaBean.pessoa.ehResponsavelFinanceiro}" 
+									requiredMessage="Cpf do responsável financeiro obrigatório"/>
+								</p:panelGrid>
+						</p:panelGrid>
+					</h:panelGroup>
+					
+				</h:panelGroup><!-- FIM DIV DE rendered responsavel-financeiro -->
 					
 				
 			<div class="ui-fluid cadastro-bloco-form">

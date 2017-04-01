@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 
 import br.com.pontek.controller.AbstractBean;
 import br.com.pontek.enums.PerfilDePessoa;
+import br.com.pontek.enums.TipoResponsavel;
 import br.com.pontek.exception.RelatorioException;
 import br.com.pontek.model.entidades.Pessoa;
 import br.com.pontek.model.sistema.Configuracao;
@@ -146,6 +147,15 @@ public  class PessoaBean extends AbstractBean{
 			viewAtiva = estadoDaView.EDITANDO.toString();
 		}
 	}
+	
+	/*Setando nome do responsável didatico*/ 
+	public void confereRespFinanceiro(){
+		if(TipoResponsavel.Mae.equals(pessoa.getTipoResponsavel())){			
+				pessoa.setNomeResponsavel(pessoa.getNomeMae());
+		}else if(TipoResponsavel.Pai.equals(pessoa.getTipoResponsavel())){
+				pessoa.setNomeResponsavel(pessoa.getNomePai());
+		}
+	}
 
 	/* ##(EXCLUIR) #####################*/
 	public String excluir(Pessoa pessoa) {
@@ -213,10 +223,12 @@ public  class PessoaBean extends AbstractBean{
 		return viewAtiva;
 	}
 
-
 	/*############# ENUMS ###############*/
 	public PerfilDePessoa[] getPerfilDePessoaEnums() {
 		return PerfilDePessoa.values();
+	}
+	public TipoResponsavel[] getTiposDeResponsaveisEnums() {
+		return TipoResponsavel.values();
 	}
 	/*############# PERFIL PAGINA ###############*/
 	public PerfilDePessoa getPerfil() {

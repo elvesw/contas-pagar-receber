@@ -19,6 +19,7 @@ public interface UsuarioService {
     List<Usuario> listaDeUsuarios();
     
 	Usuario verificaLoginSenha(String email, String senha);
-	 Usuario buscarPorEmail(String email);
+	Usuario buscarPorEmail(String email);
+	Usuario usuarioLogado();
     
 }

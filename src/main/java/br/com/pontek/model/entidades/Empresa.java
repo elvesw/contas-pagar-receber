@@ -63,6 +63,12 @@ public class Empresa implements Serializable {
 	@Column(name = "ultima_alteracao")
 	@Temporal(TemporalType.DATE)
 	private Date ultima_alteracao;
+	
+	/*######## RESPONSAVEIS ########*/
+	@Column(name = "nome_diretor")
+	private String nomeDiretor;
+	@Column(name = "nome_secretario")
+	private String nomeSecretario;
 
 	/* ######ENDEREÇO######### */
 	@Column(name = "logradouro")
@@ -180,6 +186,18 @@ public class Empresa implements Serializable {
 	}
 	public void setUltima_alteracao(Date ultima_alteracao) {
 		this.ultima_alteracao = ultima_alteracao;
+	}
+	public String getNomeDiretor() {
+		return nomeDiretor;
+	}
+	public void setNomeDiretor(String nomeDiretor) {
+		this.nomeDiretor = nomeDiretor;
+	}
+	public String getNomeSecretario() {
+		return nomeSecretario;
+	}
+	public void setNomeSecretario(String nomeSecretario) {
+		this.nomeSecretario = nomeSecretario;
 	}
 	public String getLogradouro() {
 		return logradouro;

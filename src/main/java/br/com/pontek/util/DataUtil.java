@@ -172,6 +172,28 @@ public class DataUtil {
 		return null;
 	}
 	
+	/**Formata Date (HH:mm:ss)
+	 * @param  data a ser convertido
+	 * @return String HH:mm:ss*/
+	public static String HHmmss(Date data){
+		if(data!=null){
+			SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+			return sdf.format(data);
+		}
+		return null;
+	}
+	
+	/**Formata Date (yyyy)
+	 * @param  data a ser convertido
+	 * @return String yyyy*/
+	public static String yyyy(Date data){
+		if(data!=null){
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy");
+			return sdf.format(data);
+		}
+		return null;
+	}
+	
 	/**Formata Date
 	 * @param  data a ser convertido
 	 * @return String ex: 22 de agosto de 2016*/

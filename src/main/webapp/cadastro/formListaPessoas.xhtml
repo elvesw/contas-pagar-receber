@@ -48,6 +48,12 @@
 					
 					<p:column headerText="Ações" width="11%" selectRow="false">
 							<div class="ui-acoes-datatable">
+							
+								<p:commandLink immediate="true" styleClass="ui-command-link"
+									action="#{documentoCadastroBean.novo(pessoa)}"
+									title="Emissão de documento" process=":formPrincipal" >
+									<span><i class="fa fa-fw fa-file"></i></span>
+								</p:commandLink>
 									
 								<p:commandLink immediate="true" styleClass="ui-command-link"
 									action="#{pessoaBean.editar(pessoa)}"

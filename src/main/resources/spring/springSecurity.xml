@@ -22,6 +22,7 @@
 		<intercept-url pattern="/cadastro/*.jsf" access="hasAuthority('ROLE_USER') OR hasAuthority('ROLE_ADMIN')" />
 		<intercept-url pattern="/financeiro/*.jsf"  access="hasAuthority('ROLE_USER') OR hasAuthority('ROLE_ADMIN')" />
 		<intercept-url pattern="/sistema/*.jsf"  access="hasAuthority('ROLE_USER') OR hasAuthority('ROLE_ADMIN')" />
+		<intercept-url pattern="/documento/*.jsf"  access="hasAuthority('ROLE_USER') OR hasAuthority('ROLE_ADMIN')" />
 
 		<form-login
             login-page="/Login.jsf"

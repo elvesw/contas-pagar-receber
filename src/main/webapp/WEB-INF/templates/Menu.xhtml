@@ -16,8 +16,13 @@
 			<li class="has-sub"><a href="#"><span><i class="fa  fa-fw fa-user-plus"></i>Cadastro</span></a>
 				<ul>
 					<li><h:link outcome="/cadastro/clientes.xhtml"><span><i class="fa  fa-fw fa-user"></i>Clientes</span></h:link></li>
-					<li><h:link outcome="/cadastro/fornecedores.xhtml"><span><i class="fa  fa-fw fa-user"></i>Fornecedores</span></h:link></li>
 					<li><h:link outcome="/cadastro/funcionarios.xhtml"><span><i class="fa  fa-fw fa-user"></i>Funcionários</span></h:link></li>
+					<li><h:link outcome="/cadastro/fornecedores.xhtml"><span><i class="fa  fa-fw fa-user"></i>Fornecedores</span></h:link></li>
+				</ul>
+			</li>
+			<li class="has-sub"><a href="#"><span><i class="fa  fa-fw fa-wrench"></i>Documentos</span></a>
+				<ul>
+					<li><h:link outcome="/documento/emitidos.xhtml"><span><i class="fa  fa-fw fa-file-text"></i>Emitidos</span></h:link></li>
 				</ul>
 			</li>
 			<li class="has-sub"><a href="#"><span><i class="fa  fa-fw fa-money"></i>Financeiro</span></a>
@@ -38,8 +43,10 @@
 					<li><h:link outcome="/sistema/empresa.xhtml"><span><i class="fa  fa-fw fa-building"></i>Empresa</span></h:link></li>
 					<p:separator style="width:100%"/>
 					<li><h:link outcome="/sistema/configuracoes.xhtml"><span><i class="fa  fa-fw fa-cogs"></i>Configurações</span></h:link></li>
+					<li><h:link outcome="/documento/modelo/lista.xhtml"><span><i class="fa  fa-fw fa-file-text"></i>Modelos de Doc.</span></h:link></li>
 				</ul>
 			</li>
+			
 		</ul>
 	</nav>
 </ui:composition>

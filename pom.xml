@@ -94,7 +94,7 @@
 		<dependency>
 			<groupId>org.primefaces</groupId>
 			<artifactId>primefaces</artifactId>
-			<version>6.0</version>
+			<version>6.1.RC2</version> <!-- atualizando para usar o novo componente textEditor, ultima era 6.0 -->
 			<scope>compile</scope>
 		</dependency>
 
@@ -177,6 +177,11 @@
 			<url>http://repository.primefaces.org</url>
 			<layout>default</layout>
 		</repository>
+		<!-- <repository>
+			<id>prime-repo-central</id>
+			<name>PrimeFaces Central Repository</name>
+			<url>http://central.maven.org/maven2/</url>
+		</repository> -->
 	</repositories>
 
 

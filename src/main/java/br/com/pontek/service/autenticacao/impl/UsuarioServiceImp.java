@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,6 +64,17 @@ public class UsuarioServiceImp implements UsuarioService ,Serializable {
 	@Transactional(readOnly=true)
 	public Usuario buscarPorEmail(String email) {
 		return usuarioDao.buscarPorEmail(email);
+	}
+
+	@Override
+	@Transactional(readOnly=true)
+	public Usuario usuarioLogado() {
+		Usuario usuario = new Usuario();
+		String usuarioLogado= SecurityContextHolder.getContext().getAuthentication().getName();
+		usuario=usuarioDao.buscarPorEmail(usuarioLogado);
+		if(usuario!=null)
+			 return usuario;
+	 return new Usuario();
 	}
 
 }

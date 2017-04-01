@@ -90,6 +90,23 @@
 					</div>
 					
 					<div class="ui-fluid empresa-bloco-form" >
+						<h1 class="empresa-bloco-form-title">Responsáveis</h1>
+						<p:panelGrid columns="1" layout="grid"	columnClasses="ui-grid-col-6">
+							<p:panelGrid columns="1" layout="grid"	columnClasses="ui-grid-col-12">
+								<p:outputLabel value="Diretor(a)"	styleClass="label-formulario" />
+								<p:inputText id="nome-diretor"	value="#{empresaBean.empresa.nomeDiretor}" />
+							</p:panelGrid>
+						</p:panelGrid>
+						
+						<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-6">
+							<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+								<p:outputLabel value="Secretário(a)" styleClass="label-formulario" />
+								<p:inputText id="nome-secretario" value="#{empresaBean.empresa.nomeSecretario}" />
+							</p:panelGrid>
+						</p:panelGrid>
+					</div>
+					
+					<div class="ui-fluid empresa-bloco-form" >
 					<h1 class="empresa-bloco-form-title">Informações para contato</h1>
 						<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-3">
 							<p:panelGrid columns="1" layout="grid"
