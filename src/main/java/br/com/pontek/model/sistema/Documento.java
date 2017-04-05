@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -46,20 +48,14 @@ public class Documento implements Serializable {
 	@Column(name="emitido_por")
 	private String emitidoPor;
 	
-	@Column(name="emitido_para")
-	private String emitidoPara;
-	
 	/* ####OUTRAS#### */
 	@Column(name = "data_emissao")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataEmissao;
-	@Column(name = "data_alteracao")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Date dataAlteracao;//data da última alteração
 	
 	@Lob
 	@Column(name = "historico")
-	private String historico;//concatenando informações sobre esse doc, coloque um <br/> para listar depois
+	private String historico="";//concatenando informações sobre esse doc, coloque um <br/> para listar depois
 	
 	@JoinColumn(name = "pessoa", referencedColumnName = "id")
 	@ManyToOne(optional = true , fetch = FetchType.LAZY) /*Não colocar Cascate ALL*/
@@ -75,7 +71,7 @@ public class Documento implements Serializable {
 	}
 	
 	public void atualizaHistorico(String up){
-		this.historico=this.historico+"<br/>"+DataUtil.ddMMyyyy_HHmmss(new Date())+" "+up;
+		this.historico=this.historico+"<br/>"+DataUtil.ddMMyyyy_HHmmss(new Date())+" <span>"+up+"</span>";
 	}
 
 	public Integer getId() {
@@ -102,23 +98,11 @@ public class Documento implements Serializable {
 	public void setEmitidoPor(String emitidoPor) {
 		this.emitidoPor = emitidoPor;
 	}
-	public String getEmitidoPara() {
-		return emitidoPara;
-	}
-	public void setEmitidoPara(String emitidoPara) {
-		this.emitidoPara = emitidoPara;
-	}
 	public Date getDataEmissao() {
 		return dataEmissao;
 	}
 	public void setDataEmissao(Date dataEmissao) {
 		this.dataEmissao = dataEmissao;
-	}
-	public Date getDataAlteracao() {
-		return dataAlteracao;
-	}
-	public void setDataAlteracao(Date dataAlteracao) {
-		this.dataAlteracao = dataAlteracao;
 	}
 	public String getHistorico() {
 		return historico;
@@ -155,5 +139,15 @@ public class Documento implements Serializable {
 		} else if (!id.equals(other.id))
 			return false;
 		return true;
+	}
+	
+	@PrePersist
+	private void preIn(){
+		this.atualizaHistorico("Emitido");
+		this.dataEmissao=new Date();
+	}
+	@PreUpdate
+	private void preUp(){
+		this.atualizaHistorico("Salvo");
 	}
 }

@@ -10,19 +10,27 @@
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed', GradientType=0) !important;/* IE6-9 */
 }
 
-/* tabela de marcadores in_cadastro_marcadores */
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
+
+/* arquivo in_cadastro_marcadores.xhtml */
+.cadastro-bloco-form{
+	border:1px solid #CCCCCC;
+	border-radius:8px;
+	margin:5px;
+	padding:8px;
+}
+.cadastro-bloco-form-title {
+	margin: 0;
+	padding: 5px 0 !important;
+	font-size: 1.2em;
+	color: #37b9f7;
+	 
+}
+.cadastro-bloco-form-output-label {
+	color: #313B3F;
+	font-weight: bold;
+}
+.dataTableLista-nomeDocumento > a:hover {
+	font-weight:bold ;
 }
 
-td, th {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
-}
 
-/* tr:nth-child(even) {
-    background-color: #dddddd;
-} */

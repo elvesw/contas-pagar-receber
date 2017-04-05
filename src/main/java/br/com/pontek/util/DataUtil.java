@@ -198,11 +198,14 @@ public class DataUtil {
 	 * @param  data a ser convertido
 	 * @return String ex: 22 de agosto de 2016*/
 	public static String extenso(Date data){
+		if(data!=null){
 		LocalDate lDate =data.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		String mes_estenso = lDate.getMonth().getDisplayName(TextStyle.FULL, new Locale("pt"));
 		Integer dia= lDate.getDayOfMonth();
 		Integer ano= lDate.getYear();
 		return dia.toString()+" de "+mes_estenso+" de "+ano.toString();
+		}
+		return null;
 	}
 	
 	

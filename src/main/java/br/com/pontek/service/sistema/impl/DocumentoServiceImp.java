@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.pontek.dao.sistema.DocumentoDao;
 import br.com.pontek.model.sistema.Documento;
 import br.com.pontek.service.sistema.DocumentoService;
+import br.com.pontek.util.filtro.FiltroDocumento;
 
 
 @Service
@@ -24,10 +25,8 @@ public class DocumentoServiceImp implements DocumentoService ,Serializable{
 	@Transactional
 	public void salvar(Documento documento) {
 		if(documento.getId()!=null){
-			documento.atualizaHistorico("Salvo");
 			documentoDao.atualizarEntity(documento);
 		}else{
-			documento.atualizaHistorico("Emitido");
 			documentoDao.salvarEntity(documento);			
 		}
 	}
@@ -36,10 +35,8 @@ public class DocumentoServiceImp implements DocumentoService ,Serializable{
 	@Transactional
 	public Documento salvarRetorno(Documento documento) {
 		if(documento.getId()!=null){
-			documento.atualizaHistorico("Salvo");
 			return documentoDao.salvarReturnEntity(documento);
 		}else{
-			documento.atualizaHistorico("Emitido");
 			return documentoDao.salvarReturnEntity(documento);			
 		}
 	}
@@ -59,9 +56,7 @@ public class DocumentoServiceImp implements DocumentoService ,Serializable{
 	@Override
 	@Transactional
 	public Documento buscar(Integer documento_id) {
-		Documento documento = documentoDao.buscarEntity(documento_id);
-		documento.atualizaHistorico("Visualizado");
-		return documentoDao.salvarReturnEntity(documento);
+		return documentoDao.buscarEntity(documento_id);
 	}
 
 	@Override
@@ -70,6 +65,17 @@ public class DocumentoServiceImp implements DocumentoService ,Serializable{
 		return documentoDao.listaDeEntitys();
 	}
 
+	/*Metodos de PAGINAÇÃO LAZY DATATABLE*/
+	@Override
+	@Transactional(readOnly = true)
+	public List<Documento> filtrados(FiltroDocumento filtro) {
+		return documentoDao.filtrados(filtro);
+	}
+	@Override
+	@Transactional(readOnly = true)
+	public Integer quantidadeFiltrados(FiltroDocumento filtro) {
+		return documentoDao.quantidadeFiltrados(filtro);
+	}
 	
 
 }

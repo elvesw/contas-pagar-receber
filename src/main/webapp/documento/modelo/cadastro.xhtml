@@ -7,32 +7,38 @@
 	
 	<ui:define name="titulo">Cadastro de documento</ui:define>
 	<ui:define name="head">
-		<h:outputStylesheet library="sistema" name="css/relatorio_cadastro.css" />
+		<h:outputStylesheet library="sistema" name="css/documento.css" />
 	</ui:define>
 	<ui:define name="centro">
 	
-		<h:form id="formPrincipal"> 
+		<h:form id="formPrincipal" style="max-width:900px;"> 
 
-			<p:messages id="msg" autoUpdate="true" closable="true" /> 
-			<div style="display: inline-block; padding-top: 4px; width: 100%">
+			<p:messages id="msg" autoUpdate="true" closable="true" />
+			<h:panelGroup layout="block">
+				<h1 class="aw-page-title">Cadastro Documento Modelo</h1>
+			</h:panelGroup>
+			<div style="display: inline-block; padding-top: 4px; width: 100%" class="remove-span-text">
 				<div style="float: left">
 					<p:button value="Voltar" outcome="/documento/modelo/lista.xhtml" 
-					styleClass="btn btn-default" icon="fa fa-fw fa-mail-reply"/> 
+					icon="fa fa-fw fa-mail-reply" styleClass="btn btn-link" />
 				</div>
 
 				<div style="float: right">
+		        		<p:commandButton value="Limpar" type="button" onclick="PF('editorWidget').clear();" 
+		        		icon="fa fa-fw fa-eraser" styleClass="btn btn-info" />
+		        		
 						<p:commandButton  value="Salvar" actionListener="#{documentoModeloBean.salvar()}" 
 						 styleClass="btn btn-success"  icon="fa fa-fw fa-floppy-o" update="formPrincipal"/>
-		        		<p:commandButton value="Limpar" type="button" onclick="PF('editorWidget').clear();" 
-		        		icon="fa fa-fw fa-ban" styleClass="btn btn-primary" />
 				</div>
-				<ui:include src="in_cadastro_marcadores.xhtml" />
 			</div>
-		    
-			<h:panelGroup layout="block" class="ui-fluid" style="width:900px">
 			
-				<p:inputText  id="documento-modelo-nome" value="#{documentoModeloBean.documentoModelo.nome}" placeholder="Nome do documento" style="width:100%"/>
-				<p:textEditor  id="documento-modelo-texto" widgetVar="editorWidget" value="#{documentoModeloBean.documentoModelo.texto}"  height="607" 
+			<h:panelGroup layout="block" class="ui-fluid" style="width:100%">
+				<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-2,ui-grid-col-7" style="margin-bottom:5px;">
+					<p:outputLabel value="Nome documento:" styleClass="label-formulario" />
+					<p:inputText  id="documento-modelo-nome" value="#{documentoModeloBean.documentoModelo.nome}" placeholder="Nome do documento" style="width:100%"/>
+				</p:panelGrid>
+			
+				<p:textEditor  id="documento-modelo-texto" widgetVar="editorWidget" value="#{documentoModeloBean.documentoModelo.texto}"
 				    	placeholder="Insira seu texto..." >
 				    		 <f:facet name="toolbar">
 					             <span class="ql-formats">
@@ -69,6 +75,7 @@
 				   </p:textEditor>
 				   
 			</h:panelGroup>
+			<ui:include src="in_cadastro_marcadores.xhtml" />
 		 </h:form>
 	 </ui:define>
 </ui:composition>

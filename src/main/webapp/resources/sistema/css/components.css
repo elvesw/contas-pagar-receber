@@ -1,3 +1,9 @@
+@media(max-width:480px){
+   #usuarioLogado{
+  	 display: none !important;
+  }
+}
+
 /* TOGGLE */
 .aw-toggle {
 	/* float: right; */
@@ -133,9 +139,7 @@
 .ui-panelgrid .ui-panelgrid-cell {
 	padding: 1px !important;/* espaçamento imput no grid */
 }
-.ui-button-text-icon-left .ui-button-text {/* espaçamento button com icon */
-    padding: 0.1em 0.5em 0.1em 1.6em !important;
-}
+
 .ui-widget-content {
     border: 0 !important; /* borda do painel grid do primefaces thema bootstrap */
 }
@@ -156,7 +160,7 @@
     padding: 3px 8px !important; /* linha do datatable */
 }
 .ui-datatable .ui-datatable-data tr:hover { /* destaca linha selecionada */
-	/* background: #ebebeb; */
+	background: #ebebeb;
 }
 
 .ui-widget-content.ui-state-highlight{
@@ -197,14 +201,6 @@
 		border-top: none !important; /* retirando borda entre as linhas no grid quando a tela menor que 640px */
 	}
 }
-
-@media(max-width:480px){
-	.remove-span-text .ui-button-text-icon-left .ui-button-text {
-		padding: 0.1em 0 0 1.2em !important;
-    	text-indent: -1e+7px !important;/* retirando texto do span  quando a tela menor que 480px */
-	}
-}
-
 
 /* Cor da imagem de check do multiselect no datatable */
 .icon-cor-preto .ui-icon {

@@ -36,8 +36,9 @@
 				style="float:right;margin-right:10px;font-size:12px;color:#ffffff;line-height:50px;" title="Sair">
 				<span><i class="fa  fa-fw  fa-sign-out"></i></span>
 		</h:outputLink>
-		<span style="float:right;margin-right:5px;font-size:12px;color:#ffffff;line-height:50px;font-weight:bold;">
-			Olá, #{sessaoBean.usuarioLogado}!</span>
+		<h:link outcome="/usuario/profileUsuario.xhtml" title="Alterar perfil">
+			<span style="float:right;margin-right:5px;font-size:12px;color:#ffffff;line-height:50px;font-weight:bold;" id="usuarioLogado">
+			<i class="fa  fa-fw fa-user"></i>#{sessaoBean.usuarioLogado}</span></h:link>
 	</header>
 	
 	<aside class="aw-sidebar  js-sidebar">
@@ -55,7 +56,7 @@
 			<h:graphicImage name="img/ajaxloadingbar.gif" library="sistema" 	id="barra_status" />
 	</p:dialog>
 	<!-- Fim Ajax status -->
-	
+		
 	<!-- Scritps Inline JavaScript -->
 	<ui:insert name="scripts" />
 </h:body>

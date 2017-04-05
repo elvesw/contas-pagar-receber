@@ -2,3 +2,15 @@
 	opacity: 0.5 !important;
 	color: #ff0000!important;
 }
+
+.dataTableLista-nomePessoa > a:hover {
+	font-weight:bold ;
+}
+.teste{
+	color: #0000FF;
+}
+
+/* Destaque hover na linha do datatable */
+.ui-datatable tr.ui-datatable-even:hover, .ui-datatable tr.ui-datatable-odd:hover {
+    background: #c4e1ff;
+}

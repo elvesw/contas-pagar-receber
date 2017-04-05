@@ -3,6 +3,7 @@ package br.com.pontek.service.sistema;
 import java.util.List;
 
 import br.com.pontek.model.sistema.Documento;
+import br.com.pontek.util.filtro.FiltroDocumento;
 
 public interface  DocumentoService{
 	
@@ -17,4 +18,8 @@ public interface  DocumentoService{
     /*### METODOS DE BUSCAR ###*/
     Documento buscar(Integer documento_id);
     List<Documento> listaDeDocumentos();
+    
+    /*### Metodos de PAGINAÇÃO LAZY DATATABLE ###*/
+    List<Documento> filtrados(FiltroDocumento filtro);
+	Integer quantidadeFiltrados(FiltroDocumento filtro);
 }

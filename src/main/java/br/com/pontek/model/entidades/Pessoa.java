@@ -23,6 +23,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -125,9 +126,9 @@ public class Pessoa implements Serializable {
 	
 	/**return true é cnpj e false é cpf*/
 	public Boolean CpfOuCnpj(){
-		if(this.cpfCnpj==null)
-			this.cpfCnpj="";
-		return this.getCpfCnpj().length()>14;
+		if(StringUtils.isNotBlank(this.cpfCnpj))
+			return this.getCpfCnpj().length()>14;
+		return false;
 	}
 
 	public Integer getId() {

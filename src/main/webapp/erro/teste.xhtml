@@ -1,0 +1,28 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	template="/WEB-INF/templates/Layout.xhtml"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<ui:define name="titulo">teste de componentes</ui:define>
+	<ui:define name="head">
+		<h:outputStylesheet library="sistema" name="css/documento.css" />
+		
+	</ui:define>
+	<ui:define name="centro">
+	  	<h:form id="formPrincipal">
+		  	<div  style="display: inline-block; padding-top: 4px; width: 100%" class="remove-span-text">
+			  	<div style="float: left">
+				  	<p:commandButton value="Imprimir1" icon="fa fa-fw fa-print" styleClass="btn btn-default"/>
+				  	<p:commandButton value="Imprimir2" icon="fa fa-fw fa-print" styleClass="btn btn-primary"/>
+				  	<p:commandButton value="Imprimir3" icon="fa fa-fw fa-print" styleClass="btn btn-success"/>
+				  	<p:commandButton value="Imprimir4" icon="fa fa-fw fa-print" styleClass="btn btn-info"/>
+				  	<p:commandButton value="Imprimir5" icon="fa fa-fw fa-print" styleClass="btn btn-warning"/>
+				  	<p:commandButton value="Imprimir6" icon="fa fa-fw fa-print" styleClass="btn btn-danger"/>
+				  	<p:commandButton value="Imprimir7" icon="fa fa-fw fa-print" styleClass="btn btn-link" />
+				</div>
+		  	</div>
+	  	</h:form>
+	</ui:define>
+</ui:composition>

@@ -104,3 +104,7 @@ function cpfCnpj(v){
     }
     return v
 }
+
+function reloadPagina() {
+    window.parent.location = window.parent.location.href;
+}

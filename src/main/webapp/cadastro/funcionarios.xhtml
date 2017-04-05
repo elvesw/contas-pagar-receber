@@ -9,6 +9,9 @@
 		<f:event type="preRenderView" listener="#{pessoaBean.tipoPagina('Funcionários')}" />
 	</f:metadata>
 	<ui:define name="titulo">Funcionarios</ui:define>
+	<ui:define name="head">
+		<h:outputStylesheet library="sistema" name="css/form_cadastro_pessoa.css" />
+	</ui:define>
 	<ui:define name="centro">
 
 		<h:form id="formPrincipal">

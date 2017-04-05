@@ -1,0 +1,44 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	template="/WEB-INF/templates/Layout.xhtml"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Documentos</ui:define>
+	<ui:define name="head">
+		<h:outputStylesheet library="sistema" name="css/documento.css" />
+		
+	</ui:define>
+	<ui:define name="centro">
+	
+		<h:form id="formPrincipal">
+			<h:panelGroup layout="block" rendered="#{documentoBean.viewAtiva eq 'INSERINDO'}">
+				<h1 class="aw-page-title">Novo documento</h1>
+			</h:panelGroup>
+			<h:panelGroup layout="block" rendered="#{documentoBean.viewAtiva eq 'EDITANDO'}">
+				<h1 class="aw-page-title">Alterando documento</h1>
+			</h:panelGroup>
+			<h:panelGroup layout="block" rendered="#{documentoBean.viewAtiva eq 'LISTANDO'}" >
+				<h1 class="aw-page-title">Lista de documentos emitidos</h1>
+			</h:panelGroup>
+			<h:panelGroup layout="block" rendered="#{documentoBean.viewAtiva eq 'DETALHANDO'}" style="max-width:900px;">
+				<h1 class="aw-page-title">Imprimir Documento</h1>
+				<ui:include src="formImprimirDocumento.xhtml"/>
+			</h:panelGroup>
+
+			<p:messages id="msg" autoUpdate="true" closable="true" />
+
+			<h:panelGroup layout="block" id="div-cadastro" style="max-width:900px;"
+					rendered="#{documentoBean.viewAtiva eq 'INSERINDO' or documentoBean.viewAtiva eq 'EDITANDO'}">
+				<ui:include src="formCadastroDocumento.xhtml" />
+			</h:panelGroup>
+			<h:panelGroup layout="block" id="div-lista" rendered="#{documentoBean.viewAtiva eq 'LISTANDO'}">
+				<ui:include src="formListaDocumentos.xhtml" />
+			</h:panelGroup>
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

@@ -1,0 +1,67 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+
+	
+			<div style="display: inline-block; padding-top: 4px; width: 100%" class="remove-span-text">
+				<div style="float: left">	
+					 
+				</div>
+				<div style="float: right">
+						<p:inputText value="#{documentoBean.filtro.nome}" placeholder="busca por nome" 
+						style="width:115px;vertical-align:middle;">
+							 <p:ajax event="keyup" update=":formPrincipal"/>
+						</p:inputText>
+				</div>
+			</div>
+			<p:dataTable var="documento" value="#{documentoBean.model}" reflow="true"
+					lazy="true" rowIndexVar="rowIx" id="dataTableLista" rows="12"
+					emptyMessage="Nenhum cadastro ..." paginator="true"
+					paginatorPosition="bottom">	
+
+				<p:column headerText="Cod" width="5%">
+					<h:outputText value="#{documento.id}" />
+				</p:column>
+				
+				<p:column headerText="Nome do documento" styleClass="dataTableLista-nomeDocumento">
+					<p:commandLink styleClass="ui-command-link" title="#{documento.nome}"
+						update=":formPrincipal"
+						action="#{documentoBean.editar(documento)}">
+						<span><h:outputText value="#{documento.nome}" /></span>
+					</p:commandLink>
+				</p:column>
+				
+				<p:column headerText="Histórico" width="8%">
+						<p:commandLink styleClass="ui-command-link" title="Histórico" id="historicoPanel">
+							<span><i class="fa fa-fw fa-history"></i></span>
+						</p:commandLink>
+					
+						<p:overlayPanel id="historico" for="historicoPanel" hideEffect="fade">
+        					<h:outputText value="#{documento.historico}" escape="false"/>
+    					</p:overlayPanel>
+				</p:column>
+				<p:column headerText="Emissão" width="12%">
+					<h:outputText value="#{documento.dataEmissao}">
+						<f:convertDateTime pattern="dd/MM/yyyy"/>
+					</h:outputText>
+				</p:column>
+				
+
+				<p:column headerText="Ações" width="11%">
+					<div class="ui-acoes-datatable">
+						<p:commandLink styleClass="ui-command-link"
+							process="@this" action="#{documentoBean.excluir(documento)}"
+							update=":formPrincipal" title="Excluir">
+							<span><i class="fa fa-fw fa-trash"></i></span>
+							<p:confirm header="Confirmação" 
+							message="Tem certeza que deseja excluir o documento?"  icon="fa fa-fw fa-exclamation-triangle warning"/>
+						</p:commandLink>
+					</div>
+				</p:column>
+			</p:dataTable>
+			
+			<ui:include src="/WEB-INF/templates/dialogConfirmGlobal.xhtml" />
+
+</ui:composition>

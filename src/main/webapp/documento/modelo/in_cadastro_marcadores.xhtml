@@ -4,25 +4,163 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 	
-	<p:commandButton id="clienteBtn" value="Cliente" type="button" />
-    <p:overlayPanel id="clienteOp" for="clienteBtn" hideEffect="fade">
-		<table>
-		  <thead>
-		    <tr>
-		      <th colspan="2">Cliente</th>
-		    </tr>
-		  </thead>
-		  <tbody>
-		    <tr >
-		      <td>Nome</td>
-		      <td>#cliente.nome</td>
-		    </tr>
-		    <tr>
-		      <td>CPF</td>
-		      <td>#cliente.cpf</td>
-		    </tr>
-		  </tbody>
-		</table>
-    </p:overlayPanel>
+    <h:panelGroup layout="block" class="ui-fluid cadastro-bloco-form">
+    	<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-6,ui-grid-col-6" styleClass="ui-panelgrid-blank">
+				<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+					<h1 class="cadastro-bloco-form-title">Dados da pessoa</h1>
+							<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-6,ui-grid-col-6">
+								<p:outputLabel value="Nome"/>
+								<p:outputLabel value="#pessoaNome#" styleClass="cadastro-bloco-form-output-label"/>
+								
+								<p:outputLabel value="Nome do pai"/>
+								<p:outputLabel value="#pessoaNomePai#" styleClass="cadastro-bloco-form-output-label"/>
+								
+								<p:outputLabel value="Nome da mãe"/>
+								<p:outputLabel value="#pessoaNomeMae#" styleClass="cadastro-bloco-form-output-label"/>
+								
+								<p:outputLabel value="Data nascimento" />
+								<p:outputLabel value="#pessoaDataNasc#" styleClass="cadastro-bloco-form-output-label"/>
+								
+								<p:outputLabel value="Data nasc. por extenso"/>
+								<p:outputLabel value="#pessoaDataNascExtenso#" styleClass="cadastro-bloco-form-output-label"/>
+								
+								<p:outputLabel value="CPF"/>
+								<p:outputLabel value="#pessoaCpf#" styleClass="cadastro-bloco-form-output-label"/>
+								
+								<p:outputLabel value="CNPJ"/>
+								<p:outputLabel value="#pessoaCnpj#" styleClass="cadastro-bloco-form-output-label"/>
+								
+								<p:outputLabel value="Telefone"/>
+								<p:outputLabel value="#pessoaTelefone#" styleClass="cadastro-bloco-form-output-label"/>
+								
+								<p:outputLabel value="Email"/>
+								<p:outputLabel value="#pessoaEmail#" styleClass="cadastro-bloco-form-output-label"/>
+								
+								<p:outputLabel value="Nome Responsável financeiro"/>
+								<p:outputLabel value="#pessoaRespFinanceiro#" styleClass="cadastro-bloco-form-output-label"/>
+								
+								<p:outputLabel value="CPF Responsável financeiro"/>
+								<p:outputLabel value="#pessoaRespFinanceiroCpf#" styleClass="cadastro-bloco-form-output-label"/>
+								
+								<p:outputLabel value="Logradouro"/>
+								<p:outputLabel value="#pessoaLogradouro#" styleClass="cadastro-bloco-form-output-label"/>
+								
+								<p:outputLabel value="Bairro"/>
+								<p:outputLabel value="#pessoaBairro#" styleClass="cadastro-bloco-form-output-label"/>
+								
+								<p:outputLabel value="Numero da residência"/>
+								<p:outputLabel value="#pessoaNumero#" styleClass="cadastro-bloco-form-output-label"/>
+								
+								<p:outputLabel value="Complemento do endereço"/>
+								<p:outputLabel value="#pessoaComplemento#" styleClass="cadastro-bloco-form-output-label"/>
+								
+								<p:outputLabel value="Cep"/>
+								<p:outputLabel value="#pessoaCep#" styleClass="cadastro-bloco-form-output-label"/>
+								
+								<p:outputLabel value="Cidade"/>
+								<p:outputLabel value="#pessoaCidade#" styleClass="cadastro-bloco-form-output-label"/>
+								
+								<p:outputLabel value="Estado"/>
+								<p:outputLabel value="#pessoaUf#" styleClass="cadastro-bloco-form-output-label"/>
+							</p:panelGrid>
+				</p:panelGrid>
+				
+				 <p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+							<h1 class="cadastro-bloco-form-title">Dados da sua empresa</h1>
+							<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-6,ui-grid-col-6">
+								<p:outputLabel value="CNPJ"/>
+								<p:outputLabel value="#empresaCnpj#" styleClass="cadastro-bloco-form-output-label"/>
+								
+								<p:outputLabel value="Razão Social"/>
+								<p:outputLabel value="#empresaRazaoSocial#" styleClass="cadastro-bloco-form-output-label"/>
+								
+								<p:outputLabel value="Nome fantasia"/>
+								<p:outputLabel value="#empresaNome#" styleClass="cadastro-bloco-form-output-label"/>
+								
+								<p:outputLabel value="Inscrição Estadual"/>
+								<p:outputLabel value="#empresaInsEstadual#" styleClass="cadastro-bloco-form-output-label"/>
+								
+								<p:outputLabel value="Inscrição Municipal"/>
+								<p:outputLabel value="#empresaInsMunicipal#" styleClass="cadastro-bloco-form-output-label"/>
+								
+								<p:outputLabel value="Logradouro"/>
+								<p:outputLabel value="#empresaLogradouro#" styleClass="cadastro-bloco-form-output-label"/>
+								
+								<p:outputLabel value="Bairro"/>
+								<p:outputLabel value="#empresaBairro#" styleClass="cadastro-bloco-form-output-label"/>
+								
+								<p:outputLabel value="Número"/>
+								<p:outputLabel value="#empresaNumero#" styleClass="cadastro-bloco-form-output-label"/>
+								
+								<p:outputLabel value="Complemento"/>
+								<p:outputLabel value="#empresaComplemento#" styleClass="cadastro-bloco-form-output-label"/>
+								
+								<p:outputLabel value="Cep"/>
+								<p:outputLabel value="#empresaCep#" styleClass="cadastro-bloco-form-output-label"/>
+								
+								<p:outputLabel value="Cidade"/>
+								<p:outputLabel value="#empresaCidade#" styleClass="cadastro-bloco-form-output-label"/>
+								
+								<p:outputLabel value="Estado"/>
+								<p:outputLabel value="#empresaUf#" styleClass="cadastro-bloco-form-output-label"/>
+								
+								<p:outputLabel value="Telefone 1"/>
+								<p:outputLabel value="#empresaTelefone1#" styleClass="cadastro-bloco-form-output-label"/>
+								
+								<p:outputLabel value="Telefone 2"/>
+								<p:outputLabel value="#empresaTelefone2#" styleClass="cadastro-bloco-form-output-label"/>
+								
+								<p:outputLabel value="Nome Secretário(a)"/>
+								<p:outputLabel value="#empresaSecretario#" styleClass="cadastro-bloco-form-output-label"/>
+								
+								<p:outputLabel value="Nome Diretor(a)"/>
+								<p:outputLabel value="#empresaDiretor#" styleClass="cadastro-bloco-form-output-label"/>	
+							</p:panelGrid>
+				 </p:panelGrid>
+				
+				<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+							<h1 class="cadastro-bloco-form-title">Data e hora</h1>
+							<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-6,ui-grid-col-6">
+								<p:outputLabel value="Data de hoje dd-MM-yyyy"/>
+								<p:outputLabel value="#dataAtual#" styleClass="cadastro-bloco-form-output-label"/>
+								
+								<p:outputLabel value="Data de hoje por extenso"/>
+								<p:outputLabel value="#dataAtualExtenso#" styleClass="cadastro-bloco-form-output-label"/>
+								
+								<p:outputLabel value="Horário atual exata HH:mm:ss"/>
+								<p:outputLabel value="#horarioAtual#" styleClass="cadastro-bloco-form-output-label"/>
+								
+								<p:outputLabel value="Ano atual vigente yyyy"/>
+								<p:outputLabel value="#anoAtual#" styleClass="cadastro-bloco-form-output-label"/>
+							</p:panelGrid>
+				 </p:panelGrid>
+				 
+				 <p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+							<h1 class="cadastro-bloco-form-title">Usuário Logado</h1>
+							<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-6,ui-grid-col-6">
+								<p:outputLabel value="Nome usuário logado"/>
+								<p:outputLabel value="#usuarioNome#" styleClass="cadastro-bloco-form-output-label"/>
+								
+								<p:outputLabel value="Email usuário logado"/>
+								<p:outputLabel value="#usuarioEmail#" styleClass="cadastro-bloco-form-output-label"/>
+							</p:panelGrid>
+				 </p:panelGrid>
+				 
+				
+								
+				
+					
+			</p:panelGrid>
+	</h:panelGroup>
+    
+  
+
+
+
+
+
+
+
+
 
 </ui:composition>

@@ -22,12 +22,16 @@
 			</li>
 			<li class="has-sub"><a href="#"><span><i class="fa  fa-fw fa-wrench"></i>Documentos</span></a>
 				<ul>
-					<li><h:link outcome="/documento/emitidos.xhtml"><span><i class="fa  fa-fw fa-file-text"></i>Emitidos</span></h:link></li>
+					<li><h:link outcome="/documento/lista.xhtml"><span><i class="fa  fa-fw fa-file-text"></i>Doc. Emitidos</span></h:link></li>
+					<p:separator style="width:100%"/>
+					<li><h:link outcome="/documento/modelo/lista.xhtml"><span><i class="fa  fa-fw fa-file-text"></i>Doc. Modelo</span></h:link></li>
 				</ul>
 			</li>
 			<li class="has-sub"><a href="#"><span><i class="fa  fa-fw fa-money"></i>Financeiro</span></a>
 				<ul>
-					<li><h:link outcome="/financeiro/Contas.xhtml"><span><i class="fa  fa-line-chart"></i>Contas</span></h:link></li>
+					<h:panelGroup layout="block" rendered="#{sessaoBean.usuario.role eq 'ADMIN'}">
+						<li><h:link outcome="/financeiro/Contas.xhtml"><span><i class="fa  fa-line-chart"></i>Contas</span></h:link></li>
+					</h:panelGroup>
 					<li><h:link outcome="/financeiro/Categorias.xhtml"><span><i class="fa  fa-fw fa-tags"></i>Categorias</span></h:link></li>
 					<p:separator style="width:100%"/>
 					<li><h:link outcome="/financeiro/Receber.xhtml"><span><i class="fa  fa-fw fa-chevron-circle-up"></i>Receber</span></h:link></li>
@@ -35,17 +39,20 @@
 					<li><h:link outcome="/financeiro/Caixa.xhtml"><span><i class="fa  fa-fw fa-book"></i>Caixa</span></h:link></li>
 				</ul>
 			</li>
-			<li class="has-sub"><a href="#"><span><i class="fa  fa-fw fa-wrench"></i>Configurações</span></a>
+
+			<li class="has-sub"><a href="#"><span><i class="fa  fa-fw fa-wrench"></i>Sua empresa</span></a>
 				<ul>
-					<li><h:link outcome="/sistema/usuarios.xhtml"><span><i class="fa  fa-fw fa-users"></i>Usuários</span></h:link></li>
-					<li><h:link outcome="/sistema/profileUsuario.xhtml"><span><i class="fa  fa-fw fa-lock"></i>Meu cadastro</span></h:link></li>
-					<p:separator style="width:100%"/>
-					<li><h:link outcome="/sistema/empresa.xhtml"><span><i class="fa  fa-fw fa-building"></i>Empresa</span></h:link></li>
-					<p:separator style="width:100%"/>
-					<li><h:link outcome="/sistema/configuracoes.xhtml"><span><i class="fa  fa-fw fa-cogs"></i>Configurações</span></h:link></li>
-					<li><h:link outcome="/documento/modelo/lista.xhtml"><span><i class="fa  fa-fw fa-file-text"></i>Modelos de Doc.</span></h:link></li>
+					<li><h:link outcome="/empresa/cadastro.xhtml"><span><i class="fa  fa-fw fa-building"></i>Cadastro</span></h:link></li>
 				</ul>
 			</li>
+			<h:panelGroup layout="block" rendered="#{sessaoBean.usuario.role eq 'ADMIN'}">
+				<li class="has-sub"><a href="#"><span><i class="fa  fa-fw fa-wrench"></i>Sistema</span></a>
+					<ul>
+						<li><h:link outcome="/sistema/configuracoes.xhtml"><span><i class="fa  fa-fw fa-cogs"></i>Configurações</span></h:link></li>
+						<li><h:link outcome="/usuario/lista.xhtml"><span><i class="fa  fa-fw fa-users"></i>Usuários</span></h:link></li>
+					</ul>
+				</li>
+			</h:panelGroup>
 			
 		</ul>
 	</nav>

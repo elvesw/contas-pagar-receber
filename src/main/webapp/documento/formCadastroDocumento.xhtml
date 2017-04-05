@@ -1,0 +1,108 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+		    
+	
+		   
+			<div style="display: inline-block; padding-top: 4px; width: 100%" class="remove-span-text">
+				<div style="float: left">	
+					<p:commandButton value="Emitidos" immediate="true" actionListener="#{documentoBean.lista()}"
+					update="formPrincipal" styleClass="btn btn-primary" icon="fa fa-fw fa-file-text"/> 
+				</div>
+
+				<div style="float: right">
+						<p:commandButton value="Imprimir" update=":formPrincipal" 
+							rendered="#{documentoBean.documento.id ne null}"
+							action="#{documentoBean.imprimir()}" styleClass="btn btn-default"
+							icon="fa fa-fw fa-print" immediate="true" process="@form" />
+							
+		        		<p:commandButton value="Limpar" type="button" onclick="PF('editorWidget').clear();" 
+		        		icon="fa fa-fw fa-eraser" styleClass="btn btn-info" />
+		        		
+						<p:commandButton  value="Salvar" actionListener="#{documentoBean.salvar()}"  
+						 styleClass="btn btn-success"  icon="fa fa-fw fa-floppy-o" update="formPrincipal"/>
+				</div>
+			</div>
+			
+			<h:panelGroup layout="block" class="ui-fluid">
+			
+				<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-6" rendered="#{documentoBean.viewAtiva eq 'INSERINDO'}"
+				styleClass="ui-panelgrid-blank cadastro-bloco-form">
+						<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-2,ui-grid-col-10">
+							
+								<p:outputLabel value="Modelos" styleClass="label-formulario" />
+								<p:selectOneMenu value="#{documentoBean.documentoModeloEscolhido.id}" 
+									required="true" requiredMessage="Selecione um documento modelo" id="documento-modelo" style="min-width:50px;"><!-- esse min-width:50px foi para contornar um bug -->
+									<p:ajax update="@this :formPrincipal:documento-nome :formPrincipal:documento-texto"
+									process="documento-modelo"
+									listener="#{documentoBean.renderizaDocumento(documentoBean.documentoModeloEscolhido)}"/>
+									<f:selectItem itemValue="#{null}" itemLabel="selecione"  noSelectionOption="true"/>
+									<f:selectItems value="#{documentoBean.listaDocumentosModelo}"
+										var="doc" itemValue="#{doc.id}" itemLabel="#{doc.nome}"/>
+								</p:selectOneMenu>
+							
+						</p:panelGrid>
+				</p:panelGrid>
+				
+				<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-9"
+							styleClass="ui-panelgrid-blank cadastro-bloco-form">
+					
+					<p:outputLabel value="Emitido por:" style="color: #313B3F;font-weight: bold;"/>
+					<p:outputLabel id="emitido-por" value="#{documentoBean.documento.emitidoPor}"/>
+					
+					<p:outputLabel value="Emitido para:" style="color: #313B3F;font-weight: bold;"/>
+					<p:outputLabel id="emitido-parar" value="#{documentoBean.documento.pessoa.nome}"/>
+
+					<p:outputLabel value="Nome desse documento:" style="color: #313B3F;font-weight: bold;"/>
+					<p:inputText   id="documento-nome" value="#{documentoBean.documento.nome}" placeholder="Nome do documento"/>
+				
+				</p:panelGrid>
+				
+			</h:panelGroup>
+			
+			<h:panelGroup id="documento-texto" layout="block" class="ui-fluid" style="width:100%">
+				
+				<p:textEditor  widgetVar="editorWidget" value="#{documentoBean.documento.texto}" id="textEditorWidget"
+				    	placeholder="Insira seu texto..." >
+				    		
+					    		 <f:facet name="toolbar">
+					    		
+						             <span class="ql-formats">
+						                <button class="ql-bold" title="Negrito"></button>
+						                <button class="ql-italic" title="Itálico"></button>
+						                <button class="ql-underline" title="Sublinhado"></button>
+						                <button class="ql-strike" title="Tachado"></button>
+						            </span>
+						            <span class="ql-formats">
+						                <select class="ql-font" title="Tipo de fonte"></select>
+						                <select class="ql-size" title="Tamanho da fonte"></select>
+						            </span>
+						            <span class="ql-formats">
+						               <select class="ql-color" title="Cor da fonte"></select>
+						               <select class="ql-background" title="Cor do Realce do Texto"></select>
+						            </span>
+						             <span class="ql-formats">
+						               <button class="ql-code-block" title="Destacar bloco de texto"></button>
+						            </span>
+						            <span class="ql-formats">
+						               	<button class="ql-list" value="ordered" title="Numeração"></button>
+										<button class="ql-list" value="bullet" title="Marcador"></button>
+										<button class="ql-indent" value="-1" title="Dimimuir recuo"></button>
+										<button class="ql-indent" value="+1" title="Aumentar recuo"></button>
+						            </span>
+						            <span class="ql-formats">
+						            	<select class="ql-align" title="Alinhamento"></select>
+						            </span>
+						            <span class="ql-formats">
+										<button class="ql-image" title="Inserir imagem"></button>
+										<button class="ql-clean" title="Limpar formatação"></button>
+									</span>
+		       				 	
+		       				 	</f:facet>
+		       			
+				   </p:textEditor>
+			</h:panelGroup>
+			
+</ui:composition>

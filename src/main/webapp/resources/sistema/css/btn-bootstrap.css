@@ -10,6 +10,16 @@
     padding: 0 0 !important ;
 }
 
+/* #formPrincipal .ui-button-text-icon-left .ui-button-text {espaçamento button com icon
+    padding: 0.1em 0.5em 0.1em 1.6em;
+} */
+
+@media(max-width:480px){
+	#formPrincipal .remove-span-text .ui-button-text-icon-left .ui-button-text {
+		padding: 0.1em 0 0 1.2em !important;
+    	text-indent: -1e+7px !important;
+	}
+}
 
 .btn {
   display: inline-block !important;
@@ -474,3 +484,20 @@ input[type="button"].btn-block {
   width: 100% !important;
 }
 
+
+/* ##### COR DE ICONES Font Awesome######## */
+.fa.info:before {
+   color: #46b8da !important;
+}
+.fa.default:before  {
+  color: #333333 !important;
+}
+.fa.danger:before {
+   color: #c9302c !important;
+}
+.fa.warning:before{
+	color: #f0ad4e !important;
+}
+.fa.success:before {
+   color: #5cb85c !important;
+}

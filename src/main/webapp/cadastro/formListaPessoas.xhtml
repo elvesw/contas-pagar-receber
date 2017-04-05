@@ -38,8 +38,14 @@
 						<h:outputText value="#{pessoa.id}" />
 					</p:column>
 
-					<p:column headerText="Nome">
-						<h:outputText value="#{pessoa.nome}" />
+					<p:column headerText="Nome" styleClass="dataTableLista-nomePessoa">
+						
+						<p:commandLink immediate="true" styleClass="ui-command-link"
+								action="#{pessoaBean.editar(pessoa)}"
+								update=":formPrincipal"
+								title="#{pessoa.nome}" process=":formPrincipal" >
+								<span><h:outputText value="#{pessoa.nome}" /></span>
+						</p:commandLink>
 					</p:column>
 
 					<p:column headerText="Telefone" width="15%">
@@ -49,18 +55,11 @@
 					<p:column headerText="Ações" width="11%" selectRow="false">
 							<div class="ui-acoes-datatable">
 							
-								<p:commandLink immediate="true" styleClass="ui-command-link"
-									action="#{documentoCadastroBean.novo(pessoa)}"
-									title="Emissão de documento" process=":formPrincipal" >
+								<p:link outcome="/documento/lista.xhtml" rendered="#{pessoa.cadastroAtivo}"
+									styleClass="ui-command-link" title="Emissão de documento">
+									<f:param name="p" value="#{pessoa.id}" />
 									<span><i class="fa fa-fw fa-file"></i></span>
-								</p:commandLink>
-									
-								<p:commandLink immediate="true" styleClass="ui-command-link"
-									action="#{pessoaBean.editar(pessoa)}"
-									update=":formPrincipal"
-									title="Alterar" process=":formPrincipal" >
-									<span><i class="fa fa-fw fa-pencil"></i></span>
-								</p:commandLink>
+								</p:link>					
 								
 								<p:commandLink styleClass="ui-command-link"
 									action="#{pessoaBean.excluir(pessoa)}"
