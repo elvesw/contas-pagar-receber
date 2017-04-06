@@ -15,8 +15,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
-import javax.persistence.PostPersist;
-import javax.persistence.PostUpdate;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
@@ -26,8 +24,8 @@ import javax.persistence.TemporalType;
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.br.CPF;
 
-import br.com.pontek.enums.TipoDeLancamento;
 import br.com.pontek.enums.TipoResponsavel;
 import br.com.pontek.model.financeiro.Lancamento;
 
@@ -65,6 +63,7 @@ public class Pessoa implements Serializable {
 	private TipoResponsavel tipoResponsavel;
     @Column(name = "nome_responsavel")
     private String nomeResponsavel;
+    @CPF
     @Column(name = "cpf_responsavel")
     private String cpfResponsavel;
     

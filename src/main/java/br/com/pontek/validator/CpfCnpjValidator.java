@@ -45,15 +45,15 @@ public class CpfCnpjValidator implements Validator {
 			String valor = value.toString();
 			valor=valor.replaceAll("[.-]", "");
 			valor=valor.replaceAll("[/]", "");
-			if(valor.length()==11){
-				if(!validateCPF(value.toString())){
+			if(valor.length()==11){//CPF
+				if((!validateCPF(value.toString())) || (isCPFPadrao(value.toString()))){
 					FacesMessage msg = 	new FacesMessage("CPF inválido", "Formato inválido.");
 					msg.setSeverity(FacesMessage.SEVERITY_ERROR);
 					throw new ValidatorException(msg);
 				}
 				
-			}else if(valor.length()==14){
-				if(!validateCNPJ(value.toString())){
+			}else if(valor.length()==14){//CNPJ
+				if((!validateCNPJ(value.toString())) || (isCNPJPadrao(value.toString()))){
 					FacesMessage msg = 	new FacesMessage("CNPJ inválido", "Formato inválido.");
 					msg.setSeverity(FacesMessage.SEVERITY_ERROR);
 					throw new ValidatorException(msg);
@@ -63,6 +63,26 @@ public class CpfCnpjValidator implements Validator {
 	}
 	
 	/*###########################################*/	
+	/**
+    * @param cpf String valor a ser testado
+    * @return boolean indicando se o usuário entrou com um CPF padrão
+    */
+    private static boolean isCPFPadrao(String cpf) {
+    	cpf=cpf.replaceAll("[.-]","");//remove a mascara
+         if (cpf.equals("11111111111") 
+	        || cpf.equals("22222222222")
+		    || cpf.equals("33333333333")
+		    || cpf.equals("44444444444")
+		    || cpf.equals("55555555555")
+		    || cpf.equals("66666666666")
+		    || cpf.equals("77777777777")
+		    || cpf.equals("88888888888")
+		    || cpf.equals("99999999999")
+		    || cpf.equals("00000000000")){
+              return true;
+         }
+     return false;
+    }
 	/**
      * Valida o CPF.
      * @param cpf Numero de CPF sem pontuacao.
@@ -107,14 +127,37 @@ public class CpfCnpjValidator implements Validator {
         return sbCpfNumber.toString();
     }
     
+	/*###########################################*/	
+    /**
+     * @param cpf String valor a ser testado
+     * @return boolean indicando se o usuário entrou com um CPF padrão
+     */
+     private static boolean isCNPJPadrao(String cnpf) {
+    	 cnpf = cnpf.replaceAll("[.-]", "");//remove a mascara
+    	 cnpf = cnpf.replaceAll("[/]", "");//remove a mascara
+          if (cnpf.equals("11111111111111") 
+ 	        || cnpf.equals("22222222222222")
+ 		    || cnpf.equals("33333333333333")
+ 		    || cnpf.equals("44444444444444")
+ 		    || cnpf.equals("55555555555555")
+ 		    || cnpf.equals("66666666666666")
+ 		    || cnpf.equals("77777777777777")
+ 		    || cnpf.equals("88888888888888")
+ 		    || cnpf.equals("99999999999999")
+ 		    || cnpf.equals("00000000000000")){
+               return true;
+          }
+      return false;
+     }
+     
     /**
      * Valida o CNPJ.
      * @param cpf Numero de CNPJ.
      * @return true para CNPJ valido ou o contrario.
      */
     private static boolean validateCNPJ(String CNPJ) {
-		CNPJ = CNPJ.replaceAll("[.-]", "");
-		CNPJ = CNPJ.replaceAll("[/]", "");
+		CNPJ = CNPJ.replaceAll("[.-]", "");//remove a mascara
+		CNPJ = CNPJ.replaceAll("[/]", "");//remove a mascara
 		
 		if (isCnpjValido(CNPJ) == true) {
 			if (CNPJ != null && !CNPJ.equals("") && CNPJ.length() == 14)
