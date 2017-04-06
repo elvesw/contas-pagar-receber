@@ -15,16 +15,14 @@
 			
 			<li class="has-sub"><a href="#"><span><i class="fa  fa-fw fa-user-plus"></i>Cadastro</span></a>
 				<ul>
-					<li><h:link outcome="/cadastro/clientes.xhtml"><span><i class="fa  fa-fw fa-user"></i>Clientes</span></h:link></li>
+					<li><h:link outcome="/cadastro/clientes.xhtml"><span><i class="fa  fa-fw fa-user-o"></i>Clientes</span></h:link></li>
 					<li><h:link outcome="/cadastro/funcionarios.xhtml"><span><i class="fa  fa-fw fa-user"></i>Funcionários</span></h:link></li>
 					<li><h:link outcome="/cadastro/fornecedores.xhtml"><span><i class="fa  fa-fw fa-user"></i>Fornecedores</span></h:link></li>
 				</ul>
 			</li>
-			<li class="has-sub"><a href="#"><span><i class="fa  fa-fw fa-wrench"></i>Documentos</span></a>
+			<li class="has-sub"><a href="#"><span><i class="fa  fa-fw fa-file-text-o"></i>Documentos</span></a>
 				<ul>
 					<li><h:link outcome="/documento/lista.xhtml"><span><i class="fa  fa-fw fa-file-text"></i>Documentos Emitidos</span></h:link></li>
-					<p:separator style="width:100%"/>
-					<li><h:link outcome="/documento/modelo/lista.xhtml"><span><i class="fa  fa-fw fa-file-text"></i>Documentos Modelo</span></h:link></li>
 				</ul>
 			</li>
 			<li class="has-sub"><a href="#"><span><i class="fa  fa-fw fa-money"></i>Financeiro</span></a>
@@ -40,9 +38,11 @@
 				</ul>
 			</li>
 
-			<li class="has-sub"><a href="#"><span><i class="fa  fa-fw fa-wrench"></i>Sua empresa</span></a>
+			<li class="has-sub"><a href="#"><span><i class="fa  fa-fw fa-building-o"></i>Sua empresa</span></a>
 				<ul>
-					<li><h:link outcome="/empresa/cadastro.xhtml"><span><i class="fa  fa-fw fa-building"></i>Cadastro</span></h:link></li>
+					<li><h:link outcome="/empresa/cadastro.xhtml"><span><i class="fa  fa-fw fa-building"></i>Cadastro empresa</span></h:link></li>
+					<p:separator style="width:100%"/>
+					<li><h:link outcome="/documento/modelo/lista.xhtml"><span><i class="fa  fa-fw fa-file-text"></i>Documentos Modelo</span></h:link></li>
 				</ul>
 			</li>
 			<h:panelGroup layout="block" rendered="#{sessaoBean.usuario.role eq 'ADMIN'}">

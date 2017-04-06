@@ -28,7 +28,7 @@
 			
 				<div style="display: inline-block;padding-top: 4px; width: 100%">
 					<div style="float: left">
-							<p:commandButton  value="Pesquisar" update=":formPrincipal" action="#{categoriaBean.voltar()}" styleClass="btn btn-default" icon="fa fa-fw fa-mail-reply" 
+							<p:commandButton  value="Voltar" update=":formPrincipal" action="#{categoriaBean.voltar()}" styleClass="btn btn-link" icon="fa fa-fw fa-mail-reply" 
 							immediate="true" process="@form" />
 					</div>
 					<div style="float:right">
@@ -85,10 +85,15 @@
 						<h:outputText value="#{categoria.id}"
 						styleClass="#{categoria.tipoDeLancamento eq 'ENTRADA'?'lista-categoria-entrada':'lista-categoria-saida'}"/>
 					</p:column>
+		
 					
-					<p:column headerText="Nome" width="40%">
-						<h:outputText value="#{categoria.nome}"
-				styleClass="#{categoria.tipoDeLancamento eq 'ENTRADA'?'lista-categoria-entrada':'lista-categoria-saida'}"/>
+					<p:column headerText="Nome" styleClass="dataTableLista-destaque">
+							<p:commandLink styleClass="ui-command-link" title="#{categoria.nome}"
+								update=":formPrincipal" immediate="true" 
+								action="#{categoriaBean.editar(categoria)}">
+								<span><h:outputText value="#{categoria.nome}" 
+								styleClass="#{categoria.tipoDeLancamento eq 'ENTRADA'?' lista-categoria-entrada':' lista-categoria-saida'}"/></span>
+							</p:commandLink>
 					</p:column>
 					
 					<p:column  width="10%">
@@ -107,13 +112,6 @@
 
 					<p:column headerText="Ações" width="11%" selectRow="false">
 							<div class="ui-acoes-datatable">
-									
-								<p:commandLink immediate="true" styleClass="ui-command-link"
-									action="#{categoriaBean.editar(categoria)}"
-									update=":formPrincipal"
-									title="Alterar" process=":formPrincipal" >
-									<span><i class="fa fa-fw fa-pencil"></i></span>
-								</p:commandLink>
 								
 								<p:commandLink styleClass="ui-command-link"
 									action="#{categoriaBean.excluir(categoria)}" 

@@ -25,9 +25,13 @@
 					<p:column headerText="ID" width="3%">
 						<h:outputText value="#{usuario.id}" />
 					</p:column>
-
-					<p:column headerText="Nome" width="20%">
-						<h:outputText value="#{usuario.nome}" />
+					
+					<p:column headerText="Nome" styleClass="dataTableLista-destaque" width="20%">
+						<p:commandLink styleClass="ui-command-link" title="#{usuario.nome}"
+							update=":formPrincipal"
+							action="#{usuarioBean.editar(usuario)}">
+							<span><h:outputText value="#{usuario.nome}" /></span>
+						</p:commandLink>
 					</p:column>
 
 					<p:column headerText="Email" width="30%">
@@ -39,14 +43,7 @@
 					</p:column>
 					
 					<p:column headerText="Ações" width="11%" selectRow="false">
-							<div class="ui-acoes-datatable">
-									
-								<p:commandLink immediate="true" styleClass="ui-command-link"
-									action="#{usuarioBean.editar(usuario)}"
-									update=":formPrincipal"
-									title="Alterar" process=":formPrincipal" >
-									<span><i class="fa fa-fw fa-pencil"></i></span>
-								</p:commandLink>
+							<div class="ui-acoes-datatable">	
 								
 								<p:commandLink styleClass="ui-command-link"
 									action="#{usuarioBean.excluir(usuario)}"

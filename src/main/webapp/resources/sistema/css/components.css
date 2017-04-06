@@ -313,6 +313,9 @@
 .lista-categoria-saida{
 	color:#0996DD;
 }
+.lista-categoria-entrada, .lista-categoria-saida:HOVER{
+	color: #5C5C5C !important;
+}
 
 .empresa-bloco-form{
 	border:1px solid #CCCCCC;
@@ -400,4 +403,9 @@
 }
 .recibo-centralizado{
 	text-align:center;
+}
+
+/*coluna selecionada para editar */
+.dataTableLista-destaque > a:hover {
+	font-weight:bold ;
 }

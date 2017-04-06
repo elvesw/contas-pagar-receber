@@ -46,10 +46,9 @@
 					<!-- 1º div botoes -->
 					<div style="display: inline-block; padding-top: 4px; width: 100%">
 						<div style="float: left">
-							<p:commandButton value="Voltar" update=":formPrincipal"
-								action="#{caixaBean.voltar()}" styleClass="btn btn-default"
-								icon="fa fa-fw fa-mail-reply" immediate="true"
-								process=":formPrincipal" />
+							<p:commandButton value="Voltar" icon="fa fa-fw fa-mail-reply"
+								styleClass="btn btn-link" actionListener="#{caixaBean.voltar()}" 
+								 immediate="true" update="formPrincipal" process=":formPrincipal"/>					 
 						</div>
 						<div style="float: right;">
 							<h:panelGroup layout="block">
@@ -128,7 +127,7 @@
 							columnClasses="ui-grid-col-5,ui-grid-col-7">
 
 							<p:commandButton value="Voltar" update=":formPrincipal"
-								action="#{caixaBean.voltar()}" styleClass="btn btn-default"
+								action="#{caixaBean.voltar()}" styleClass="btn btn-link"
 								icon="fa fa-fw fa-mail-reply" immediate="true" process="@this" />
 
 							<p:commandButton value="Confirma estornar"
@@ -196,7 +195,7 @@
 							<h:panelGroup layout="block"
 								rendered="#{caixaBean.listaLancamentosSelecionados.size()==0 and caixaBean.viewAtiva eq 'FILTRO'}">
 
-								<p:commandButton value="Voltar" styleClass="btn btn-default"
+								<p:commandButton value="Voltar" styleClass="btn btn-link"
 									icon="fa fa-fw fa-mail-reply"
 									update=":formPrincipal:div-lista :formPrincipal:div-title"
 									process="@this" immediate="true" action="#{caixaBean.voltar()}"

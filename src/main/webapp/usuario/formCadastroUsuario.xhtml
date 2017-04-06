@@ -8,10 +8,9 @@
 	<h:panelGroup layout="block" id="div-cadastro"
 		rendered="#{usuarioBean.viewAtiva eq 'INSERINDO' or usuarioBean.viewAtiva eq 'EDITANDO'}">
 		<div style="display: inline-block; padding-top: 4px; width: 100%">
-			<div style="float: left">
-				<p:commandButton value="Voltar" update=":formPrincipal"
-					action="#{usuarioBean.voltar()}" styleClass="btn btn-default"
-					icon="fa fa-fw fa-mail-reply" immediate="true" process="@form" />
+			<div style="float: left">		
+				<p:commandButton value="Voltar" icon="fa fa-fw fa-mail-reply" styleClass="btn btn-link" immediate="true"
+					actionListener="#{usuarioBean.voltar()}" update="formPrincipal" process="@form"/>
 			</div>
 			<div style="float: right">
 				<p:commandButton value="Salvar" update=":formPrincipal"

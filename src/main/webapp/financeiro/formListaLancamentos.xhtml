@@ -74,7 +74,7 @@
 					<!-- btn filtro -->
 					<h:panelGroup layout="block"
 						rendered="#{lancamentoBean.listaLancamentosSelecionados.size()==0 and lancamentoBean.viewAtiva eq 'FILTRO'}">
-						<p:commandButton value="Voltar" styleClass="btn btn-default"
+						<p:commandButton value="Voltar" styleClass="btn btn-link"
 							icon="fa fa-fw fa-mail-reply"
 							update=":formPrincipal:div-lista :formPrincipal:div-title"
 							process="@this" immediate="true"
@@ -154,7 +154,7 @@
 				<p:column width="5%" selectionMode="multiple" selectRow="false"
 					styleClass="icon-cor-preto" />
 
-				<p:column headerText="Cod" width="6%" selectRow="false"
+				<p:column headerText="Cod" width="7%" selectRow="false"
 					sortBy="#{lancamento.id}">
 					<h:outputText value="#{lancamento.id}" />
 				</p:column>
@@ -165,7 +165,7 @@
 						title="#{lancamento.descricao}" />
 				</p:column>
 
-				<p:column headerText="Nome" width="27%" selectRow="false" sortBy="#{lancamento.pessoa}">
+				<p:column headerText="Nome" width="26%" selectRow="false" sortBy="#{lancamento.pessoa}">
 					<h:outputText value="#{lancamento.pessoa.nome}"
 						style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"
 						title="#{lancamento.pessoa.nome}" />
