@@ -18,6 +18,7 @@ import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -49,6 +50,7 @@ public class Documento implements Serializable {
 	private String emitidoPor;
 	
 	/* ####OUTRAS#### */
+	@NotNull
 	@Column(name = "data_emissao")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataEmissao;
@@ -58,7 +60,7 @@ public class Documento implements Serializable {
 	private String historico="";//concatenando informações sobre esse doc, coloque um <br/> para listar depois
 	
 	@JoinColumn(name = "pessoa", referencedColumnName = "id")
-	@ManyToOne(optional = true , fetch = FetchType.LAZY) /*Não colocar Cascate ALL*/
+	@ManyToOne(optional = false , fetch = FetchType.LAZY) /*Não colocar Cascate ALL*/
     private Pessoa pessoa;
 	
 	public Documento() {
@@ -69,9 +71,19 @@ public class Documento implements Serializable {
 		this.nome = nome;
 		this.texto = texto;
 	}
+	public Documento(String nome, String texto, Pessoa pessoa) {
+		super();
+		this.nome = nome;
+		this.texto = texto;
+		this.pessoa=pessoa;
+	}
 	
 	public void atualizaHistorico(String up){
 		this.historico=this.historico+"<br/>"+DataUtil.ddMMyyyy_HHmmss(new Date())+" <span>"+up+"</span>";
+	}
+	
+	public Documento copia(){
+		return new Documento(this.getNome(),this.getTexto(),this.pessoa);
 	}
 
 	public Integer getId() {

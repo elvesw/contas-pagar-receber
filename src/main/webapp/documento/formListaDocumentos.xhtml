@@ -51,6 +51,10 @@
 
 				<p:column headerText="Ações" width="11%">
 					<div class="ui-acoes-datatable">
+						<p:commandLink styleClass="ui-command-link" title="Copiar esse documento"
+							update=":formPrincipal" action="#{documentoBean.copia(documento)}">
+							<span><i class="fa fa-fw fa-clone"></i></span>
+						</p:commandLink>
 						<p:commandLink styleClass="ui-command-link"
 							process="@this" action="#{documentoBean.excluir(documento)}"
 							update=":formPrincipal" title="Excluir">

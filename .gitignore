@@ -74,3 +74,4 @@ local.properties
 #OUTROS
 ######################
 *.beforefix
+/src/main/resources/spring/applicationContext.xml

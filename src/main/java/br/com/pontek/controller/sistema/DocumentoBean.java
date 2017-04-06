@@ -102,19 +102,24 @@ public class DocumentoBean extends AbstractBean{
 
 	// Vem do cadastro de pessoa
 	public void novo(Pessoa pessoa) {
-		this.viewAtiva=estadoDaView.INSERINDO.toString();
-		if(listaDocumentosModelo.isEmpty())
-			listaDocumentosModelo = documentoModeloService.listaDeDocumentos();
 		this.documento = new Documento();
-		this.documentoModeloEscolhido = new DocumentoModelo();
 		documento.setPessoa(pessoa);
+		carregarDocumentoModelo();
+		this.viewAtiva=estadoDaView.INSERINDO.toString();
 	}
 
 	/*Vem do data table em emitidos*/
 	public void editar(Documento documento){
-		this.viewAtiva=estadoDaView.EDITANDO.toString();
 		this.documento = documento;
 		this.documento.atualizaHistorico("Visualizar");
+		this.viewAtiva=estadoDaView.EDITANDO.toString();
+	}
+	
+	public void copia(Documento documento){
+		this.documento=documento.copia();
+		carregarDocumentoModelo();
+		this.viewAtiva=estadoDaView.INSERINDO.toString();
+		FacesUtil.exibirMensagemAlerta("Essa é uma cópia do documento: ("+documento.getNome()+") não esqueça de salvar");
 	}
 
 	 public void excluir(Documento documento){
@@ -136,6 +141,12 @@ public class DocumentoBean extends AbstractBean{
 	 }
 	 public void viewCadastro(){
 			this.viewAtiva=estadoDaView.EDITANDO.toString();
+	 }
+	 
+	 private void carregarDocumentoModelo(){
+		 if(listaDocumentosModelo.isEmpty())
+				listaDocumentosModelo = documentoModeloService.listaDeDocumentos();
+		 this.documentoModeloEscolhido = new DocumentoModelo();
 	 }
 	/* GETS E SETS */
 	public Documento getDocumento() {
