@@ -1,17 +1,17 @@
 package br.com.pontek.util.filtro;
 
-public class FiltroDocumento extends FiltroBaseAbstract{
+public class FiltroDocumentoModelo extends FiltroBaseAbstract{
 
 	private static final long serialVersionUID = 1L;
 	
 	private String nome;
 	
 	
-	public FiltroDocumento(String nome) {
+	public FiltroDocumentoModelo(String nome) {
 		super();
 		this.nome = nome;
 	}
-	public FiltroDocumento() {
+	public FiltroDocumentoModelo() {
 
 	}
 	

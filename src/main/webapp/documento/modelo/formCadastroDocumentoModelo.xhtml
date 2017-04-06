@@ -1,33 +1,19 @@
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:h="http://xmlns.jcp.org/jsf/html"
-	xmlns:f="http://xmlns.jcp.org/jsf/core"
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-	template="/WEB-INF/templates/Layout.xhtml"
-	xmlns:p="http://primefaces.org/ui">
-	
-	<ui:define name="titulo">Cadastro de documento</ui:define>
-	<ui:define name="head">
-		<h:outputStylesheet library="sistema" name="css/documento.css" />
-	</ui:define>
-	<ui:define name="centro">
-	
-		<h:form id="formPrincipal" style="max-width:900px;"> 
-
-			<p:messages id="msg" autoUpdate="true" closable="true" />
-			<h:panelGroup layout="block">
-				<h1 class="aw-page-title">Cadastro Documento Modelo</h1>
-			</h:panelGroup>
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:p="http://primefaces.org/ui">
+    
 			<div style="display: inline-block; padding-top: 4px; width: 100%" class="remove-span-text">
 				<div style="float: left">
-					<p:button value="Voltar" outcome="/documento/modelo/lista.xhtml" 
-					icon="fa fa-fw fa-mail-reply" styleClass="btn btn-link" />
+					<p:commandButton value="Voltar" icon="fa fa-fw fa-mail-reply" styleClass="btn btn-link"
+					actionListener="#{documentoModeloBean.viewLista()}" immediate="true" update="formPrincipal"/>
 				</div>
 
 				<div style="float: right">
-		        		<p:commandButton value="Limpar" type="button" onclick="PF('editorWidget').clear();" 
-		        		icon="fa fa-fw fa-eraser" styleClass="btn btn-info" />
-		        		
-						<p:commandButton  value="Salvar" actionListener="#{documentoModeloBean.salvar()}" 
+		        	<p:commandButton value="Limpar" type="button" onclick="PF('editorWidget').clear();" 
+		        		icon="fa fa-fw fa-eraser" styleClass="btn btn-info" />	
+					<p:commandButton  value="Salvar" actionListener="#{documentoModeloBean.salvar()}" 
 						 styleClass="btn btn-success"  icon="fa fa-fw fa-floppy-o" update="formPrincipal"/>
 				</div>
 			</div>
@@ -38,7 +24,7 @@
 					<p:inputText  id="documento-modelo-nome" value="#{documentoModeloBean.documentoModelo.nome}" placeholder="Nome do documento" style="width:100%"/>
 				</p:panelGrid>
 			
-				<p:textEditor  id="documento-modelo-texto" widgetVar="editorWidget" value="#{documentoModeloBean.documentoModelo.texto}"
+				<p:textEditor  id="documento-modelo-texto" widgetVar="editorWidget" value="#{documentoModeloBean.documentoModelo.texto}" 
 				    	placeholder="Insira seu texto..." >
 				    		 <f:facet name="toolbar">
 					             <span class="ql-formats">
@@ -75,7 +61,5 @@
 				   </p:textEditor>
 				   
 			</h:panelGroup>
-			<ui:include src="in_cadastro_marcadores.xhtml" />
-		 </h:form>
-	 </ui:define>
+			<ui:include src="include_marcadores.xhtml" />
 </ui:composition>

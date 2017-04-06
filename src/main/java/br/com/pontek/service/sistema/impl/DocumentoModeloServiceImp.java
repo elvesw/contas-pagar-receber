@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.pontek.dao.sistema.DocumentoModeloDao;
 import br.com.pontek.model.sistema.DocumentoModelo;
 import br.com.pontek.service.sistema.DocumentoModeloService;
+import br.com.pontek.util.filtro.FiltroDocumentoModelo;
 
 
 @Service
@@ -53,6 +54,18 @@ public class DocumentoModeloServiceImp implements DocumentoModeloService ,Serial
 	@Transactional(readOnly=true)
 	public List<DocumentoModelo> listaDeDocumentos() {
 		return documentoModeloDao.listaDeEntitys();
+	}
+	
+	/*Metodos de PAGINAÇÃO LAZY DATATABLE*/
+	@Override
+	@Transactional(readOnly = true)
+	public List<DocumentoModelo> filtrados(FiltroDocumentoModelo filtro) {
+		return documentoModeloDao.filtrados(filtro);
+	}
+	@Override
+	@Transactional(readOnly = true)
+	public Integer quantidadeFiltrados(FiltroDocumentoModelo filtro) {
+		return documentoModeloDao.quantidadeFiltrados(filtro);
 	}
 
 }

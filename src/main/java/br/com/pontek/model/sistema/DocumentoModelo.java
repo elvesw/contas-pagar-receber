@@ -44,6 +44,10 @@ public class DocumentoModelo implements Serializable {
 		this.texto = texto;
 	}
 	
+	public DocumentoModelo copia(){
+		return new DocumentoModelo(this.getNome(),this.getTexto());
+	}
+	
 	public Integer getId() {
 		return id;
 	}

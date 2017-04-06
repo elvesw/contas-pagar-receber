@@ -8,14 +8,14 @@
 		   
 			<div style="display: inline-block; padding-top: 4px; width: 100%" class="remove-span-text">
 				<div style="float: left">	
-					<p:commandButton value="Emitidos" immediate="true" actionListener="#{documentoBean.lista()}"
+					<p:commandButton value="Emitidos" immediate="true" actionListener="#{documentoBean.viewLista()}"
 					update="formPrincipal" styleClass="btn btn-primary" icon="fa fa-fw fa-file-text"/> 
 				</div>
 
 				<div style="float: right">
 						<p:commandButton value="Imprimir" update=":formPrincipal" 
 							rendered="#{documentoBean.documento.id ne null}"
-							action="#{documentoBean.imprimir()}" styleClass="btn btn-default"
+							action="#{documentoBean.viewImprimir()}" styleClass="btn btn-default"
 							icon="fa fa-fw fa-print" immediate="true" process="@form" />
 							
 		        		<p:commandButton value="Limpar" type="button" onclick="PF('editorWidget').clear();" 

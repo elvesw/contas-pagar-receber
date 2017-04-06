@@ -5,62 +5,35 @@
 	template="/WEB-INF/templates/Layout.xhtml"
 	xmlns:p="http://primefaces.org/ui">
 
-	<ui:define name="titulo">Lista de Documentos Modelo</ui:define>
+	<ui:define name="titulo">Documentos modelo</ui:define>
 	<ui:define name="head">
 		<h:outputStylesheet library="sistema" name="css/documento.css" />
 	</ui:define>
 	<ui:define name="centro">
-
+	
 		<h:form id="formPrincipal">
-			<p:messages id="msg" autoUpdate="true" closable="true" />
-			<h:panelGroup layout="block">
-				<h1 class="aw-page-title">Lista de Documentos Modelo</h1>
+			<h:panelGroup layout="block" rendered="#{documentoModeloBean.viewAtiva eq 'INSERINDO'}">
+				<h1 class="aw-page-title">Novo documento modelo</h1>
 			</h:panelGroup>
-			
-			<div style="display: inline-block; padding-top: 4px; width: 100%" class="remove-span-text">
-				<div style="float: left">
-					<p:button value="Novo" outcome="/documento/modelo/cadastro.xhtml"
-				icon="fa fa-fw fa-file-o" styleClass="btn btn-primary" />
-				</div>
-				<div style="float: right">
-						
-				</div>
-			</div>
+			<h:panelGroup layout="block" rendered="#{documentoModeloBean.viewAtiva eq 'EDITANDO'}">
+				<h1 class="aw-page-title">Alterando documento modelo</h1>
+			</h:panelGroup>
+			<h:panelGroup layout="block" rendered="#{documentoModeloBean.viewAtiva eq 'LISTANDO'}" >
+				<h1 class="aw-page-title">Lista de documentos modelo</h1>
+			</h:panelGroup>
 
-			
+			<p:messages id="msg" autoUpdate="true" closable="true" />
 
-			<p:dataTable var="documento"
-				value="#{documentoModeloBean.listaDocumentos}" reflow="true"
-				rowIndexVar="rowIx" id="dataTableLista" rows="14"
-				emptyMessage="Nenhum documento modelo ..." paginator="true"
-				paginatorPosition="bottom" widgetVar="widgetListaDataTable">
+			<h:panelGroup layout="block" id="div-cadastro" style="max-width:900px;"
+					rendered="#{documentoModeloBean.viewAtiva eq 'INSERINDO' or documentoModeloBean.viewAtiva eq 'EDITANDO'}">
+				<ui:include src="formCadastroDocumentoModelo.xhtml" />
+			</h:panelGroup>
+			<h:panelGroup layout="block" id="div-lista" rendered="#{documentoModeloBean.viewAtiva eq 'LISTANDO'}">
+				<ui:include src="formListaDocumentosModelo.xhtml" />
+			</h:panelGroup>
 
-				<p:column headerText="Cod" width="5%">
-					<h:outputText value="#{documento.id}" />
-				</p:column>
-				
-				<p:column headerText="Nome do documento" styleClass="dataTableLista-nomeDocumento">
-					<p:link outcome="/documento/modelo/cadastro.xhtml"
-							styleClass="ui-command-link" title="#{documento.nome}">
-							<f:param name="codigo" value="#{documento.id}" />
-							<span><h:outputText value="#{documento.nome}"/></span>
-					</p:link>
-				</p:column>
-
-				<p:column headerText="Ações" width="11%">
-					<div class="ui-acoes-datatable">
-						<p:commandLink styleClass="ui-command-link"
-							process="@this" action="#{documentoModeloBean.excluir(documento)}"
-							update=":formPrincipal" title="Excluir">
-							<span><i class="fa fa-fw fa-trash"></i></span>
-							<p:confirm header="Confirmação" 
-							message="Tem certeza que deseja excluir o documento modelo?"  icon="fa fa-fw fa-exclamation-triangle warning"/>
-						</p:commandLink>
-
-					</div>
-				</p:column>
-			</p:dataTable>
-				<ui:include src="/WEB-INF/templates/dialogConfirmGlobal.xhtml" />
 		</h:form>
+
 	</ui:define>
+
 </ui:composition>

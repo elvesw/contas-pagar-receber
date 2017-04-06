@@ -78,7 +78,7 @@ public class DocumentoBean extends AbstractBean{
 				return null;
 			}
 		}
-		lista();
+		viewLista();
 		return null;
     }
 	
@@ -126,15 +126,15 @@ public class DocumentoBean extends AbstractBean{
 		}
 	  }
 	 
-	 public void lista(){
+	 public void viewLista(){
 		this.viewAtiva=estadoDaView.LISTANDO.toString();
 	 }
 
-	 public void imprimir(){
+	 public void viewImprimir(){
 		 	this.documento.atualizaHistorico("Imprimir");
 			this.viewAtiva=estadoDaView.DETALHANDO.toString();
 	 }
-	 public void voltarCadastro(){
+	 public void viewCadastro(){
 			this.viewAtiva=estadoDaView.EDITANDO.toString();
 	 }
 	/* GETS E SETS */
