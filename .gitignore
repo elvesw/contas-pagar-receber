@@ -70,7 +70,7 @@ local.properties
 .buildpath
 .tern-project
 *.tern-project
-*applicationContext.xml
+/**/*applicationContext.xml
 
 ######################
 #OUTROS
