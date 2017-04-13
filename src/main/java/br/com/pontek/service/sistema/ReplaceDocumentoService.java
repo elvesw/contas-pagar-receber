@@ -2,8 +2,6 @@ package br.com.pontek.service.sistema;
 
 import java.util.Date;
 
-import javax.annotation.PostConstruct;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
@@ -66,6 +64,9 @@ public class ReplaceDocumentoService {
 		textoTemp=textoTemp.replace("#pessoaCidade#", StringUtils.isNotBlank(pessoa.getCidade())?pessoa.getCidade():"");
 		textoTemp=textoTemp.replace("#pessoaUf#", StringUtils.isNotBlank(pessoa.getUf())?pessoa.getUf():"");
 		
+		textoTemp=textoTemp.replace("#pessoaNatural#", StringUtils.isNotBlank(pessoa.getNaturalidade())?pessoa.getNaturalidade():"");
+		textoTemp=textoTemp.replace("#pessoaNaturalUf#", StringUtils.isNotBlank(pessoa.getNaturalidadeUf())?pessoa.getNaturalidadeUf():"");
+		
 		//Data e hora
 		textoTemp=textoTemp.replace("#dataAtual#", DataUtil.ddMMyyyy(new Date()));
 		textoTemp=textoTemp.replace("#dataAtualExtenso#", DataUtil.extenso(new Date()));
@@ -80,11 +81,12 @@ public class ReplaceDocumentoService {
 		textoTemp=textoTemp.replace("#empresaCnpj#", StringUtils.isNotBlank(empresa.getCnpj())?empresa.getCnpj():"<span style=\"color:#ff0000;\">SEM CNPJ</span>");
 		textoTemp=textoTemp.replace("#empresaRazaoSocial#", StringUtils.isNotBlank(empresa.getRazaoSocial())?empresa.getRazaoSocial():"<span style=\"color:#ff0000;\">SEM RAZÃO SOCIAL</span>");
 		textoTemp=textoTemp.replace("#empresaNome#", StringUtils.isNotBlank(empresa.getNomeEmpresa())?empresa.getNomeEmpresa():"<span style=\"color:#ff0000;\">SEM NOME EMPRESA</span>");
+		textoTemp=textoTemp.replace("#empresaNomeMaiuscula#", StringUtils.isNotBlank(empresa.getNomeEmpresa())?empresa.getNomeEmpresa().toUpperCase():"<span style=\"color:#ff0000;\">SEM NOME EMPRESA</span>");
 		textoTemp=textoTemp.replace("#empresaInsEstadual#", StringUtils.isNotBlank(empresa.getInsEstadual())?empresa.getInsEstadual():"<span style=\"color:#ff0000;\">SEM INSCRIÇÃO ESTADUAL</span>");
 		textoTemp=textoTemp.replace("#empresaInsMunicipal#", StringUtils.isNotBlank(empresa.getInsMunicipal())?empresa.getInsMunicipal():"<span style=\"color:#ff0000;\">SEM INSCRIÇÃO MUNICIPAL</span>");
 		
 		textoTemp=textoTemp.replace("#empresaLogradouro#", StringUtils.isNotBlank(empresa.getLogradouro())?empresa.getLogradouro():"<span style=\"color:#ff0000;\">SEM LOGRADOURO</span>");
-		textoTemp=textoTemp.replace("#empresaBairro#", StringUtils.isNotBlank(empresa.getBairro())?empresa.getLogradouro():"<span style=\"color:#ff0000;\">SEM BAIRRO</span>");
+		textoTemp=textoTemp.replace("#empresaBairro#", StringUtils.isNotBlank(empresa.getBairro())?empresa.getBairro():"<span style=\"color:#ff0000;\">SEM BAIRRO</span>");
 		textoTemp=textoTemp.replace("#empresaNumero#", StringUtils.isNotBlank(empresa.getNumero())?empresa.getNumero():"<span style=\"color:#ff0000;\">SEM NÚMERO</span>");
 		textoTemp=textoTemp.replace("#empresaComplemento#", StringUtils.isNotBlank(empresa.getComplemento())?empresa.getComplemento():"");
 		textoTemp=textoTemp.replace("#empresaCep#", StringUtils.isNotBlank(empresa.getCep())?empresa.getCep():"<span style=\"color:#ff0000;\">SEM CEP</span>");
@@ -97,6 +99,10 @@ public class ReplaceDocumentoService {
 		textoTemp=textoTemp.replace("#empresaSecretario#", StringUtils.isNotBlank(empresa.getNomeSecretario())?empresa.getNomeSecretario():"<span style=\"color:#ff0000;\">SEM SECRETÁRIO(a)</span>");
 		textoTemp=textoTemp.replace("#empresaDiretor#", StringUtils.isNotBlank(empresa.getNomeDiretor())?empresa.getNomeDiretor():"<span style=\"color:#ff0000;\">SEM DIRETOR(a)</span>");
 
+		textoTemp=textoTemp.replace("#empresaMensagem1#", StringUtils.isNotBlank(empresa.getMsg1())?empresa.getMsg1():"");
+		textoTemp=textoTemp.replace("#empresaMensagem2#", StringUtils.isNotBlank(empresa.getMsg2())?empresa.getMsg2():"");
+		textoTemp=textoTemp.replace("#empresaMensagem3#", StringUtils.isNotBlank(empresa.getMsg3())?empresa.getMsg3():"");
+		textoTemp=textoTemp.replace("#empresaMensagem4#", StringUtils.isNotBlank(empresa.getMsg4())?empresa.getMsg4():"");
 		return textoTemp;
 	}
 

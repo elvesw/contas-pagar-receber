@@ -2,7 +2,8 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:p="http://primefaces.org/ui">
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pe="http://primefaces.org/ui/extensions">
 		    
 	
 		   
@@ -13,14 +14,10 @@
 				</div>
 
 				<div style="float: right">
-						<p:commandButton value="Imprimir" update=":formPrincipal" 
-							rendered="#{documentoBean.documento.id ne null}"
-							action="#{documentoBean.viewImprimir()}" styleClass="btn btn-default"
-							icon="fa fa-fw fa-print" immediate="true" process="@form" />
 							
-		        		<p:commandButton value="Limpar" type="button" onclick="PF('editorWidget').clear();" 
-		        		icon="fa fa-fw fa-eraser" styleClass="btn btn-info" />
-		        		
+						<p:commandButton value="Imprimir" type="button" onclick="ckePrint('formPrincipal:editor');"
+							rendered="#{documentoBean.documento.id ne null}" icon="fa fa-fw fa-print"  styleClass="btn btn-default" />	
+     		
 						<p:commandButton  value="Salvar" actionListener="#{documentoBean.salvar()}"  
 						 styleClass="btn btn-success"  icon="fa fa-fw fa-floppy-o" update="formPrincipal"/>
 				</div>
@@ -70,45 +67,12 @@
 			
 			<h:panelGroup id="documento-texto" layout="block" class="ui-fluid" style="width:100%">
 				
-				<p:textEditor  widgetVar="editorWidget" value="#{documentoBean.documento.texto}" id="textEditorWidget"
-				    	placeholder="Insira seu texto...">
-				    		
-					    		 <f:facet name="toolbar">
-					    		
-						             <span class="ql-formats">
-						                <button class="ql-bold" title="Negrito"></button>
-						                <button class="ql-italic" title="Itálico"></button>
-						                <button class="ql-underline" title="Sublinhado"></button>
-						                <button class="ql-strike" title="Tachado"></button>
-						            </span>
-						            <span class="ql-formats">
-						                <select class="ql-font" title="Tipo de fonte"></select>
-						                <select class="ql-size" title="Tamanho da fonte"></select>
-						            </span>
-						            <span class="ql-formats">
-						               <select class="ql-color" title="Cor da fonte"></select>
-						               <select class="ql-background" title="Cor do Realce do Texto"></select>
-						            </span>
-						             <span class="ql-formats">
-						               <button class="ql-code-block" title="Destacar bloco de texto"></button>
-						            </span>
-						            <span class="ql-formats">
-						               	<button class="ql-list" value="ordered" title="Numeração"></button>
-										<button class="ql-list" value="bullet" title="Marcador"></button>
-										<button class="ql-indent" value="-1" title="Dimimuir recuo"></button>
-										<button class="ql-indent" value="+1" title="Aumentar recuo"></button>
-						            </span>
-						            <span class="ql-formats">
-						            	<select class="ql-align" title="Alinhamento"></select>
-						            </span>
-						            <span class="ql-formats">
-										<button class="ql-image" title="Inserir imagem"></button>
-										<button class="ql-clean" title="Limpar formatação"></button>
-									</span>
-		       				 	
-		       				 	</f:facet>
-		       			
-				   </p:textEditor>
+			  	<pe:ckEditor id="editor" value="#{documentoBean.documento.texto}" width="100%" height="1100"
+				  customConfig="#{request.contextPath}/resources/sistema/js/ckeditorConfig.js">
+					
+
+				</pe:ckEditor>
+			 
 			</h:panelGroup>
 			
 </ui:composition>

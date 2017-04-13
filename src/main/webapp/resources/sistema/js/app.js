@@ -108,3 +108,16 @@ function cpfCnpj(v){
 function reloadPagina() {
     window.parent.location = window.parent.location.href;
 }
+
+function testeJs(){
+	console.log(window.location.pathname);
+
+	console.log(window.location.pathname.substring(0, window.location.pathname.indexOf("/",2)));
+	
+	console.log(window.location.origin);
+	
+	console.log(window.location.host);
+	
+	console.log(window.location.href);
+	
+}

@@ -17,6 +17,7 @@
 	border-radius:8px;
 	margin:5px;
 	padding:8px;
+	border-bottom:none;border-top:none;
 }
 .cadastro-bloco-form-title {
 	margin: 0;
@@ -29,8 +30,17 @@
 	color: #313B3F;
 	font-weight: bold;
 }
+
+
 .dataTableLista-nomeDocumento > a:hover {
 	font-weight:bold ;
 }
 
 
+
+.cabecarioDocumento{
+	line-height:10px;
+	margin-left: 15px;
+	border: 1px;
+	border-color: green;
+}

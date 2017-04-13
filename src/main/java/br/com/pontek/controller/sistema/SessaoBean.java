@@ -30,11 +30,13 @@ public class SessaoBean implements Serializable{
 	private Usuario usuario = null;
 
 
-	/**Mostrar na tela o usuario logado no sistema*/
-	public String getUsuarioLogado() {
+	/**Mostrar na tela o usuario logado no sistema
+	 * @throws IOException */
+	public String getUsuarioLogado() throws IOException {
 		String userTemp = SecurityContextHolder.getContext().getAuthentication().getName();
 		if(userTemp!=null && userTemp!=""){
 			if(usuario==null){
+				checkLogado();
 				usuario = usuarioService.buscarPorEmail(userTemp);//busca usuario
 				String primeiroNome = null;
 				if(usuario.getNome().contains(" ")){

@@ -7,8 +7,7 @@
 
 	<ui:define name="titulo">Documentos</ui:define>
 	<ui:define name="head">
-		<h:outputStylesheet library="sistema" name="css/documento.css" />
-		
+		<h:outputStylesheet library="sistema" name="css/documento.css" />	
 	</ui:define>
 	<ui:define name="centro">
 	
@@ -22,14 +21,10 @@
 			<h:panelGroup layout="block" rendered="#{documentoBean.viewAtiva eq 'LISTANDO'}" >
 				<h1 class="aw-page-title">Lista de documentos emitidos</h1>
 			</h:panelGroup>
-			<h:panelGroup layout="block" rendered="#{documentoBean.viewAtiva eq 'DETALHANDO'}" style="max-width:900px;">
-				<h1 class="aw-page-title">Imprimir Documento</h1>
-				<ui:include src="formImprimirDocumento.xhtml"/>
-			</h:panelGroup>
 
 			<p:messages id="msg" autoUpdate="true" closable="true" />
 
-			<h:panelGroup layout="block" id="div-cadastro" style="max-width:900px;"
+			<h:panelGroup layout="block" id="div-cadastro" style="max-width:768px;"
 					rendered="#{documentoBean.viewAtiva eq 'INSERINDO' or documentoBean.viewAtiva eq 'EDITANDO'}">
 				<ui:include src="formCadastroDocumento.xhtml" />
 			</h:panelGroup>
@@ -40,5 +35,4 @@
 		</h:form>
 
 	</ui:define>
-
 </ui:composition>

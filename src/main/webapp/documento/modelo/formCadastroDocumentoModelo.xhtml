@@ -2,7 +2,8 @@
 	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
 	xmlns:h="http://xmlns.jcp.org/jsf/html"
     xmlns:f="http://java.sun.com/jsf/core"
-    xmlns:p="http://primefaces.org/ui">
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:pe="http://primefaces.org/ui/extensions">
     
 			<div style="display: inline-block; padding-top: 4px; width: 100%" class="remove-span-text">
 				<div style="float: left">
@@ -11,55 +12,42 @@
 				</div>
 
 				<div style="float: right">
-		        	<p:commandButton value="Limpar" type="button" onclick="PF('editorWidget').clear();" 
-		        		icon="fa fa-fw fa-eraser" styleClass="btn btn-info" />	
+				
+					<p:commandButton value="Imprimir" type="button" onclick="ckePrint('formPrincipal:editorDocModelo');"
+							rendered="#{documentoModeloBean.documentoModelo.id ne null}" icon="fa fa-fw fa-print"  styleClass="btn btn-default" />	
+					
 					<p:commandButton  value="Salvar" actionListener="#{documentoModeloBean.salvar()}" 
 						 styleClass="btn btn-success"  icon="fa fa-fw fa-floppy-o" update="formPrincipal"/>
 				</div>
 			</div>
 			
 			<h:panelGroup layout="block" class="ui-fluid" style="width:100%">
-				<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-2,ui-grid-col-7" style="margin-bottom:5px;">
+				<p:panelGrid columns="3" layout="grid" columnClasses="ui-grid-col-2,ui-grid-col-7,ui-grid-col-3" style="margin-bottom:5px;">
 					<p:outputLabel value="Nome documento:" styleClass="label-formulario" />
 					<p:inputText  id="documento-modelo-nome" value="#{documentoModeloBean.documentoModelo.nome}" placeholder="Nome do documento" style="width:100%"/>
+					<p:commandButton value="Marcadores" type="button" id="marcadoresBtn" styleClass="btn btn-info"  /> 
 				</p:panelGrid>
-			
-				<p:textEditor  id="documento-modelo-texto" widgetVar="editorWidget" value="#{documentoModeloBean.documentoModelo.texto}" 
-				    	placeholder="Insira seu texto..." >
-				    		 <f:facet name="toolbar">
-					             <span class="ql-formats">
-					                <button class="ql-bold" title="Negrito"></button>
-					                <button class="ql-italic" title="Itálico"></button>
-					                <button class="ql-underline" title="Sublinhado"></button>
-					                <button class="ql-strike" title="Tachado"></button>
-					            </span>
-					            <span class="ql-formats">
-					                <select class="ql-font" title="Tipo de fonte"></select>
-					                <select class="ql-size" title="Tamanho da fonte"></select>
-					            </span>
-					            <span class="ql-formats">
-					               <select class="ql-color" title="Cor da fonte"></select>
-					               <select class="ql-background" title="Cor do Realce do Texto"></select>
-					            </span>
-					             <span class="ql-formats">
-					               <button class="ql-code-block" title="Destacar bloco de texto"></button>
-					            </span>
-					            <span class="ql-formats">
-					               	<button class="ql-list" value="ordered" title="Numeração"></button>
-									<button class="ql-list" value="bullet" title="Marcador"></button>
-									<button class="ql-indent" value="-1" title="Dimimuir recuo"></button>
-									<button class="ql-indent" value="+1" title="Aumentar recuo"></button>
-					            </span>
-					            <span class="ql-formats">
-					            	<select class="ql-align" title="Alinhamento"></select>
-					            </span>
-					            <span class="ql-formats">
-									<button class="ql-image" title="Inserir imagem"></button>
-									<button class="ql-clean" title="Limpar formatação"></button>
-								</span>
-	       				 	</f:facet>
-				   </p:textEditor>
+					
 				   
+				   <pe:ckEditor id="editorDocModelo" value="#{documentoModeloBean.documentoModelo.texto}" width="100%"
+				   		height="1100" customConfig="#{request.contextPath}/resources/sistema/js/ckeditorConfig.js">
+					</pe:ckEditor>
+				
+					<p:overlayPanel id="marcadoresPanel" for="marcadoresBtn" showEffect="clip" hideEffect="clip" style="min-width:500px;">
+	   			 		    <p:tabView>
+						        <p:tab title="Dados da pessoa">
+						           <ui:include src="marcadores/include_marcadores_pessoa.xhtml"/>
+						        </p:tab>
+						        <p:tab title="Dados da sua empresa">
+						             <ui:include src="marcadores/include_marcadores_empresa.xhtml"/>
+						        </p:tab>
+						          <p:tab title="Data e hora/Usuário">
+						             <ui:include src="marcadores/include_marcadores_outros.xhtml"/>
+						        </p:tab>
+						    </p:tabView>
+	   			 	</p:overlayPanel>
 			</h:panelGroup>
-			<ui:include src="include_marcadores.xhtml" />
+			
+			
+			
 </ui:composition>

@@ -9,7 +9,7 @@
 				<div style="display: inline-block; padding-top: 4px; width: 100%">
 					<div style="float: left">
 						<p:commandButton value="Voltar" update=":formPrincipal"
-							action="#{pessoaBean.voltar()}" styleClass="btn btn-default"
+							action="#{pessoaBean.voltar()}" styleClass="btn btn-link"
 							icon="fa fa-fw fa-mail-reply" immediate="true" process="@form" />
 					</div>
 					<div style="float: right">
@@ -78,6 +78,31 @@
 							required="#{(!pessoaBean.pessoa.ehResponsavelFinanceiro)and(pessoaBean.pessoa.tipoResponsavel eq 'Pai')}"
 							requiredMessage="Obrigatório informar o PAI, se for o responsável financeiro"/>
 						</p:panelGrid>
+						
+					</p:panelGrid>
+					
+					<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-2"
+						styleClass="ui-panelgrid-blank" id="grid-naturalidade"
+						rendered="#{pessoaBean.perfil ne 'Fornecedores'}">
+						
+						<p:panelGrid columns="1" layout="grid"
+							columnClasses="ui-grid-col-12">
+							<p:outputLabel value="Naturalidade" styleClass="label-formulario" />
+							<p:inputText id="naturalidade" value="#{pessoaBean.pessoa.naturalidade}" autocomplete="off"/>
+						</p:panelGrid>
+						
+
+							
+						<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+							<p:outputLabel value="UF" styleClass="label-formulario" />
+								<p:selectOneMenu  id="naturalidade-uf" value="#{pessoaBean.pessoa.naturalidadeUf}" 
+								autoWidth="false">
+									<f:selectItem itemLabel="Selecione" noSelectionOption="true" />
+									<f:selectItems
+										value="#{pessoaBean.estadosEnums}"
+										var="uf" itemValue="#{uf}" itemLabel="#{uf.stringEnum}" />
+								</p:selectOneMenu>
+							</p:panelGrid>
 						
 					</p:panelGrid>
 					

@@ -8,6 +8,7 @@
 	<ui:define name="titulo">Documentos modelo</ui:define>
 	<ui:define name="head">
 		<h:outputStylesheet library="sistema" name="css/documento.css" />
+		
 	</ui:define>
 	<ui:define name="centro">
 	
@@ -24,7 +25,7 @@
 
 			<p:messages id="msg" autoUpdate="true" closable="true" />
 
-			<h:panelGroup layout="block" id="div-cadastro" style="max-width:900px;"
+			<h:panelGroup layout="block" id="div-cadastro" style="max-width:768px;"
 					rendered="#{documentoModeloBean.viewAtiva eq 'INSERINDO' or documentoModeloBean.viewAtiva eq 'EDITANDO'}">
 				<ui:include src="formCadastroDocumentoModelo.xhtml" />
 			</h:panelGroup>

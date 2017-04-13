@@ -77,8 +77,7 @@ public class CpfCnpjValidator implements Validator {
 		    || cpf.equals("66666666666")
 		    || cpf.equals("77777777777")
 		    || cpf.equals("88888888888")
-		    || cpf.equals("99999999999")
-		    || cpf.equals("00000000000")){
+		    || cpf.equals("99999999999")){
               return true;
          }
      return false;
@@ -143,8 +142,7 @@ public class CpfCnpjValidator implements Validator {
  		    || cnpf.equals("66666666666666")
  		    || cnpf.equals("77777777777777")
  		    || cnpf.equals("88888888888888")
- 		    || cnpf.equals("99999999999999")
- 		    || cnpf.equals("00000000000000")){
+ 		    || cnpf.equals("99999999999999")){
                return true;
           }
       return false;

@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import br.com.pontek.controller.AbstractBean;
+import br.com.pontek.enums.Estados;
 import br.com.pontek.enums.PerfilDePessoa;
 import br.com.pontek.enums.TipoResponsavel;
 import br.com.pontek.exception.RelatorioException;
@@ -229,6 +230,9 @@ public  class PessoaBean extends AbstractBean{
 	}
 	public TipoResponsavel[] getTiposDeResponsaveisEnums() {
 		return TipoResponsavel.values();
+	}
+	public Estados[] getEstadosEnums() {
+		return Estados.values();
 	}
 	/*############# PERFIL PAGINA ###############*/
 	public PerfilDePessoa getPerfil() {

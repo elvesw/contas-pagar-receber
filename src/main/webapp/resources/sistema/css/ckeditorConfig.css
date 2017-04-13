@@ -1,0 +1,8 @@
+
+.documento-fichaIndividual-table > td{
+	margin: 0;
+	padding:0;
+	border-color:rgb(0, 0, 0);
+	vertical-align:bottom;
+	height:78px;
+}

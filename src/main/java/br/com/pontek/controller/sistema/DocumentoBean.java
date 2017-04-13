@@ -135,10 +135,6 @@ public class DocumentoBean extends AbstractBean{
 		this.viewAtiva=estadoDaView.LISTANDO.toString();
 	 }
 
-	 public void viewImprimir(){
-		 	this.documento.atualizaHistorico("Imprimir");
-			this.viewAtiva=estadoDaView.DETALHANDO.toString();
-	 }
 	 public void viewCadastro(){
 			this.viewAtiva=estadoDaView.EDITANDO.toString();
 	 }

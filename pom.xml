@@ -105,11 +105,28 @@
 		</dependency> 
 
 		<dependency>
-			<groupId>org.primefaces.extensions</groupId>
-			<artifactId>primefaces-extensions</artifactId>
-			<version>3.0.0</version>
+		    <groupId>org.primefaces.extensions</groupId>
+		    <artifactId>primefaces-extensions</artifactId>
+		    <version>6.0.0</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>org.primefaces.extensions</groupId>
+		    <artifactId>resources-ckeditor</artifactId>
+		    <version>6.0.0</version>
+		</dependency>
+		
+		
+		<!-- thumbnailator - Gerar Thumbnail -->
+		<!-- https://github.com/coobird/thumbnailator -->
+		<dependency>
+			<groupId>net.coobird</groupId>
+			<artifactId>thumbnailator</artifactId>
+			<version>0.4.8</version>
 			<scope>compile</scope>
 		</dependency>
+		
+
 
 		<!-- WEB JSF 2.0 -->
 		<dependency>
@@ -140,6 +157,20 @@
 			<groupId>com.lowagie</groupId><!-- Para converter em PDF -->
 			<artifactId>itext</artifactId>
     		<version>4.2.2</version><!-- UP 27-07-2016 Elves -->
+			    <exclusions>
+			        <exclusion>
+			            <groupId>bouncycastle</groupId>
+			            <artifactId>bcprov-jdk14</artifactId>
+			        </exclusion>
+			        <exclusion>
+			            <groupId>bouncycastle</groupId>
+			            <artifactId>bcmail-jdk14</artifactId>
+			        </exclusion>
+			        <exclusion>
+			            <groupId>org.bouncycastle</groupId>
+			            <artifactId>bctsp-jdk14</artifactId>
+			        </exclusion>
+			    </exclusions>
     		<type>pom</type>
 		</dependency>
 		

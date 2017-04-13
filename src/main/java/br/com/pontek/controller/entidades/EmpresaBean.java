@@ -51,14 +51,15 @@ public class EmpresaBean {
 	public void upImagem(FileUploadEvent event){
 		 UploadedFile uf = event.getFile();
 		 String extensaoArquivo =uf.getFileName().substring(uf.getFileName().length()-4,uf.getFileName().length());
+		 System.err.println("EmpresaBean.upImagem(): "+extensaoArquivo);
 	     String pathArquivo = FacesUtil.pathImagens()+"empresa"+empresa.getId()+extensaoArquivo;
+	     System.err.println("EmpresaBean.upImagem(): "+pathArquivo);
 	     empresa.setLogo("empresa"+empresa.getId()+extensaoArquivo);
 	     
 	      FileImageOutputStream imageOutput;
 	        try {
 	            imageOutput = new FileImageOutputStream(new File(pathArquivo));
 	            imageOutput.write(uf.getContents(),0,uf.getContents().length);
-	            
 	            imageOutput.close();
 	        } catch (Exception e) {
 	        	FacesUtil.exibirMensagemErro("Upload falhou, tente novamente");

@@ -44,14 +44,19 @@ public class Pessoa implements Serializable {
 	@Column(name="nome")
 	private String nome;
 	@Column(name = "data_nasc")
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	private Date dataNascimento;
 	@Column(name = "eh_responsavel_financeiro")
 	private Boolean ehResponsavelFinanceiro=true;//caso false tem que colocar o nome e cpf de quem é
     @Column(name = "observacoes")
     private String observacoes;
     
-    /*####FILIAÇÃO#### */
+    @Column(name = "naturalidade")
+    private String naturalidade;
+    @Column(name = "naturalidade_uf")
+    private String naturalidadeUf;
+
+	/*####FILIAÇÃO#### */
     @Column(name = "nome_pai")
     private String nomePai;
     @Column(name = "nome_mae")
@@ -159,6 +164,18 @@ public class Pessoa implements Serializable {
 	}
 	public void setObservacoes(String observacoes) {
 		this.observacoes = observacoes;
+	}
+    public String getNaturalidade() {
+		return naturalidade;
+	}
+	public void setNaturalidade(String naturalidade) {
+		this.naturalidade = naturalidade;
+	}
+	public String getNaturalidadeUf() {
+		return naturalidadeUf;
+	}
+	public void setNaturalidadeUf(String naturalidadeUf) {
+		this.naturalidadeUf = naturalidadeUf;
 	}
 	public Boolean getCliente() {
 		return cliente;
