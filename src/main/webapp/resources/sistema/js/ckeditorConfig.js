@@ -7,7 +7,7 @@ if (typeof CKEDITOR != "undefined") {
 		var contextPath = window.location.pathname.substring(0,window.location.pathname.indexOf("/", 2));
 		/*config.filebrowserImageBrowseUrl = contextPath + '/erro/esse.jsf';*/
 		config.filebrowserImageUploadUrl = contextPath + '/upload';
-		config.filebrowserBrowseUrl = contextPath + '/imagem';
+		/*config.filebrowserBrowseUrl = contextPath + '/imagem';*/
 		config.toolbar = [['Bold','Italic','Underline','StrikeThrough','RemoveFormat','-','Undo','Redo','-','Cut','Copy','Paste','Find','Replace','-','Outdent','Indent','-'],
 		                  ['Styles','Format','Font','FontSize'],
 		                  ['NumberedList','BulletedList','CreateDiv','ShowBlocks','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock','Image','Table','-','TextColor','BGColor','Source']
