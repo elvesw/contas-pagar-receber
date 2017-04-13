@@ -70,9 +70,9 @@ local.properties
 .buildpath
 .tern-project
 *.tern-project
+*applicationContext.xml
 
 ######################
 #OUTROS
 ######################
 *.beforefix
-/src/main/resources/spring/applicationContext.xml
