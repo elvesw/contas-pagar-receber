@@ -69,6 +69,7 @@ local.properties
 # PDT-specific
 .buildpath
 .tern-project
+*.tern-project
 
 ######################
 #OUTROS
