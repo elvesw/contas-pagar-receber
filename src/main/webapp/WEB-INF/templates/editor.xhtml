@@ -1,0 +1,29 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+	<head>
+		<script type="text/javascript" src="#{request.contextPath}/resources/sistema/js/ckfinder.js"></script>
+	</head>
+
+<ui:composition>
+	<pe:ckEditor id="#{id}" required="true" width="#{width}" height="#{height}"
+		toolbar="[['Bold','Italic','Underline','Strike',
+					'-','RemoveFormat','Subscript','Superscript','Blockquote',
+					'-','TextColor','BGColor',
+					'-','JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock',
+					'-','Indent','Outdent','PasteFromWord',
+					'-','NumberedList','BulletedList',
+					'-','SpellChecker','Font','FontSize',
+					'-','Undo','Redo','Table','Image','HorizontalRule',
+					'-','Save','Print']]">
+		<p:ajax event="blur" update="@form" />
+	</pe:ckEditor>
+	<h:outputLabel value="#{request.contextPath}" />
+</ui:composition>
+
+</html>
