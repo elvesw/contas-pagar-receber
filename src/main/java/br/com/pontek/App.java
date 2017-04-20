@@ -1,5 +1,6 @@
 package br.com.pontek;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -24,7 +25,7 @@ import br.com.pontek.service.financeiro.LancamentoService;
 @Component
 public class App {
 	static Logger logger = LoggerFactory.getLogger(App.class);
-	
+
 	@Autowired
 	CategoriaService categoriaService;
 	@Autowired
@@ -32,60 +33,65 @@ public class App {
 	@Autowired
 	LancamentoService lancamentoService;
 
-	@SuppressWarnings({ "resource"})
+	@SuppressWarnings({ "resource" })
 	public static void main(String[] args) throws ParseException {
 		final ApplicationContext context = new ClassPathXmlApplicationContext("spring/applicationContext.xml");
 
 		final App app = context.getBean(App.class);
-		System.out.println("App.main(): "+LocalDate.now().atStartOfDay().atZone(ZoneId.of("America/Sao_Paulo")).toInstant());
-		
-		app.verificaData();
+		System.out.println("App.main(): " + LocalDate.now().atStartOfDay().atZone(ZoneId.of("America/Sao_Paulo")).toInstant());
+
+		app.checkAccess();
 	}
+
+	public void checkAccess() {
+		Path file = Paths.get("C:\\imagens\\thumbnail.140x129.Capturadetela2014-01-0213.00.07.png");
+
 	
-	public void checkAccess() throws IOException {
-		Path file = Paths.get("C:\\imagens2\\7PASSOS.png");
+		try {
+			Boolean isRegularFile = Files.isRegularFile(file);
+			System.out.println("Arquivo : isRegularFile: " + isRegularFile);
 
-		Boolean isRegularFile = Files.isRegularFile(file);
-		System.out.println("Arquivo : isRegularFile: "+isRegularFile);
-		
-		Boolean isHidden = Files.isHidden(file);
-		System.out.println("Arquivo : isHidden: "+isHidden);
-		
-		Boolean isReadable = Files.isReadable(file);
-		System.out.println("Arquivo : isReadable: "+isReadable);
-		
-		Boolean isExecutable = Files.isExecutable(file);
-		System.out.println("Arquivo : isExecutable: "+isExecutable);
-		
-		Boolean isSymbolicLink = Files.isSymbolicLink(file);
-		System.out.println("Arquivo : isSymbolicLink: "+isSymbolicLink);
+			Boolean isHidden;
+			isHidden = Files.isHidden(file);
 
-		Path directory = Paths.get("C:\\imagens2");
-		
-		Boolean isDirectory = Files.isDirectory(directory);
-		System.out.println("Arquivo : isDirectory: "+isDirectory);
-		
-		Boolean isWritable = Files.isWritable(directory);
-		System.out.println("Arquivo : isWritable: "+isWritable);
-		
-		Files.delete(file);
+			System.out.println("Arquivo : isHidden: " + isHidden);
 
+			Boolean isReadable = Files.isReadable(file);
+			System.out.println("Arquivo : isReadable: " + isReadable);
+
+			Boolean isExecutable = Files.isExecutable(file);
+			System.out.println("Arquivo : isExecutable: " + isExecutable);
+
+			Boolean isSymbolicLink = Files.isSymbolicLink(file);
+			System.out.println("Arquivo : isSymbolicLink: " + isSymbolicLink);
+
+			Path directory = Paths.get("C:\\imagens2");
+
+			Boolean isDirectory = Files.isDirectory(directory);
+			System.out.println("Arquivo : isDirectory: " + isDirectory);
+
+			Boolean isWritable = Files.isWritable(directory);
+			System.out.println("Arquivo : isWritable: " + isWritable);
+
+			Files.delete(file);
+		} catch (IOException e){
+			e.printStackTrace();
 		}
-	
-	public void verificaData(){
-		
-		Pessoa p = pessoaService.buscar(3);
-		
-		Date data = new Date();
-		
-		System.out.println("new Date: "+data);
-		
-		System.out.println("Data cadastro: "+p.getDataCadastro());
-		
-		System.out.println("Data nascimento: "+p.getDataNascimento());
-		
-		
-		
+
 	}
-	
+
+	public void verificaData() {
+
+		Pessoa p = pessoaService.buscar(3);
+
+		Date data = new Date();
+
+		System.out.println("new Date: " + data);
+
+		System.out.println("Data cadastro: " + p.getDataCadastro());
+
+		System.out.println("Data nascimento: " + p.getDataNascimento());
+
+	}
+
 }

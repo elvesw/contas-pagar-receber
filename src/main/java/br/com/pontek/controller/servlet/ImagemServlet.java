@@ -1,4 +1,4 @@
-package br.com.pontek.controller;
+package br.com.pontek.controller.servlet;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,8 +19,10 @@ public class ImagemServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		String pathImg=FacesUtil.pathImagens();
 		String requestedImage = request.getParameter("n");
-		File image = new File(FacesUtil.pathImagens(),requestedImage);
+		File image = new File(pathImg,requestedImage);
 		String contentType = getServletContext().getMimeType(image.getName());
 		response.reset();
 		response.setContentType(contentType);

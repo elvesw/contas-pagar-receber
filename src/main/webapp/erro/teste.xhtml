@@ -14,9 +14,11 @@
 	<ui:define name="centro">
 
 		<h:form id="formPrincipal" style="max-width:900px;">
-		<p:messages id="msg" autoUpdate="true" closable="true" />
-		
-			<h:panelGroup rendered="true" layout="block" style="display: inline-block; padding-top: 4px; width: 100%" class="remove-span-text">
+			<p:messages id="msg" autoUpdate="true" closable="true" />
+
+			<h:panelGroup rendered="true" layout="block"
+				style="display: inline-block; padding-top: 4px; width: 100%"
+				class="remove-span-text">
 				<div style="float: left">
 					<p:commandButton value="Imprimir1" icon="fa fa-fw fa-print"
 						styleClass="btn btn-default" />
@@ -27,26 +29,57 @@
 					<p:commandButton value="Imprimir4" icon="fa fa-fw fa-print"
 						styleClass="btn btn-info" />
 					<p:commandButton value="Imprimir5" icon="fa fa-fw fa-print"
+						action="#{downloadBean.listaImagens()}"
 						styleClass="btn btn-warning" />
-					<p:commandButton value="testeJs" icon="fa fa-fw fa-print"
-						styleClass="btn btn-danger"  type="button" onclick="testeJs();"/>
-					<p:commandButton value="Imprimir7" icon="fa fa-fw fa-print"
+					<p:commandButton value="Imprimir6" icon="fa fa-fw fa-print"
+						styleClass="btn btn-danger" />
+					<p:commandButton value="Imprimir7" icon="fa fa-fw fa-print" onclick="testeJs();"
 						styleClass="btn btn-link" />
 				</div>
 				<br />
 				<br />
 			</h:panelGroup>
 
-		<h:panelGroup rendered="false" layout="block" style="margin-top:50px;margin-botton:50px;width:100%;" >
-		
-				
-				
-		</h:panelGroup>	
-		
-	
-		
-		
-	
-	</h:form>
+			<h:panelGroup rendered="true" layout="block"
+				style="margin-top:50px;margin-botton:50px;width:100%;">
+
+				<p:commandButton value="ckeditor dialog" onclick="returnFileUrl();"
+					icon="fa fa-fw fa-print" type="button" styleClass="btn btn-warning" />
+
+			</h:panelGroup>
+
+		</h:form>
+	</ui:define>
+	<ui:define name="scripts">
+
+		<script>
+
+		function getUrlParam(paramName) {
+			  
+			  return null;
+			}
+
+        // Simulate user action of selecting a file to be returned to CKEditor.
+        function returnFileUrl() {
+            var funcNum = getUrlParam( 'CKEditorFuncNum' );
+            var fileUrl = 'http://c.cksource.com/a/1/img/sample.jpg';
+            window.opener.CKEDITOR.tools.callFunction( funcNum, fileUrl, function() {
+                // Get the reference to a dialog window.
+                var dialog = this.getDialog();
+                // Check if this is the Image Properties dialog window.
+                if ( dialog.getName() == 'image' ) {
+                    // Get the reference to a text field that stores the "alt" attribute.
+                    var element = dialog.getContentElement( 'info', 'txtAlt' );
+                    // Assign the new value.
+                    if ( element )
+                        element.setValue( 'alt text' );
+                }
+                // Return "false" to stop further execution. In such case CKEditor will ignore the second argument ("fileUrl")
+                // and the "onSelect" function assigned to the button that called the file manager (if defined).
+                // return false;
+            } );
+            window.close();
+        }
+    	</script>
 	</ui:define>
 </ui:composition>

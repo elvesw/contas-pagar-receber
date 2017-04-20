@@ -5,7 +5,7 @@
     xmlns:p="http://primefaces.org/ui">
 
    			<h:panelGroup layout="block" id="div-cadastro" rendered="#{pessoaBean.viewAtiva eq 'INSERINDO' or pessoaBean.viewAtiva eq 'EDITANDO'}">
-
+       			 
 				<div style="display: inline-block; padding-top: 4px; width: 100%">
 					<div style="float: left">
 						<p:commandButton value="Voltar" update=":formPrincipal"
@@ -34,10 +34,10 @@
 						<p:panelGrid columns="1" layout="grid"
 							columnClasses="ui-grid-col-12">
 							<p:outputLabel value="CPF/CNPJ" styleClass="label-formulario" rendered="false"/>
-							<p:outputLabel value="#{pessoaBean.pessoa.cpfCnpj.length() eq 11?'CPF':pessoaBean.pessoa.cpfCnpj.length() eq 14?'CNPJ':'CPF/CNPJ'}" styleClass="label-formulario" />
+							<p:outputLabel value="#{pessoaBean.pessoa.cpfCnpj.length() eq 14?'CPF':pessoaBean.pessoa.cpfCnpj.length() eq 18?'CNPJ':'CPF/CNPJ'}" styleClass="label-formulario" />
 							<p:inputText id="cpfcnpj" value="#{pessoaBean.pessoa.cpfCnpj}" autocomplete="off"
 							required="#{pessoaBean.pessoa.ehResponsavelFinanceiro}"
-							requiredMessage="Obrigatório se a pessoa se responsabilizar financeiramente"
+							requiredMessage="Obrigatório informar CPF/CNPJ"
 								onkeypress="return mascaraCpfCnpj(this,cpfCnpj)">
 								<f:validator validatorId="cpfCnpjValidator" />
 							</p:inputText>
@@ -286,7 +286,7 @@
 						</p:panelGrid>
 						
 					</p:panelGrid>
-			  </div>
+			  	</div>
 
 			</h:panelGroup>
    

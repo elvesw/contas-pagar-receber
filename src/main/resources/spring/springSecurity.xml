@@ -44,6 +44,8 @@
 
 		<csrf disabled="true" /><!--Desativar a proteção padrão CSRF do Spring 
 			Security 4 -->
+			
+		<headers><frame-options policy="SAMEORIGIN"/></headers>
 
 	</http>
 

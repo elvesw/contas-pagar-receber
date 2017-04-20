@@ -49,12 +49,16 @@
 									action="#{usuarioBean.excluir(usuario)}"
 									update=":formPrincipal" title="Excluir">
 									<span><i class="fa fa-fw fa-trash"></i></span>
+									<p:confirm header="Confirmação" 
+									message="Tem certeza que deseja excluir?"  
+									icon="fa fa-fw fa-exclamation-triangle warning"/>
 								</p:commandLink>
 									
 							</div>
 					</p:column>
 					
 				</p:dataTable>
+				<ui:include src="/WEB-INF/templates/dialogConfirmGlobal.xhtml" />
 			</h:panelGroup>
     
 </ui:composition>

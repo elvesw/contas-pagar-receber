@@ -12,7 +12,7 @@
 				</div>
 
 				<div style="float: right">
-				
+								
 					<p:commandButton value="Imprimir" type="button" onclick="ckePrint('formPrincipal:editorDocModelo');"
 							rendered="#{documentoModeloBean.documentoModelo.id ne null}" icon="fa fa-fw fa-print"  styleClass="btn btn-default" />	
 					
@@ -30,6 +30,7 @@
 					
 				   
 				   <pe:ckEditor id="editorDocModelo" value="#{documentoModeloBean.documentoModelo.texto}" width="100%"
+				   interfaceColor="#313B3F" 
 				   		height="1100" customConfig="#{request.contextPath}/resources/sistema/js/ckeditorConfig.js">
 					</pe:ckEditor>
 				

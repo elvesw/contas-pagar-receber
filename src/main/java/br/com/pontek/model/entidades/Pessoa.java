@@ -127,6 +127,18 @@ public class Pessoa implements Serializable {
 	public Pessoa() {
 		
 	}
+	public String perfis(){
+		String perfil="";
+		if(this.cliente){
+			perfil=perfil+"cliente,";
+		}if(this.funcionario){
+			perfil=perfil+"funcionario,";
+		}if(this.fornecedor){
+			perfil=perfil+"fornecedor,";
+		}
+		perfil=perfil.replaceFirst("(,$)", ".");
+		return perfil;
+	}
 	
 	/**return true é cnpj e false é cpf*/
 	public Boolean CpfOuCnpj(){

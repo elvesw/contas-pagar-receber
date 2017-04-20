@@ -15,6 +15,8 @@ public interface PessoaService {
     void excluirPorId(Integer pessoa_id);
     
 /*### METODOS DE BUSCAR ###*/
+    Boolean existe(Pessoa pessoa);
+    Pessoa existeCadastro(Pessoa pessoa);
     Pessoa buscar(Integer pessoa_id);
     List<Pessoa> listaDePessoas();
     

@@ -83,5 +83,32 @@ public class PessoaDaoImp extends AbstractDaoImpl<Pessoa, Integer> implements Pe
 		criteria.add(conjunction);
 		return criteria.list();
 	}
+
+
+	@Override
+	public Boolean existe(Pessoa pessoa) {
+		Session session = (Session) getEm().getDelegate();
+		Criteria criteria = session.createCriteria(Pessoa.class);
+		
+		criteria.add(Restrictions.ilike("nome",pessoa.getNome(), MatchMode.EXACT));
+		criteria.add(Restrictions.neOrIsNotNull("id", pessoa.getId()));
+		Integer count = ((Number) criteria.setProjection(Projections.rowCount()).uniqueResult()).intValue();
+		if(count>0) 
+			return true;
+		
+		return false;
+	}
+
+
+	@Override
+	public Pessoa existeCadastro(Pessoa pessoa) {
+		Session session = (Session) getEm().getDelegate();
+		Criteria criteria = session.createCriteria(Pessoa.class);
+		criteria.add(Restrictions.ilike("nome",pessoa.getNome(), MatchMode.EXACT));
+		criteria.add(Restrictions.neOrIsNotNull("id", pessoa.getId()));
+		if(!criteria.list().isEmpty())
+			return (Pessoa) criteria.uniqueResult();
+		return null;
+	}
 	
 }

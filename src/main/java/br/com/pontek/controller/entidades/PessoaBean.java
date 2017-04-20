@@ -124,6 +124,11 @@ public  class PessoaBean extends AbstractBean{
 	public String salvar() {
 			checkPerfil();
 			try {
+				Pessoa pessoaExiste=pessoaService.existeCadastro(pessoa);
+			 if(pessoaExiste!=null){
+				 FacesUtil.exibirMensagemErro("ID:"+pessoaExiste.getId()+" "+pessoaExiste.getNome()+ " já existe, com perfil: "+pessoaExiste.perfis());
+				 return null;
+			 }
 			pessoaService.salvar(pessoa);
 			FacesUtil.exibirMensagemSucesso("Salvo com sucesso!");
 			reset();

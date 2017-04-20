@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Servidor de arquivos</title>
+	<link rel="shortcut icon"
+		href="#{request.contextPath}/resources/sistema/img/favicon.ico"
+		type="image/x-icon" />
+	<h:outputStylesheet library="sistema" name="css/btn-bootstrap.css"/>
+	<h:outputStylesheet library="sistema" name="css/components.css" />
+	<script type="text/javascript" src="#{request.contextPath}/resources/sistema/js/ckeditorConfig.js"></script>
+	<script>
+			
+	</script>
+	
+</h:head>
+<h:body>
+
+	<h:form id="formPrincipal">
+		<p:messages id="msg" autoUpdate="true" closable="true" />
+
+		<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+			<p:fileUpload fileUploadListener="#{fileBean.upImagem}"
+				fileLimitMessage="Ultrapassou o número máximo, somente 1"
+				invalidSizeMessage="A imagem deve ser menor que essa, limite 1024KB, "
+				invalidFileMessage="Os formatos aceitos são: gif, jpeg, png"
+				mode="advanced" dragDropSupport="false" auto="true"
+				update=":formPrincipal" sizeLimit="1024000" fileLimit="1"
+				allowTypes="/(\.|\/)(gif|jpe?g|png)$/" multiple="false"
+				label="Selecionar" cancelLabel="Cancelar" uploadLabel="Enviar"
+				previewWidth="200" />
+		</p:panelGrid>
+
+
+		<h:panelGroup rendered="true" layout="block"
+			style="margin-top:50px;margin-botton:50px;width:100%;">
+
+			<div class="ui-g">
+				<ui:repeat value="#{fileBean.listaArquivos}" var="imagemNome">
+					<div class="ui-g-6 ui-md-4 ui-lg-2">
+						<h:panelGroup layout="block">
+							
+							<h:graphicImage value="/imagem?n=#{imagemNome}" width="90%"
+								height="90%" alt="#{imagemNome}" title="#{imagemNome}"/>
+								
+							<h:panelGroup layout="block">
+
+								<p:commandButton process="@this" icon="fa fa-fw fa-trash"
+									rendered="#{sessaoBean.usuario.role eq 'ADMIN'}"
+									update="formPrincipal" styleClass="btn btn-danger"
+									actionListener="#{fileBean.excluir(imagemNome)}">
+									<p:confirm header="Confirmação"
+										message="Tem certeza que deseja excluir?"
+										icon="fa fa-fw fa-exclamation-triangle warning" />
+								</p:commandButton>			
+					
+							</h:panelGroup>
+						</h:panelGroup>
+						
+					</div>
+				</ui:repeat>
+			</div>
+
+		</h:panelGroup>
+
+		<ui:include src="/WEB-INF/templates/dialogConfirmGlobal.xhtml" />
+	</h:form>
+</h:body>
+</html>

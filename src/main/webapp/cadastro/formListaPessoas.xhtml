@@ -14,7 +14,7 @@
 					</div>
 					<div style="float: right">
 						<p:inputText value="#{pessoaBean.filtro.nome}" placeholder="busca por nome" style="width:115px;vertical-align:middle;">
-							 <p:ajax event="keyup" update=":formPrincipal"/>
+							 <p:ajax event="keyup" update=":formPrincipal" delay="700" />
 						</p:inputText>
 						<p:selectOneMenu value="#{pessoaBean.filtro.cadastroAtivo}" autoWidth="off" style="margin:0 0.3em 0 0.3em;vertical-align:middle;"
 						rendered="true" >
@@ -38,13 +38,13 @@
 						<h:outputText value="#{pessoa.id}" />
 					</p:column>
 
-					<p:column headerText="Nome" styleClass="dataTableLista-nomePessoa">
+					<p:column headerText="Nome" styleClass="dataTableLista-nomePessoa" sortBy="#{pessoa.nome}">
 						
 						<p:commandLink immediate="true" styleClass="ui-command-link"
 								action="#{pessoaBean.editar(pessoa)}"
 								update=":formPrincipal"
 								title="#{pessoa.nome}" process=":formPrincipal" >
-								<span><h:outputText value="#{pessoa.nome}" /></span>
+								<span><h:outputText value="#{pessoa.nome}"/></span>
 						</p:commandLink>
 					</p:column>
 
@@ -55,7 +55,7 @@
 					<p:column headerText="Ações" width="11%" selectRow="false">
 							<div class="ui-acoes-datatable">
 							
-								<p:link outcome="/documento/lista.xhtml" rendered="#{pessoa.cadastroAtivo}"
+								<p:link outcome="/documento/lista.xhtml"
 									styleClass="ui-command-link" title="Emissão de documento">
 									<f:param name="p" value="#{pessoa.id}" />
 									<span><i class="fa fa-fw fa-file"></i></span>
@@ -65,7 +65,10 @@
 									action="#{pessoaBean.excluir(pessoa)}"
 									update=":formPrincipal" title="Excluir">
 									<span><i class="fa fa-fw fa-trash"></i></span>
-								</p:commandLink>
+									<p:confirm header="Confirmação" 
+									message="Tem certeza que deseja excluir?"  
+									icon="fa fa-fw fa-exclamation-triangle warning"/>
+								</p:commandLink>	
 									
 							</div>
 					</p:column>
@@ -74,6 +77,7 @@
 						Total de : #{pessoaBean.model.rowCount}
 				</f:facet>
 				</p:dataTable>
+				<ui:include src="/WEB-INF/templates/dialogConfirmGlobal.xhtml" />
 			</h:panelGroup>
     
 </ui:composition>

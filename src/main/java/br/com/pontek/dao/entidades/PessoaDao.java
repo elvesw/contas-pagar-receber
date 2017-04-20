@@ -9,6 +9,10 @@ import br.com.pontek.util.filtro.FiltroPessoa;
 public interface PessoaDao extends AbstractDao<Pessoa, Integer> {
 
 
+	
+	Boolean existe(Pessoa pessoa);
+	Pessoa existeCadastro(Pessoa pessoa);
+	
 	/*PAGINAÇÃO LAZY DATATABLE*/
 	List<Pessoa> filtrados(FiltroPessoa filtro);
 	Integer quantidadeFiltrados(FiltroPessoa filtro);

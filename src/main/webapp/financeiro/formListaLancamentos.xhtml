@@ -166,9 +166,9 @@
 				</p:column>
 
 				<p:column headerText="Nome" width="26%" selectRow="false" sortBy="#{lancamento.pessoa}">
-					<h:outputText value="#{lancamento.pessoa.nome}"
+					<h:outputText value="#{lancamento.pessoa.nome}(#{lancamento.pessoa.id})"
 						style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"
-						title="#{lancamento.pessoa.nome}" />
+						title="#{lancamento.pessoa.nome}(#{lancamento.pessoa.id})" />
 				</p:column>
 
 				<p:column headerText="Vencimento" width="16%" selectRow="false"

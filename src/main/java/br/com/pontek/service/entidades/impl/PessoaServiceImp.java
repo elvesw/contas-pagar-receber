@@ -29,10 +29,11 @@ public class PessoaServiceImp implements PessoaService ,Serializable {
 		if(pessoa.getId()!=null){
 			pessoa.setUltimaAlteracao(new Date());
 			pessoaDao.atualizarEntity(pessoa);
+
 		}else{
 			pessoa.setDataCadastro(new Date());
 			pessoa.setUltimaAlteracao(new Date());
-			pessoaDao.salvarEntity(pessoa);	
+			pessoaDao.salvarEntity(pessoa);					
 		}
 	}
 
@@ -65,6 +66,18 @@ public class PessoaServiceImp implements PessoaService ,Serializable {
 	public Pessoa buscar(Integer pessoa_id) {
 		return pessoaDao.buscarEntity(pessoa_id);
 	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public Boolean existe(Pessoa pessoa){
+		return pessoaDao.existe(pessoa);
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public Pessoa existeCadastro(Pessoa pessoa){
+		return pessoaDao.existeCadastro(pessoa);
+	}
 
 	@Override
 	@Transactional(readOnly=true)
@@ -89,6 +102,10 @@ public class PessoaServiceImp implements PessoaService ,Serializable {
 	public List<Pessoa> listaPorPerfil(boolean perfilCliente, boolean perfilFornecedor, boolean perfilFuncionario) {
 		return pessoaDao.listaPorPerfil(perfilCliente,perfilFornecedor,perfilFuncionario);
 	}
+
+	
+
+	
 
 	
 
