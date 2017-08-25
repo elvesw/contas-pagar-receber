@@ -1,43 +1,121 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
+<html lang="pt-br"
+xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:f="http://java.sun.com/jsf/core">
 <h:head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>Login</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<link rel="stylesheet" type="text/css" media="all" href="#{request.contextPath}/resources/sistema/login/css/style.css" />
 	<link rel="shortcut icon" href="#{request.contextPath}/resources/sistema/img/favicon.ico" type="image/x-icon" />
-	<link rel="stylesheet" type="text/css" href="#{request.contextPath}/resources/sistema/css/css_login.css" />
 </h:head>
-<h:body>
-	<div id="login-dialog">
-		<h3 style="font-weight:bold">Identifique-se para utilizar o sistema</h3>
-			<h:form prependId="false" id="formLogin">
- 
-		    <p:panelGrid id="status" rendered="#{not empty param['status']}" >
-		    	<div  class="ui-messages-error ui-corner-all">
-		    		<a class="ui-messages-close" onclick="$(this).parent().slideUp();return false;" href="#"> <span class="ui-icon ui-icon-close"></span></a>
-			    	<span class="ui-messages-error-icon"></span>
-			    	 <h:outputText styleClass="ui-message-error-summary" value="#{SPRING_SECURITY_LAST_EXCEPTION.message}" />
-		    	 </div>
-		   </p:panelGrid>
-		   
-			<p:messages id="messages" autoUpdate="true" closable="true" >	
-			
-			</p:messages>
-			
-			<h:panelGrid columns="2" styleClass="grid-login">
-					<p:outputLabel value="Email" />
-					<p:inputText id="username" required="true" requiredMessage="Email obrigatório"  autocomplete="off" size="25"/>
-					<p:outputLabel value="Senha" />
-					<p:password id="password" required="true" requiredMessage="Senha obrigatório" autocomplete="off" size="25"/>
-				<p:outputLabel value="" />
-				<p:commandButton  value="Login" icon="fa fa-fw fa-lock" styleClass="btn-success" id="btnLogin" action="#{loginBean.doLogin}" ajax="false"/>
-			</h:panelGrid>
-		</h:form>
-		<!-- <h:graphicImage value="/resources/img/logo-pontek.png"/> -->
-		<a href="#{request.contextPath}/index.jsf" title=""> <img src="#{request.contextPath}/resources/sistema/img/logo-pontek.png" alt="" style="padding-top:2px;"/></a>
+<body>
+<div class="w3-agile-banner">
+	<div class="center-container">
+		 <div class="header-w3l">
+		</div> 
+
+		<!--main-->
+		<div class="main-content-agile">
+			<div class="wthree-pro">
+				<h2>Identifique-se para utilizar o sistema</h2>
+			</div>
+			<div class="w3-head-continue">
+			<h:panelGroup layout="block" rendered="#{not empty param['logout']}">
+				<ul>
+					<li class="message_success">Voce foi deslogado com Sucesso!</li>
+				</ul>
+			</h:panelGroup>
+			<h:panelGroup layout="block" rendered="#{not empty param['status']}">
+				<ul>
+					<li class="message_error">#{SPRING_SECURITY_LAST_EXCEPTION.message}</li>
+				</ul>
+			</h:panelGroup>
+		   		<h:messages id="messages" errorClass="message_error" infoClass="message_info" warnClass="message_warning" fatalClass="message_error" />
+			</div>
+			<!--	
+				<div class="social_icons">
+						
+						<div class="slide-social w3l">
+						<a href="#">
+							<div class="button">Facebook</div>
+							<div class="facebook icon"> <i class="facebook"></i> </div>
+							<div class="facebook slide">
+								<p>Facebook</p>
+							</div>
+							<div class="clear"></div>
+							</a>
+						</div>
+						
+						<div class="slide-social w3l">
+						<a href="#">
+							<div class="button">Twitter</div>
+							
+							<div class="twitter icon"> <i class="twitter"></i></div>
+							<div class="twitter slide">
+								<p>Twitter</p>
+							</div>
+							<div class="clear"></div>
+							</a> 
+						</div>
+					</div> 
+					<div class="w3-head-continue">
+						<h4>ou use seu email</h4>
+					</div> -->
+			<div class="sub-main-w3">	
+
+				<h:form prependId="false" id="formLogin">
+					<h:panelGroup layout="block" rendered="#{!loginBean.formNovaSenha}">
+						<h:inputText id="username"  required="true"  requiredMessage="Email obrigatório"  autocomplete="off" title="Email">
+							<f:passThroughAttribute name="placeholder" value="e-mail" />
+						</h:inputText>
+						<h:inputSecret id="password" required="true" requiredMessage="Senha obrigatório" autocomplete="off" title="Senha">
+							<f:passThroughAttribute name="placeholder" value="senha" />
+						</h:inputSecret>
+						
+						<div class="rem-w3">
+							<span class="check-w3"><input type="checkbox" name="remember-me"/>Lembre-me</span>
+							<h:commandLink  value="Esqueceu a senha?" styleClass="w3-pass" action="#{loginBean.formNovaSenhaEmail()}" immediate="true"/>
+							<div class="clear"></div>
+						</div>
+						<h:commandButton  value="Entrar"  action="#{loginBean.doLogin}" type="submit"/>
+					</h:panelGroup>
+					
+					<h:panelGroup layout="block" rendered="#{loginBean.formNovaSenha}">
+						<h:inputText id="email-nova-senha"  value="#{loginBean.email}" required="true"  title="E-mail"
+						requiredMessage="Email obrigatório"  autocomplete="off" >
+							<f:passThroughAttribute name="placeholder" value="Digite seu e-mail" />
+						</h:inputText>
+						
+						
+						<div class="rem-w3">
+							<h:commandLink  value="Voltar" styleClass="w3-pass" action="#{loginBean.formLogin()}" immediate="true"/>
+						</div>
+						<h:commandButton  value="Enviar" action="#{loginBean.enviarNovaSenha}" type="submit"/>
+					</h:panelGroup>
+				</h:form>
+				
+			</div>
+			<div class="w3-head-continue">
+				<!--/ <h4>Não é um membro? <a href="#">inscrever-se</a></h4> -->
+				<img src="https://raw.githubusercontent.com/elvesw/files/master/ptk/logo_104x30_cinza.png" alt="" style="float:right;"/>			
+			</div>
+		</div>
+		<!--//main-->
+		<!--footer
+		<div class="footer">
+			<p>&copy; 2017</p>
+		</div>
+		//footer-->
 	</div>
-</h:body>
+</div>
+<!-- js -->
+<script type="text/javascript">
+	var today = new Date();
+	document.getElementsByClassName('w3-agile-banner')[0].style.backgroundImage="url('https://raw.githubusercontent.com/elvesw/files/master/gtn/"+today.getDate()+".jpg')";
+</script>
+<!-- //js -->
+</body>
 </html>

@@ -1,5 +1,6 @@
 package br.com.pontek.controller.autenticacao;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,12 +71,6 @@ public class UsuarioBean {
 			FacesUtil.exibirMensagemErro("Erro :"+e.getMessage());
 		}
 	}
-	
-	
-	public void enviarNovaSenha(Usuario usuario){
-		
-	}
-	
 	
 	public void salvar(){
 		try {

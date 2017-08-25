@@ -11,6 +11,8 @@
 		class="br.com.pontek.security.CustomAuthenticationProvider" />
 	<beans:bean id="CustomAuthenticationSuccessHandler"
 		class="br.com.pontek.security.CustomAuthenticationSuccessHandler" />
+	<beans:bean id="CustomUserDetailsService"
+		class="br.com.pontek.security.CustomUserDetailsService" />
 
 	<http pattern="/javax.faces.resource/**" security="none" />
 	
@@ -41,6 +43,8 @@
 			logout-success-url="/Login.jsf?logout=true" invalidate-session="true"
 			delete-cookies="JSESSIONID" />
 		<access-denied-handler error-page="/erro/AcessoNegado.jsf" />
+		
+		<remember-me user-service-ref="CustomUserDetailsService"/>
 
 		<csrf disabled="true" /><!--Desativar a proteção padrão CSRF do Spring 
 			Security 4 -->
