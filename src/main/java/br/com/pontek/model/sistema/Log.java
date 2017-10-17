@@ -24,7 +24,6 @@ public class Log implements Serializable {
 	@Basic(optional = false)
 	@Column(name = "id")
 	private Integer id;
-	
 	@Column(name = "data")
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date data;
@@ -35,8 +34,15 @@ public class Log implements Serializable {
 	
 	public Log() {
 
-
 	}
+	
+	public Log(String nomeUsuario, String eventoRegistrado,Date data) {
+		super();
+		this.nomeUsuario = nomeUsuario;
+		this.eventoRegistrado = eventoRegistrado;
+		this.data = data;
+	}
+
 
 	public Integer getId() {
 		return id;

@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.pontek.model.autenticacao.Usuario;
 import br.com.pontek.service.autenticacao.UsuarioService;
+import br.com.pontek.service.sistema.LogService;
 import br.com.pontek.util.jsf.MD5;
 
 @Service
@@ -26,6 +27,8 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
 	@Autowired
 	UsuarioService usuarioService;
+	@Autowired
+	private LogService logService;
 
 
 	public CustomAuthenticationProvider() {
@@ -52,6 +55,7 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
 
 		if (user != null) {
+			logService.salvar(user.getEmail(),"Login");
 			List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
 			grantedAuthorities.add(new SimpleGrantedAuthority("ROLE_"+user.getRole()));
 			UserDetails userDetails = new User(email,senha,grantedAuthorities);
