@@ -40,7 +40,18 @@ public class FiltroLancamento extends FiltroBaseAbstract{
 	public FiltroLancamento() {
 
 	}
-
+	
+	public FiltroLancamento(FiltroLancamento filtroLancamento) {
+		super();
+		this.termoParaBusca = filtroLancamento.getTermoParaBusca();
+		this.fitroData = filtroLancamento.getFitroData();
+		this.fitroStatus = filtroLancamento.getFitroStatus();
+		this.filtroTipoData = filtroLancamento.getFiltroTipoData();
+		this.filtroTipoLancamento = filtroLancamento.getFiltroTipoLancamento();
+		this.filtroCategoria = filtroLancamento.filtroCategoria;
+		this.btnFiltro = filtroLancamento.isBtnFiltro();
+	}
+	
 	public String getTermoParaBusca() {
 		return termoParaBusca;
 	}

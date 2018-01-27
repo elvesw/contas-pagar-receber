@@ -37,6 +37,9 @@
 				<p>______________________________</p>
 				<p>#{caixaBean.recibo.nome}</p>
 			</div>
+			<div>
+				<p style="font-size:9px;">Cód:#{caixaBean.recibo.hashObservacao}</p>
+			</div>
 		</div>
 		<h:panelGroup layout="block" rendered="#{caixaBean.recibo.via2}">
 			<div class="recibo-conteudo">
@@ -70,6 +73,9 @@
 					<p>#{caixaBean.recibo.dataHoje}</p>
 					<p>______________________________</p>
 					<p>#{caixaBean.recibo.nome}</p>
+				</div>
+				<div>
+					<p style="font-size:9px;">Cód:#{caixaBean.recibo.hashObservacao}</p>
 				</div>
 			</div>		
 		</h:panelGroup>

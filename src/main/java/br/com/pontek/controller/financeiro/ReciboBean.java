@@ -46,6 +46,7 @@ public class ReciboBean {
 	@PostConstruct
 	private void init() {
 		lancamento=new Lancamento();
+		lancamento.setObservacao("a"+System.currentTimeMillis());
 		recibo=new Recibo();
 		recibo=reciboService.carregarDadosEmpresa(recibo);
 	}
@@ -92,10 +93,10 @@ public class ReciboBean {
 			lancamento.setConta(conta);
 			lancamento.setDataPagamento(new Date());
 			
-			lancamento.setObservacao("a"+System.currentTimeMillis());//a de avulso, que também é único
 			lancamento.setStatusLancamento(StatusDeLancamento.Pago);
 			lancamentoService.salvar(lancamento);//Salvar lançamento único
 			FacesUtil.exibirMensagemSucesso("Lançamento salvo com sucesso!");
+			init();
 		} catch (Exception e) {
 			FacesUtil.exibirMensagemErro("Erro : " + e.getMessage());
 			e.printStackTrace();

@@ -76,21 +76,22 @@ public class CaixaBean extends AbstractBean{
 					filtro.setPrimeiroRegistro(first);
 				}
 				filtro.setQuantidadeRegistros(pageSize);
-				filtro.setAscendente(SortOrder.ASCENDING.equals(sortOrder));
-				filtro.setPropriedadeOrdenacao(sortField);
+				filtro.setAscendente(SortOrder.DESCENDING.equals(sortOrder));
+				filtro.setPropriedadeOrdenacao(sortField==null?"id":sortField);
+
 				setRowCount(lancamentoService.quantidadeFiltrados(filtro));
 				List<Lancamento> listaTemp = lancamentoService.filtrados(filtro);
 				//Relatório
-				filtroRelatorio=filtro; 
+				filtroRelatorio=new FiltroLancamento(filtro);
 				filtroRelatorio.setQuantidadeRegistros(getRowCount());
 				filtroRelatorio.setPrimeiroRegistro(0);
 				filtroRelatorio.setAscendente(true);
+
 				//SOMAS
 				somaEntradaPago=lancamentoService.somaEntradaPago(filtro);
 				somaSaidaPago=lancamentoService.somaSaidaPago(filtro);
 				saldoFinal=BigDecimal.ZERO;
 				saldoFinal=saldoFinal.add(somaEntradaPago).subtract(somaSaidaPago);
-
 				return listaTemp;
 			}
 		    @Override

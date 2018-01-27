@@ -26,6 +26,7 @@ public class ReciboService {
 	//caixaBean
 		public Recibo gerarRecibo (Lancamento lancamento) {
 			recibo=new Recibo();
+			recibo.setHashObservacao(lancamento.getObservacao());
 			recibo.setValor(lancamento.getValor());
 			CurrencyWriter cw=CurrencyWriter.getInstance();
 			recibo.setValorPorExtenso(cw.write(lancamento.getValor()));
@@ -87,6 +88,7 @@ public class ReciboService {
 		public Recibo updateReciboViaAjax (Lancamento lancamento) {
 			//lancamento.setValor(formatarValor(lancamento.getValor()));
 			recibo=new Recibo();
+			recibo.setHashObservacao(lancamento.getObservacao());
 			CurrencyWriter cw=CurrencyWriter.getInstance();
 			if((lancamento.getValor()!=null)&&(lancamento.getValor()!=BigDecimal.ZERO)){
 				lancamento.setValor(formatarValor(lancamento.getValor()));

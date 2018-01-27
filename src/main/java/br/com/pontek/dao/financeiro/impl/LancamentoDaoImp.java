@@ -77,7 +77,6 @@ public class LancamentoDaoImp extends AbstractDaoImpl<Lancamento, Integer> imple
 			}
 		}
 		
-		
 		return criteria.list();
 	}
 

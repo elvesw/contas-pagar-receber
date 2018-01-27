@@ -13,7 +13,7 @@
 			<!--DIV TITLE -->
 			<h:panelGroup layout="block" id="div-title">
 				<h:panelGroup layout="block" rendered="true">
-					<h1 class="aw-page-title">Recibo Avulso</h1>
+					<h1 class="aw-page-title">Financeiro Receber - Recibo Avulso</h1>
 				</h:panelGroup>
 			</h:panelGroup>
 			<!--FIM - DIV TITLE -->
@@ -106,6 +106,9 @@
 								<p>#{reciboBean.recibo.dataHoje}</p>
 								<p>______________________________</p>
 								<p>#{reciboBean.recibo.nomeEmpresa}</p>
+							</div>
+							<div>
+								<p style="font-size:9px;">Cód:#{reciboBean.recibo.hashObservacao}</p>
 							</div>
 						</h:panelGroup>
 					</div>

@@ -12,6 +12,7 @@ public class Recibo {
 	private String dataHoje;
 	private String nome;
 	private String documento;
+	private String hashObservacao;
 
 	private String nomeEmpresa;
 	private String telefoneEmpresa;
@@ -21,7 +22,7 @@ public class Recibo {
 	private String logoEmpresa;
 	
 	
-	
+
 	public boolean isVia2() {
 		return via2;
 	}
@@ -69,6 +70,12 @@ public class Recibo {
 	}
 	public void setDocumento(String documento) {
 		this.documento = documento;
+	}
+	public String getHashObservacao() {
+		return hashObservacao;
+	}
+	public void setHashObservacao(String hashObservacao) {
+		this.hashObservacao = hashObservacao;
 	}
 	public String getNomeEmpresa() {
 		return nomeEmpresa;
