@@ -103,6 +103,12 @@ public class PessoaServiceImp implements PessoaService ,Serializable {
 		return pessoaDao.listaPorPerfil(perfilCliente,perfilFornecedor,perfilFuncionario);
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public Pessoa buscarPorNomeExato(String nome) {
+		return pessoaDao.buscarPorNomeExato(nome);
+	}
+
 	
 
 	

@@ -24,12 +24,11 @@ import br.com.pontek.enums.FiltroTipoLancamento;
 import br.com.pontek.enums.StatusDeLancamento;
 import br.com.pontek.enums.TipoDeLancamento;
 import br.com.pontek.exception.RelatorioException;
-import br.com.pontek.model.entidades.Empresa;
 import br.com.pontek.model.financeiro.Lancamento;
-import br.com.pontek.service.entidades.EmpresaService;
 import br.com.pontek.service.financeiro.LancamentoService;
+import br.com.pontek.service.financeiro.ReciboService;
 import br.com.pontek.util.DataUtil;
-import br.com.pontek.util.dto.DtoRecibo;
+import br.com.pontek.util.dto.Recibo;
 import br.com.pontek.util.filtro.FiltroLancamento;
 import br.com.pontek.util.jsf.FacesUtil;
 import br.com.pontek.util.report.LancamentoDataSource;
@@ -43,9 +42,7 @@ public class CaixaBean extends AbstractBean{
 	private static final long serialVersionUID = 1L;
 	
 	@Autowired private LancamentoService lancamentoService;
-	@Autowired private EmpresaService empresaService;
-	
-	
+
 	/*########### LAZY DATATABLE ##############*/
 	private FiltroLancamento filtro= new FiltroLancamento(FiltroData.Esse_mês, FiltroStatus.Somente_pagos, 
 															FiltroTipoData.Data_de_pagamento, FiltroTipoLancamento.Todos);
@@ -64,8 +61,9 @@ public class CaixaBean extends AbstractBean{
 	private FiltroLancamento filtroRelatorio = new FiltroLancamento();
 	
 	/*############# GERAR RECIBO #############*/
-	private DtoRecibo dtoRecibo;
-	private Empresa empresa=new Empresa();
+	@Autowired private ReciboService  reciboService;
+	private Recibo recibo;
+
 	//CONSTRUTOR
 	public CaixaBean() {
 		model = new LazyDataModel<Lancamento>() {
@@ -222,19 +220,8 @@ public class CaixaBean extends AbstractBean{
 	/*############# RECIBO #########*/
 
 	public String imprimirRecibo(Lancamento lancamento){
-		if(empresa.getId()==null)
-			empresa=empresaService.carregarDados();	
-		
-		dtoRecibo=new DtoRecibo(lancamento);
-		dtoRecibo.setNomeEmpresa(empresa.getNomeEmpresa());
-		dtoRecibo.setTelefoneEmpresa("Fone: "+empresa.getTelefone1());
-		dtoRecibo.setEmailEmpresa("Email: "+empresa.getEmail());
-		dtoRecibo.setEnderecoEmpresa(empresa.getLogradouro()+" "+empresa.getNumero()+
-			" "+empresa.getBairro()+" "+empresa.getCidade()+" - "+empresa.getUf());
-		dtoRecibo.setDataHoje(empresa.getCidade()+" ,"+dtoRecibo.getDataHoje());
-		dtoRecibo.setCnpjEmpresa(empresa.getCnpj());
-		dtoRecibo.setLogoEmpresa(empresa.getLogo());
-		
+		/*Carrega dados do recibo*/
+		recibo = reciboService.gerarRecibo(lancamento);
 		if(lancamento.getTipoLancamento().equals(TipoDeLancamento.ENTRADA)){
 			tipoParaRecibo=TipoDeLancamento.ENTRADA;
 		}else{
@@ -298,9 +285,10 @@ public class CaixaBean extends AbstractBean{
 	}
 	/*############# FIM - ESTORNAR GETS e SETS #############*/
 
-	public DtoRecibo getDtoRecibo() {
-		return dtoRecibo;
+	public Recibo getRecibo() {
+		return recibo;
 	}
-
-
+	public void setRecibo(Recibo recibo) {
+		this.recibo = recibo;
+	}
 }

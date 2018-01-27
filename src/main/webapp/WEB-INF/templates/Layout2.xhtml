@@ -24,11 +24,7 @@
 	<h:outputScript target="body" library="primefaces" name="jquery/jquery.js" />
 	<h:outputScript target="body" library="sistema" name="js/app.js" />
 	<h:outputScript target="body" library="sistema" name="js/locale-primefaces.js" />
-	
-	<script type="text/javascript" src="#{request.contextPath}/resources/sistema/js/ckeditorConfig.js"></script>
-	
-<!-- 	 <h:outputScript target="body" library="primefaces-extensions" src="ckeditor/ckeditor.js"/>
-  	 <h:outputScript target="body" library="primefaces-extensions" src="ckeditor/adapters/jquery.js"/> -->
+	<h:outputScript target="body" library="sistema" name="js/jquery.maskMoney.js" />
 	
 </h:head>
 
@@ -54,17 +50,6 @@
 	<section class="aw-content  js-content">
 		<ui:insert name="centro" />
 	</section>
-	
-	<!-- Ajax status -->
-	<p:ajaxStatus onstart="PF('statusDialog').show()" onsuccess="PF('statusDialog').hide()"/>
-	<p:dialog header="Aguarde..." widgetVar="statusDialog" modal="true"
-			draggable="false" closable="false" resizable="false" showHeader="false">
-			<h:graphicImage name="img/ajaxloadingbar.gif" library="sistema" 	id="barra_status" />
-	</p:dialog>
-	<!-- Fim Ajax status -->
-		
-	<!-- Scritps Inline JavaScript -->
-	<ui:insert name="scripts" />
 </h:body>
 
 </html>

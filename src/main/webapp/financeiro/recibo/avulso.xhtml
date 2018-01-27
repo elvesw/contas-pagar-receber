@@ -1,0 +1,132 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	template="/WEB-INF/templates/Layout2.xhtml"
+	xmlns:p="http://primefaces.org/ui">
+
+	<f:metadata>
+		<!-- <f:event type="preRenderView"
+			listener="#{reciboBean.tipoPagina('ENTRADA')}" /> -->
+	</f:metadata>
+
+	<ui:define name="titulo">Recibo Avulso</ui:define>
+	<ui:define name="css_custom">
+	
+	</ui:define>
+	<ui:define name="centro">
+
+		<h:form id="formPrincipal">
+
+			<!--DIV TITLE -->
+			<h:panelGroup layout="block" id="div-title">
+				<h:panelGroup layout="block" rendered="true">
+					<h1 class="aw-page-title">Recibo Avulso</h1>
+				</h:panelGroup>
+			</h:panelGroup>
+			<!--FIM - DIV TITLE -->
+
+			<p:messages autoUpdate="true" closable="true" id="msg"/>
+			
+			<p:remoteCommand name="remoteCommandSalvar"  actionListener="#{reciboBean.salvar}" update="formPrincipal"/>
+
+
+			<div class="ui-fluid">
+				<p:panelGrid columns="4" layout="grid" id="grid1"
+					columnClasses="ui-grid-col-4,ui-grid-col-1,ui-grid-col-3,ui-grid-col-2">
+					<p:autoComplete value="#{reciboBean.lancamento.pessoa}" id="pessoa"
+						completeMethod="#{reciboBean.autoCompleteNomes}" var="pessoa"
+						itemLabel="#{pessoa.nome}" itemValue="#{pessoa}" queryDelay="500" 
+						forceSelection="true" maxResults="8" placeholder="Buscar nome..." 
+						autocomplete="off" dropdown="false" converter="#{pessoaConverter}">
+							 <p:ajax event="itemSelect"  update=":formPrincipal:grid1 :formPrincipal:grid2 :formPrincipal:btnSalvaImprimir" 
+							 process="pessoa" listener="#{reciboBean.atualizarReciboViaAjax()}"/>
+
+					</p:autoComplete>
+						
+						<p:inputText id="valor" value="#{reciboBean.lancamento.valor}" autocomplete="off" styleClass="js-moeda" placeholder="R$ 0,00"
+							 onkeypress="return somenteNumero(event)" converter="moedaConverter">  
+								<p:ajax update=":formPrincipal:grid1 :formPrincipal:grid2 :formPrincipal:btnSalvaImprimir"
+								process="valor" event="change" listener="#{reciboBean.atualizarReciboViaAjax()}"/>
+							<f:validator validatorId="moedaValidator" />
+						</p:inputText>
+
+					
+					<p:autoComplete value="#{reciboBean.lancamento.descricao}" id="descricao"
+						completeMethod="#{reciboBean.autoCompleteDescricao}" var="descricao" queryDelay="500" 
+						itemLabel="#{descricao}" itemValue="#{descricao}" rendered="true" requiredMessage="Descrição"
+						maxResults="7" placeholder="Descrição recibo avulso..." autocomplete="off"  >
+							 <p:ajax event="itemSelect"  update=":formPrincipal:grid1 :formPrincipal:grid2 :formPrincipal:btnSalvaImprimir" 
+							 process="descricao" listener="#{reciboBean.atualizarReciboViaAjax()}"/>
+							 <p:ajax event="keyup"  update=":formPrincipal:grid1 :formPrincipal:grid2 :formPrincipal:btnSalvaImprimir" 
+							 process="descricao" listener="#{reciboBean.atualizarReciboViaAjax()}"/>
+
+					</p:autoComplete>
+					<p:commandButton  value="Imprimir" type="button" onclick="remoteCommandSalvar()" styleClass="btn btn-success" icon="fa fa-fw fa-floppy-o"
+					id="btnSalvaImprimir" disabled="#{reciboBean.validaForm(reciboBean.lancamento)}" >
+						<p:confirm header="Confirmação" 
+									message="Salvar recebimento e imprimir?"  
+									icon="fa fa-fw fa-exclamation-triangle warning"/>
+						<p:printer target="recibo" />
+					</p:commandButton>
+					
+
+				</p:panelGrid>
+			</div>
+
+
+			<div class="ui-fluid">
+				<p:panelGrid columns="2" layout="grid"
+					columnClasses="ui-grid-col-8,ui-grid-col-4" id="grid2">
+
+					<div class="recibo-container">
+						<h:panelGroup layout="block" class="recibo-conteudo" id="recibo">
+							<div style="display: inline-block; width: 100%;">
+								<div style="float: left">
+									<h2>#{reciboBean.recibo.nomeEmpresa}</h2>
+									<br />
+									<h4>#{reciboBean.recibo.telefoneEmpresa}</h4>
+									<br />
+									<h4>#{reciboBean.recibo.emailEmpresa}</h4>
+									<br />
+									<h4>#{reciboBean.recibo.enderecoEmpresa}</h4>
+								</div>
+								<div style="float: right;">
+									<h:graphicImage
+										value="/imagem?n=#{reciboBean.recibo.logoEmpresa}"
+										width="126" height="121"
+										rendered="#{not empty reciboBean.recibo.logoEmpresa}" />
+								</div>
+							</div>
+
+							<div class="recibo-centralizado">
+								<h1>RECIBO</h1>
+							</div>
+
+							<p style="line-height: 1.8">
+								Recebemos de <span>#{reciboBean.recibo.nome}
+									#{reciboBean.recibo.documento}</span> a quantia de <span>R$
+									#{reciboBean.recibo.valor}</span>
+								(#{reciboBean.recibo.valorPorExtenso}) referente à <span>#{reciboBean.recibo.descricao}</span>
+							</p>
+
+							<div class="recibo-centralizado">
+								<p>#{reciboBean.recibo.dataHoje}</p>
+								<p>______________________________</p>
+								<p>#{reciboBean.recibo.nomeEmpresa}</p>
+							</div>
+						</h:panelGroup>
+					</div>
+
+					<h:panelGroup layout="block" rendered="true" style="background-color: red;margin-top: 2cm;">
+
+
+					</h:panelGroup>
+
+
+				</p:panelGrid>
+			</div>
+				<ui:include src="/WEB-INF/templates/dialogConfirmGlobal.xhtml" />
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -24,6 +24,7 @@ import javax.validation.constraints.NotNull;
 import br.com.pontek.enums.StatusDeLancamento;
 import br.com.pontek.enums.TipoDeLancamento;
 import br.com.pontek.model.entidades.Pessoa;
+import br.com.pontek.util.DataUtil;
 
 @Entity
 @Table(name = "lancamento")
@@ -139,7 +140,18 @@ public class Lancamento implements Serializable {
 		this.categoria = categoria;
 		this.conta = conta;
 	}
-
+	/*############# FUNÇÕES ###################################*/
+	/**Função que valida se a data e vencimento esta em atrazo em relaçao a data de hoje usada no datatable */
+	public boolean getLancamentoVencido(){
+		if(this.statusLancamento==StatusDeLancamento.Pendente){
+			//Se a data de hoje for maior , return true
+			if(!DataUtil.comparaDataInicialDataFinal(this.dataVencimento, new Date())){
+				return true;
+			}	
+		}
+		return false;
+	}
+	/*############# GETS E SETS ###################################*/
 	public Integer getId() {
 		return id;
 	}

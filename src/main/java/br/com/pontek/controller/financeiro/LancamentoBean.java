@@ -53,6 +53,8 @@ public class LancamentoBean extends AbstractBean{
 	@Autowired private CategoriaService categoriaService;
 	@Autowired private ContaService contaService;
 	@Autowired private ConfiguracaoService  configuracaoService;
+
+
 	
 	/*########### PERFIL ##############*/
 	private TipoDeLancamento tipoLancamentoPagina;
@@ -182,6 +184,9 @@ public class LancamentoBean extends AbstractBean{
 		reset();	
 	}
 	
+	
+	/*############# FUNÇÕES PAGAR COM RECIBO #########*/
+
 	
 	/*####### FUNÇÕES CANCELAR LANÇAMENTOS SELECIONADOS ##########*/
 	/**Função que muda o status para cancelado dos lançamentos selecionados pelo multiSelect do datatable*/
@@ -416,21 +421,6 @@ public class LancamentoBean extends AbstractBean{
 			 checkTipoPagina();
 		}
 	}
-	
-	
-	/**Função que valida se a data e vencimento esta em atrazo em relaçao a data de hoje usada no datatable
-	 * @param dtVencimento data de vencimento para comparar com a data de hoje
-	 * @param status para verificar se o status é pendente */
-	public boolean verificaLancamentoVencido(Date dtVencimento,StatusDeLancamento status){
-		if(status==StatusDeLancamento.Pendente){
-			//Se a data de hoje for maior , return true
-			if(!DataUtil.comparaDataInicialDataFinal(dtVencimento, new Date())){
-				return true;
-			}	
-		}
-		return false;
-	}
-	
 	
 	/**Função que faz o reset nos componentes e coloca o estado da view selecionada como Listando*/
 	public void voltar() {

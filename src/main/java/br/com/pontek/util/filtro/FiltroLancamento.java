@@ -31,6 +31,12 @@ public class FiltroLancamento extends FiltroBaseAbstract{
 		this.fitroStatus = fitroStatus;
 		this.filtroTipoData = filtroTipoData;
 	}
+	
+	public FiltroLancamento(String termoParaBusca) {
+		this.termoParaBusca = termoParaBusca;
+		this.fitroStatus=FiltroStatus.Somente_pendentes;
+	}
+	
 	public FiltroLancamento() {
 
 	}

@@ -23,6 +23,7 @@ public interface LancamentoService {
 /*### METODOS DE BUSCAR ###*/
     Lancamento buscar(Integer lancamento_id);
     List<Lancamento> listaDeMovimentos();
+    List<String> listaDescricoesLancamentos(String descricao);
     
 /*### Metodos de PAGINAÇÃO LAZY DATATABLE ###*/
     List<Lancamento> filtrados(FiltroLancamento filtro);

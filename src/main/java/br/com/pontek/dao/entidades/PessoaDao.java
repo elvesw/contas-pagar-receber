@@ -12,6 +12,7 @@ public interface PessoaDao extends AbstractDao<Pessoa, Integer> {
 	
 	Boolean existe(Pessoa pessoa);
 	Pessoa existeCadastro(Pessoa pessoa);
+	Pessoa buscarPorNomeExato(String nome);
 	
 	/*PAGINAÇÃO LAZY DATATABLE*/
 	List<Pessoa> filtrados(FiltroPessoa filtro);

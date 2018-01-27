@@ -22,6 +22,7 @@ public interface LancamentoDao extends AbstractDao<Lancamento, Integer> {
 	BigDecimal somaEntradaPago(FiltroLancamento filtro);
 	BigDecimal somaSaidaPago(FiltroLancamento filtro);
 	BigDecimal somaSaldoAnterior(FiltroLancamento filtro);
+	List<String> listaDescricoesLancamentos(String descricao);
 	
 	//bean ContasPagar ContasReceber
 	BigDecimal somaValor(FiltroLancamento filtro);

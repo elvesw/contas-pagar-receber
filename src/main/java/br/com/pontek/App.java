@@ -8,7 +8,9 @@ import java.nio.file.Paths;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +20,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Component;
 
 import br.com.pontek.model.entidades.Pessoa;
+import br.com.pontek.model.financeiro.Lancamento;
 import br.com.pontek.service.entidades.PessoaService;
 import br.com.pontek.service.financeiro.CategoriaService;
 import br.com.pontek.service.financeiro.LancamentoService;
@@ -38,9 +41,9 @@ public class App {
 		final ApplicationContext context = new ClassPathXmlApplicationContext("spring/applicationContext.xml");
 
 		final App app = context.getBean(App.class);
-		System.out.println("App.main(): " + LocalDate.now().atStartOfDay().atZone(ZoneId.of("America/Sao_Paulo")).toInstant());
+		//System.out.println("App.main(): " + LocalDate.now().atStartOfDay().atZone(ZoneId.of("America/Sao_Paulo")).toInstant());
 
-		app.checkAccess();
+		app.printDescricoesLancamentos();
 	}
 
 	public void checkAccess() {
@@ -92,6 +95,14 @@ public class App {
 
 		System.out.println("Data nascimento: " + p.getDataNascimento());
 
+	}
+	
+	public void printDescricoesLancamentos() {
+		List<String> listaLancamentos = new ArrayList<>();
+		listaLancamentos=lancamentoService.listaDescricoesLancamentos("ME");
+		for (String l : listaLancamentos) {
+			System.out.println(l);
+		}
 	}
 
 }

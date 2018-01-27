@@ -7,15 +7,46 @@
 	
 	<ui:define name="centro">		
 		<div class="ui-fluid">
-			<p:panelGrid columns="4" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3">
+			<p:panelGrid columns="6" layout="grid" columnClasses="ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2,ui-grid-col-2">
 				
+				<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12" style="margin-top:0.5em">
+					<p:button value="Novo Recibo" styleClass="btn btn-lg btn-info" outcome="/financeiro/recibo/avulso.xhtml"/>
+				</p:panelGrid>
+				<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12" style="margin-top:0.5em" rendered="false">
+					<p:commandButton value="Novo Recibo" styleClass="btn btn-lg btn-info" />
+				</p:panelGrid>
+				<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12" style="margin-top:0.5em" rendered="false">
+					<p:commandButton value="Novo Recibo" styleClass="btn btn-lg btn-info" />
+				</p:panelGrid>
+				<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12" style="margin-top:0.5em" rendered="false">
+					<p:commandButton value="Novo Recibo" styleClass="btn btn-lg btn-info" />
+				</p:panelGrid>
+				<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12" style="margin-top:0.5em" rendered="false">
+					<p:commandButton value="Novo Recibo" styleClass="btn btn-lg btn-info" />
+				</p:panelGrid>
+				<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12" style="margin-top:0.5em" rendered="false">
+					<p:commandButton value="Novo Recibo" styleClass="btn btn-lg btn-info" />
+				</p:panelGrid>
+	
+			</p:panelGrid>
+			
+			<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-6,ui-grid-col-6" style="margin-top:1em">
+				<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+						<p:chart type="bar" model="#{dashboardBean.graficoBarRecebimentos}" responsive="true"/>
+				</p:panelGrid>
+				<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
+					<p:chart type="bar" model="#{dashboardBean.graficoBarPagamentos}" responsive="true"/>
+				</p:panelGrid>
+			</p:panelGrid>
+					<p:panelGrid columns="4" layout="grid" columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3">
+
 				<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-2,ui-grid-col-10" styleClass="bloco-info-dashboard">
 					<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12" >
 						<span><i class="fa fa-fw fa-thumbs-o-up fa-2x icon-bloco-info-dashboard"></i></span>
 					</p:panelGrid>
 					
 					<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
-						<p:outputLabel value="(62-91900323)" styleClass="valor-bloco-info-dashboard" />
+						<p:outputLabel value="(62-9 9190-0323)" styleClass="valor-bloco-info-dashboard" />
 						<p:outputLabel value="Suporte técnico" styleClass="label-bloco-info-dashboard" />
 					</p:panelGrid>
 				</p:panelGrid>
@@ -28,8 +59,10 @@
 					<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
 						<p:outputLabel styleClass="valor-bloco-info-dashboard" />
 						<p:outputLabel value="" styleClass="label-bloco-info-dashboard" />
+						<!-- <p:commandButton value="Novo Recibo" styleClass="btn btn-lg btn-info" /> -->
 					</p:panelGrid>
 				</p:panelGrid>
+				
 				
 				<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-2,ui-grid-col-10" styleClass="bloco-info-dashboard">
 					<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12" >
@@ -53,15 +86,6 @@
 					</p:panelGrid>
 				</p:panelGrid>
 				
-			</p:panelGrid>
-			
-			<p:panelGrid columns="2" layout="grid" columnClasses="ui-grid-col-6,ui-grid-col-6" style="margin-top:1em">
-				<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
-						<p:chart type="bar" model="#{dashboardBean.graficoBarRecebimentos}" responsive="true"/>
-				</p:panelGrid>
-				<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-12">
-					<p:chart type="bar" model="#{dashboardBean.graficoBarPagamentos}" responsive="true"/>
-				</p:panelGrid>
 			</p:panelGrid>
 		</div>
 		

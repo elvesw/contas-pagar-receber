@@ -1,6 +1,5 @@
 package br.com.pontek.controller.autenticacao;
 
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 

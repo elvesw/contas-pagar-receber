@@ -174,7 +174,7 @@
 				<p:column headerText="Vencimento" width="16%" selectRow="false"
 					sortBy="#{lancamento.dataVencimento}">
 					<h:outputText value="#{lancamento.dataVencimento}"
-						styleClass="#{lancamentoBean.verificaLancamentoVencido(lancamento.dataVencimento,lancamento.statusLancamento) ? 'status_vencido':''}">
+						styleClass="#{lancamentoBean.lancamento.lancamentoVencido ? 'status_vencido':''}">
 						<f:convertDateTime pattern="dd/MM/yyyy" />
 					</h:outputText>
 				</p:column>
@@ -197,6 +197,12 @@
 
 				<p:column headerText="Ações" width="11%" selectRow="false">
 					<div class="ui-acoes-datatable">
+					
+						<!-- So aparecer se não estiver pago -->
+						<p:commandLink immediate="true" styleClass="ui-command-link" 
+						rendered="#{lancamento.statusLancamento ne 'Pago'}" title="Pago com recibo">
+									<span><i class="fa fa-fw fa-file-text-o"></i></span>
+						</p:commandLink>
 
 						<p:commandLink immediate="true" styleClass="ui-command-link"
 							rendered="#{lancamento.statusLancamento ne 'Pago'}"

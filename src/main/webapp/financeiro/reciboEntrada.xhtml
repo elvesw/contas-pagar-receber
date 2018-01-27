@@ -8,17 +8,17 @@
 		<div class="recibo-conteudo">
 			<div style="display: inline-block;width: 100%;">
 				<div style="float: left">
-					<h2>#{caixaBean.dtoRecibo.nomeEmpresa}</h2>
+					<h2>#{caixaBean.recibo.nomeEmpresa}</h2>
 					<br />
-					<h4>#{caixaBean.dtoRecibo.telefoneEmpresa}</h4>
+					<h4>#{caixaBean.recibo.telefoneEmpresa}</h4>
 					<br />
-					<h4>#{caixaBean.dtoRecibo.emailEmpresa}</h4>
+					<h4>#{caixaBean.recibo.emailEmpresa}</h4>
 					<br />
-					<h4>#{caixaBean.dtoRecibo.enderecoEmpresa}</h4>	
+					<h4>#{caixaBean.recibo.enderecoEmpresa}</h4>	
 				</div>
 				<div style="float: right;">
-					<h:graphicImage value="/imagem?n=#{caixaBean.dtoRecibo.logoEmpresa}" 
-					width="136" height="131" rendered="#{not empty caixaBean.dtoRecibo.logoEmpresa}"/>
+					<h:graphicImage value="/imagem?n=#{caixaBean.recibo.logoEmpresa}" 
+					width="136" height="131" rendered="#{not empty caixaBean.recibo.logoEmpresa}"/>
 				</div>
 			</div>
 			
@@ -27,35 +27,35 @@
 			</div>
 
 			<p style="line-height: 1.8">
-				Recebemos de <span>#{caixaBean.dtoRecibo.nome}
-					#{caixaBean.dtoRecibo.documento}</span> a quantia de <span>R$
-					#{caixaBean.dtoRecibo.valor}</span>
-				(#{caixaBean.dtoRecibo.valorPorExtenso}) referente à <span>#{caixaBean.dtoRecibo.descricao}</span>
+				Recebemos de <span>#{caixaBean.recibo.nome}
+					#{caixaBean.recibo.documento}</span> a quantia de <span>R$
+					#{caixaBean.recibo.valor}</span>
+				(#{caixaBean.recibo.valorPorExtenso}) referente à <span>#{caixaBean.recibo.descricao}</span>
 			</p>
 
 			<div class="recibo-centralizado">
-				<p>#{caixaBean.dtoRecibo.dataHoje}</p>
+				<p>#{caixaBean.recibo.dataHoje}</p>
 				<p>______________________________</p>
-				<p>#{caixaBean.dtoRecibo.nomeEmpresa}</p>
+				<p>#{caixaBean.recibo.nomeEmpresa}</p>
 			</div>
 		</div>
 		
-		<h:panelGroup layout="block" rendered="#{caixaBean.dtoRecibo.via2}">
+		<h:panelGroup layout="block" rendered="#{caixaBean.recibo.via2}">
 
 		<div class="recibo-conteudo">
 			<div style="display: inline-block;width: 100%;">
 				<div style="float: left">
-					<h2>#{caixaBean.dtoRecibo.nomeEmpresa}</h2>
+					<h2>#{caixaBean.recibo.nomeEmpresa}</h2>
 					<br />
-					<h4>#{caixaBean.dtoRecibo.telefoneEmpresa}</h4>
+					<h4>#{caixaBean.recibo.telefoneEmpresa}</h4>
 					<br />
-					<h4>#{caixaBean.dtoRecibo.emailEmpresa}</h4>
+					<h4>#{caixaBean.recibo.emailEmpresa}</h4>
 					<br />
-					<h4>#{caixaBean.dtoRecibo.enderecoEmpresa}</h4>	
+					<h4>#{caixaBean.recibo.enderecoEmpresa}</h4>	
 				</div>
 				<div style="float: right;">
-					<h:graphicImage value="/imagem?n=#{caixaBean.dtoRecibo.logoEmpresa}" 
-					width="136" height="131" rendered="#{not empty caixaBean.dtoRecibo.logoEmpresa}"/>
+					<h:graphicImage value="/imagem?n=#{caixaBean.recibo.logoEmpresa}" 
+					width="136" height="131" rendered="#{not empty caixaBean.recibo.logoEmpresa}"/>
 				</div>
 			</div>
 			
@@ -64,16 +64,16 @@
 			</div>
 
 			<p style="line-height: 1.8">
-				Recebemos de <span>#{caixaBean.dtoRecibo.nome}
-					#{caixaBean.dtoRecibo.documento}</span> a quantia de <span>R$
-					#{caixaBean.dtoRecibo.valor}</span>
-				(#{caixaBean.dtoRecibo.valorPorExtenso}) referente à <span>#{caixaBean.dtoRecibo.descricao}</span>
+				Recebemos de <span>#{caixaBean.recibo.nome}
+					#{caixaBean.recibo.documento}</span> a quantia de <span>R$
+					#{caixaBean.recibo.valor}</span>
+				(#{caixaBean.recibo.valorPorExtenso}) referente à <span>#{caixaBean.recibo.descricao}</span>
 			</p>
 
 			<div class="recibo-centralizado">
-				<p>#{caixaBean.dtoRecibo.dataHoje}</p>
+				<p>#{caixaBean.recibo.dataHoje}</p>
 				<p>______________________________</p>
-				<p>#{caixaBean.dtoRecibo.nomeEmpresa}</p>
+				<p>#{caixaBean.recibo.nomeEmpresa}</p>
 			</div>
 		</div>
 		

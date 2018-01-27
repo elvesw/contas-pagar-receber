@@ -1,15 +1,8 @@
 package br.com.pontek.util.dto;
 
 import java.math.BigDecimal;
-import java.util.Date;
 
-import org.apache.commons.lang3.StringUtils;
-
-import br.com.pontek.model.financeiro.Lancamento;
-import br.com.pontek.util.DataUtil;
-import br.com.pontek.util.jsf.CurrencyWriter;
-
-public class DtoRecibo {
+public class Recibo {
 	
 	private boolean via2=false;
 	private BigDecimal valor;
@@ -28,25 +21,7 @@ public class DtoRecibo {
 	private String logoEmpresa;
 	
 	
-	public DtoRecibo(Lancamento lancamento) {
-		this.valor = lancamento.getValor();
-		CurrencyWriter cw=CurrencyWriter.getInstance();
-		this.valorPorExtenso = cw.write(valor);
-		this.descricao = lancamento.getDescricao();
-		this.dataPagamento = DataUtil.ddMMyyyy(lancamento.getDataPagamento());
-		this.dataHoje =DataUtil.extenso(new Date());
-		if(lancamento.getPessoa().getEhResponsavelFinanceiro()){
-			this.nome=lancamento.getPessoa().getNome();
-			if(StringUtils.isNotEmpty(lancamento.getPessoa().getCpfCnpj()))
-				this.documento=lancamento.getPessoa().getCpfCnpj().length()>14?" CNPJ:"+lancamento.getPessoa().getCpfCnpj():" CPF:"+lancamento.getPessoa().getCpfCnpj();
-		}else{
-			this.nome=lancamento.getPessoa().getNomeResponsavel();
-			if(StringUtils.isNotEmpty(lancamento.getPessoa().getCpfResponsavel()))
-				this.documento=" CPF:"+lancamento.getPessoa().getCpfResponsavel();
-		}
-	}
 	
-
 	public boolean isVia2() {
 		return via2;
 	}
@@ -131,4 +106,7 @@ public class DtoRecibo {
 	public void setLogoEmpresa(String logoEmpresa) {
 		this.logoEmpresa = logoEmpresa;
 	}
+	
+	
+
 }

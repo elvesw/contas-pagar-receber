@@ -121,3 +121,24 @@ function testeJs(){
 	console.log(window.location.href);
 	
 }
+
+function configurarMoeda() {
+	$(".js-moeda").maskMoney({
+		showSymbol : true,
+		symbol : "R$ ",
+		decimal : ",",
+		thousands : ".",
+		allowZero : true,
+		allowNegative:false
+	});
+	/*desligando cache dos formularios*/
+	/*$('input').attr('autocomplete','off');  */
+}
+function somenteNumero(e){
+    var tecla=(window.event)?event.keyCode:e.which;   
+    if((tecla>47 && tecla<58)) return true;
+    else{
+    	if (tecla==8 || tecla==0) return true;
+	else  return false;
+    }
+}

@@ -139,5 +139,11 @@ public class LancamentoServiceImp implements LancamentoService ,Serializable {
 		return lancamentoDao.existePessoaEmLancamentos(pessoa);
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public List<String> listaDescricoesLancamentos(String descricao) {
+		return lancamentoDao.listaDescricoesLancamentos(descricao);
+	}
+
 
 }

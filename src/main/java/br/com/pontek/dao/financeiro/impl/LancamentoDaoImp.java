@@ -417,4 +417,16 @@ public class LancamentoDaoImp extends AbstractDaoImpl<Lancamento, Integer> imple
 		return false;
 	}
 
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<String> listaDescricoesLancamentos(String descricao) {
+		Session session = (Session) getEm().getDelegate();
+		Criteria criteria = session.createCriteria( Lancamento.class );  
+		criteria.setProjection(Projections.distinct( Projections.property("descricao"))); 
+		criteria.add(Restrictions.ilike("descricao", descricao, MatchMode.ANYWHERE));
+		return criteria.list();
+	}
+
+
 }

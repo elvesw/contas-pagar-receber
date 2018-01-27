@@ -110,5 +110,16 @@ public class PessoaDaoImp extends AbstractDaoImpl<Pessoa, Integer> implements Pe
 			return (Pessoa) criteria.uniqueResult();
 		return null;
 	}
+
+
+	@Override
+	public Pessoa buscarPorNomeExato(String nome) {
+		Session session = (Session) getEm().getDelegate();
+		Criteria criteria = session.createCriteria(Pessoa.class);
+		criteria.add(Restrictions.ilike("nome",nome, MatchMode.EXACT));
+		if(!criteria.list().isEmpty())
+			return (Pessoa) criteria.uniqueResult();
+		return null;
+	}
 	
 }

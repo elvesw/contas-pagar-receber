@@ -19,6 +19,7 @@ public interface PessoaService {
     Pessoa existeCadastro(Pessoa pessoa);
     Pessoa buscar(Integer pessoa_id);
     List<Pessoa> listaDePessoas();
+    Pessoa buscarPorNomeExato(String nome);
     
 /*### Metodos de PAGINAÇÃO LAZY DATATABLE ###*/
     List<Pessoa> filtrados(FiltroPessoa filtro);
