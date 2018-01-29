@@ -1,13 +1,10 @@
 package br.com.pontek;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -43,7 +40,7 @@ public class App {
 		final App app = context.getBean(App.class);
 		//System.out.println("App.main(): " + LocalDate.now().atStartOfDay().atZone(ZoneId.of("America/Sao_Paulo")).toInstant());
 
-		app.printDescricoesLancamentos();
+		app.printObservacoesLancamentos();
 	}
 
 	public void checkAccess() {
@@ -102,6 +99,14 @@ public class App {
 		listaLancamentos=lancamentoService.listaDescricoesLancamentos("ME");
 		for (String l : listaLancamentos) {
 			System.out.println(l);
+		}
+	}
+	
+	public void printObservacoesLancamentos() {
+		List<Lancamento> listaLancamentos = new ArrayList<>();
+		listaLancamentos=lancamentoService.listaDeMovimentos();
+		for (Lancamento l : listaLancamentos) {
+			System.out.println(l.getObservacao());
 		}
 	}
 
