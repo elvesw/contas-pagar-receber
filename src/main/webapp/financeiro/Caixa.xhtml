@@ -37,49 +37,60 @@
 			<!--FIM - DIV TITLE -->
 
 			<p:messages id="msg" autoUpdate="true" closable="true" />
-			
-			
+
+
 			<!--DIV RECIBO -->
 			<div id="div-recibo">
-				<h:panelGroup layout="block" rendered="#{caixaBean.viewAtiva eq 'RECIBO'}">
-				
-					<!-- 1º div botoes -->
-					<div style="display: inline-block; padding-top: 4px; width: 100%">
-						<div style="float: left">
-							<p:commandButton value="Voltar" icon="fa fa-fw fa-mail-reply"
-								styleClass="btn btn-link" actionListener="#{caixaBean.voltar()}" 
-								 immediate="true" update="formPrincipal" process=":formPrincipal"/>					 
-						</div>
-						<div style="float: right;">
-							<h:panelGroup layout="block">
-								<p:selectBooleanCheckbox value="#{caixaBean.recibo.via2}">
-									<p:ajax update=":formPrincipal:recibo"/> 
-								</p:selectBooleanCheckbox>
-								<p:outputLabel value="2ºvia" styleClass="label-formulario"
-									style="vertical-align:20%;margin:5px;" />
-							</h:panelGroup>
-							<p:commandButton value="Imprimir" icon="fa fa-fw fa-print"
-								type="button" style="display:inline-block;">
-								<p:printer target="recibo" />
-							</p:commandButton>
-						</div>
-					</div><!-- fim 1º div botoes -->
-					
-					<!-- 2º div h:panelGroup dados recibo -->
-					<h:panelGroup layout="block" id="recibo" styleClass="bloco-recibo">
-						<h:panelGroup layout="block" rendered="#{caixaBean.tipoParaRecibo eq 'ENTRADA'}">
-							<ui:include src="caixaReciboEntrada.xhtml" />
-						</h:panelGroup>
-						<h:panelGroup layout="block" rendered="#{caixaBean.tipoParaRecibo eq 'SAÍDA'}">
-							<ui:include src="caixaReciboSaida.xhtml" />
-						</h:panelGroup>
-					</h:panelGroup> <!-- fim 2º div h:panelGroup dados recibo -->
-					
-				</h:panelGroup>
-			</div> <!--fim DIV RECIBO -->
+				<h:panelGroup layout="block"
+					rendered="#{caixaBean.viewAtiva eq 'RECIBO'}">
 
-			
-			
+					<!-- 1º div botoes -->
+						<div style="display: inline-block; padding-top: 4px; width: 100%">
+							<div style="float: left">
+								<p:commandButton value="Voltar" icon="fa fa-fw fa-mail-reply"
+									styleClass="btn btn-link"
+									actionListener="#{caixaBean.voltar()}" immediate="true"
+									update="formPrincipal" process=":formPrincipal" />
+							</div>
+							<div style="float: right;">
+								<h:panelGroup layout="block">
+									<p:selectBooleanCheckbox value="#{caixaBean.recibo.via2}">
+										<p:ajax update=":formPrincipal:recibo" />
+									</p:selectBooleanCheckbox>
+									<p:outputLabel value="2ºvia" styleClass="label-formulario"
+										style="vertical-align:20%;margin:5px;" />
+								</h:panelGroup>
+								<p:commandButton value="Imprimir" icon="fa fa-fw fa-print"
+									type="button" style="display:inline-block;">
+									<p:printer target="recibo" />
+								</p:commandButton>
+							</div>
+						</div>
+					<!-- fim 1º div botoes -->
+
+					<!-- 2º div h:panelGroup dados recibo -->
+					<div class="ui-fluid">
+						<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-8">
+							<h:panelGroup layout="block" id="recibo">
+								<h:panelGroup layout="block"
+									rendered="#{caixaBean.tipoParaRecibo eq 'ENTRADA'}">
+									<ui:include src="caixaReciboEntrada.xhtml" />
+								</h:panelGroup>
+								<h:panelGroup layout="block"
+									rendered="#{caixaBean.tipoParaRecibo eq 'SAÍDA'}">
+									<ui:include src="caixaReciboSaida.xhtml" />
+								</h:panelGroup>
+							</h:panelGroup>
+							<!-- fim 2º div h:panelGroup dados recibo -->
+						</p:panelGrid>
+					</div>
+
+				</h:panelGroup>
+			</div>
+			<!--fim DIV RECIBO -->
+
+
+
 			<!--DIV DETALHAR -->
 			<h:panelGroup layout="block" styleClass="ui-fluid" id="div-detalhar">
 				<h:panelGroup layout="block"
@@ -174,7 +185,8 @@
 
 							<p:panelGrid columns="1" layout="grid"
 								columnClasses="ui-grid-col-12">
-								<p:outputLabel value="Data rápida (de pagamento)" styleClass="label-formulario" />
+								<p:outputLabel value="Data rápida (de pagamento)"
+									styleClass="label-formulario" />
 								<p:selectOneMenu value="#{caixaBean.filtro.fitroData}">
 									<f:selectItems value="#{caixaBean.filtroDataEnums}" var="dt"
 										itemValue="#{dt}" itemLabel="#{dt.stringEnum}" />
@@ -276,13 +288,15 @@
 								style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" />
 						</p:column>
 
-						<p:column headerText="Descrição" width="23%" selectRow="false" sortBy="#{lancamento.descricao}">
+						<p:column headerText="Descrição" width="23%" selectRow="false"
+							sortBy="#{lancamento.descricao}">
 							<h:outputText value="#{lancamento.descricao}"
 								style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"
 								title="#{lancamento.descricao}" />
 						</p:column>
 
-						<p:column headerText="Nome" width="20%" selectRow="false" sortBy="#{lancamento.pessoa}">
+						<p:column headerText="Nome" width="20%" selectRow="false"
+							sortBy="#{lancamento.pessoa}">
 							<h:outputText value="#{lancamento.pessoa.nome}"
 								style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"
 								title="#{lancamento.pessoa.nome}" />
@@ -306,8 +320,8 @@
 
 						<p:column width="3%" selectRow="false">
 							<div class="ui-acoes-datatable">
-								<p:commandLink immediate="true" styleClass="ui-command-link" rendered="#{lancamento.pessoa ne null}"
-									update=":formPrincipal"
+								<p:commandLink immediate="true" styleClass="ui-command-link"
+									rendered="#{lancamento.pessoa ne null}" update=":formPrincipal"
 									action="#{caixaBean.imprimirRecibo(lancamento)}"
 									title="Imprimir recibo">
 									<span><i class="fa fa-fw fa-file-text"></i></span>
@@ -335,7 +349,7 @@
 									style="text-align:left;" styleClass="label-formulario" />
 							</p:row>
 						</p:columnGroup>
-						
+
 						<f:facet name="footer">
 							Total de : #{caixaBean.model.rowCount}
 						</f:facet>
