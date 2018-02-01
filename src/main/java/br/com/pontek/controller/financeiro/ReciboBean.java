@@ -97,7 +97,7 @@ public class ReciboBean {
 	}
 	
 	@PostConstruct
-	private void init() {
+	public void init() {
 		lancamento=new Lancamento();
 		lancamento.setObservacao("a"+System.currentTimeMillis());
 		recibo=new Recibo();
@@ -107,6 +107,7 @@ public class ReciboBean {
 	public void atualizarReciboViaAjax (){
 		if(lancamentoSelecionado!=null) {
 			lancamento = lancamentoSelecionado;
+			FacesUtil.exibirMensagemAlerta("Lancamento "+lancamento.getObservacao()+" selecionado da lista");
 		}
 		Boolean checkBox2via=recibo.isVia2();
 		recibo = reciboService.updateReciboViaAjax(lancamento);
@@ -125,7 +126,7 @@ public class ReciboBean {
 	    return lista;
 	 }
 	
-	public boolean validaForm() {
+	public boolean getValidaForm() {
 		if((lancamento.getValor()==null)||(lancamento.getValor()==BigDecimal.ZERO)) {
 			return true;
 		}

@@ -110,7 +110,6 @@ public class ReciboService {
 					}
 				}
 			}
-			System.err.println("ReciboService.updateReciboViaAjax() recibo.isVia2(): "+recibo.isVia2());
 			return carregarDadosEmpresa(recibo);
 		}
 		

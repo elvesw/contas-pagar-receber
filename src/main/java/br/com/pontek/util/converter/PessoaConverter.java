@@ -3,7 +3,7 @@ package br.com.pontek.util.converter;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
-
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +17,7 @@ public class PessoaConverter implements Converter {
 	PessoaService pessoaService;
 	public Object getAsObject(FacesContext context, UIComponent component, String value) {
 		Pessoa pessoa = new Pessoa();
-		if (value != null && !value.isEmpty()) {
+		if(StringUtils.isNotEmpty(value)) {
 			System.out.println("PessoaConverter.getAsObject() "+value);
 			pessoa.setId(Integer.parseInt(value));
 			pessoa=pessoaService.buscar(pessoa.getId());
