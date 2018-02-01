@@ -68,10 +68,10 @@
 					<!-- 2º div h:panelGroup dados recibo -->
 					<h:panelGroup layout="block" id="recibo" styleClass="bloco-recibo">
 						<h:panelGroup layout="block" rendered="#{caixaBean.tipoParaRecibo eq 'ENTRADA'}">
-							<ui:include src="reciboEntrada.xhtml" />
+							<ui:include src="caixaReciboEntrada.xhtml" />
 						</h:panelGroup>
 						<h:panelGroup layout="block" rendered="#{caixaBean.tipoParaRecibo eq 'SAÍDA'}">
-							<ui:include src="reciboSaida.xhtml" />
+							<ui:include src="caixaReciboSaida.xhtml" />
 						</h:panelGroup>
 					</h:panelGroup> <!-- fim 2º div h:panelGroup dados recibo -->
 					

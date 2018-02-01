@@ -18,50 +18,71 @@
 			</h:panelGroup>
 			<!--FIM - DIV TITLE -->
 
-			<p:messages autoUpdate="true" closable="true" id="msg"/>
-			
-			<p:remoteCommand name="remoteCommandSalvar"  actionListener="#{reciboBean.salvar}" update="formPrincipal"/>
+			<p:messages autoUpdate="true" closable="true" id="msg" />
+
+			<p:remoteCommand name="remoteCommandSalvar"
+				actionListener="#{reciboBean.salvar}" update="formPrincipal" />
 
 
 			<div class="ui-fluid">
-				<p:panelGrid columns="4" layout="grid" id="grid1"
-					columnClasses="ui-grid-col-4,ui-grid-col-1,ui-grid-col-3,ui-grid-col-2">
+				<p:panelGrid columns="5" layout="grid" id="grid1"
+					columnClasses="ui-grid-col-4,ui-grid-col-1,ui-grid-col-3,ui-grid-col-2,ui-grid-col-2">
 					<p:autoComplete value="#{reciboBean.lancamento.pessoa}" id="pessoa"
 						completeMethod="#{reciboBean.autoCompleteNomes}" var="pessoa"
-						itemLabel="#{pessoa.nome}" itemValue="#{pessoa}" queryDelay="500" 
-						forceSelection="true" maxResults="8" placeholder="Buscar nome..." 
+						itemLabel="#{pessoa.nome}" itemValue="#{pessoa}" queryDelay="500"
+						forceSelection="true" maxResults="8" placeholder="Buscar nome..."
 						autocomplete="off" dropdown="false" converter="#{pessoaConverter}">
-							 <p:ajax event="itemSelect"  update=":formPrincipal:grid1 :formPrincipal:grid2 :formPrincipal:btnSalvaImprimir" 
-							 process="pessoa" listener="#{reciboBean.atualizarReciboViaAjax()}"/>
+						<p:ajax event="itemSelect"
+							update=":formPrincipal:gridRecibos :formPrincipal:gridDataTable :formPrincipal:btnSalvaImprimir :formPrincipal:checkBox2Via"
+							process="pessoa"
+							listener="#{reciboBean.atualizarReciboViaAjax()}" />
 
 					</p:autoComplete>
-						
-						<p:inputText id="valor" value="#{reciboBean.lancamento.valor}" autocomplete="off" styleClass="js-moeda" placeholder="R$ 0,00"
-							 onkeypress="return somenteNumero(event)" converter="moedaConverter">  
-								<p:ajax update=":formPrincipal:grid1 :formPrincipal:grid2 :formPrincipal:btnSalvaImprimir"
-								process="valor" event="change" listener="#{reciboBean.atualizarReciboViaAjax()}"/>
-							<f:validator validatorId="moedaValidator" />
-						</p:inputText>
 
-					
-					<p:autoComplete value="#{reciboBean.lancamento.descricao}" id="descricao"
-						completeMethod="#{reciboBean.autoCompleteDescricao}" var="descricao" queryDelay="500" 
-						itemLabel="#{descricao}" itemValue="#{descricao}" rendered="true" requiredMessage="Descrição"
-						maxResults="7" placeholder="Descrição recibo avulso..." autocomplete="off"  >
-							 <p:ajax event="itemSelect"  update=":formPrincipal:grid1 :formPrincipal:grid2 :formPrincipal:btnSalvaImprimir" 
-							 process="descricao" listener="#{reciboBean.atualizarReciboViaAjax()}"/>
-							 <p:ajax event="keyup"  update=":formPrincipal:grid1 :formPrincipal:grid2 :formPrincipal:btnSalvaImprimir" 
-							 process="descricao" listener="#{reciboBean.atualizarReciboViaAjax()}"/>
+					<p:inputText id="valor" value="#{reciboBean.lancamento.valor}"
+						autocomplete="off" styleClass="js-moeda" placeholder="R$ 0,00">
+						<p:ajax update=":formPrincipal:gridRecibos :formPrincipal:gridDataTable :formPrincipal:btnSalvaImprimir :formPrincipal:checkBox2Via"
+							process="valor" event="keypress" delay="500"
+							listener="#{reciboBean.atualizarReciboViaAjax()}" />
+						<f:validator validatorId="moedaValidator" />
+						<f:convertNumber maxFractionDigits="2" minFractionDigits="2"/>
+					</p:inputText>
 
+
+					<p:autoComplete value="#{reciboBean.lancamento.descricao}"
+						id="descricao"
+						completeMethod="#{reciboBean.autoCompleteDescricao}"
+						var="descricao" queryDelay="500" itemLabel="#{descricao}"
+						itemValue="#{descricao}" rendered="true"
+						requiredMessage="Descrição" maxResults="7"
+						placeholder="Descrição recibo avulso..." autocomplete="off">
+						<p:ajax event="itemSelect"
+							update=":formPrincipal:gridRecibos :formPrincipal:gridDataTable :formPrincipal:btnSalvaImprimir :formPrincipal:checkBox2Via"
+							process="descricao"
+							listener="#{reciboBean.atualizarReciboViaAjax()}"/>
+
+						<p:ajax event="keypress" delay="500"
+							update=":formPrincipal:gridRecibos :formPrincipal:gridDataTable :formPrincipal:btnSalvaImprimir :formPrincipal:checkBox2Via"
+							process="descricao"
+							listener="#{reciboBean.atualizarReciboViaAjax()}" disabled="false" />
 					</p:autoComplete>
-					<p:commandButton  value="Imprimir" type="button" onclick="remoteCommandSalvar()" styleClass="btn btn-success" icon="fa fa-fw fa-floppy-o"
-					id="btnSalvaImprimir" disabled="#{reciboBean.validaForm(reciboBean.lancamento)}" >
-						<p:confirm header="Confirmação" 
-									message="Salvar recebimento e imprimir?"  
-									icon="fa fa-fw fa-exclamation-triangle warning"/>
+					<p:commandButton value="Imprimir" type="button"
+						onclick="remoteCommandSalvar()" styleClass="btn btn-success"
+						icon="fa fa-fw fa-floppy-o" id="btnSalvaImprimir"
+						disabled="#{reciboBean.validaForm()}" >
+						<p:confirm header="Confirmação"
+							message="Salvar recebimento e imprimir?"
+							icon="fa fa-fw fa-exclamation-triangle warning" />
 						<p:printer target="recibo" />
 					</p:commandButton>
 					
+					<h:panelGroup layout="block" id="checkBox2Via"  > 
+						<p:selectBooleanCheckbox value="#{reciboBean.recibo.via2}" style="margin-left:30px;" disabled="#{reciboBean.validaForm()}">
+							<p:ajax update=":formPrincipal:gridRecibos"/> 
+						</p:selectBooleanCheckbox>
+						<p:outputLabel value="2ºvia" styleClass="#{reciboBean.validaForm()?'label-desabilitar':'label-formulario'}"
+									style="vertical-align:20%;margin:5px;" />
+					</h:panelGroup>
 
 				</p:panelGrid>
 			</div>
@@ -69,59 +90,71 @@
 
 			<div class="ui-fluid">
 				<p:panelGrid columns="2" layout="grid"
-					columnClasses="ui-grid-col-8,ui-grid-col-4" id="grid2">
+					columnClasses="ui-grid-col-7,ui-grid-col-5" id="grid2">
 
-					<div class="recibo-container">
-						<h:panelGroup layout="block" class="recibo-conteudo" id="recibo">
-							<div style="display: inline-block; width: 100%;">
-								<div style="float: left">
-									<h2>#{reciboBean.recibo.nomeEmpresa}</h2>
-									<br />
-									<h4>#{reciboBean.recibo.telefoneEmpresa}</h4>
-									<br />
-									<h4>#{reciboBean.recibo.emailEmpresa}</h4>
-									<br />
-									<h4>#{reciboBean.recibo.enderecoEmpresa}</h4>
-								</div>
-								<div style="float: right;">
-									<h:graphicImage
-										value="/imagem?n=#{reciboBean.recibo.logoEmpresa}"
-										width="126" height="121"
-										rendered="#{not empty reciboBean.recibo.logoEmpresa}" />
-								</div>
-							</div>
+					<h:panelGroup layout="block" id="gridRecibos">
+						<h:panelGroup layout="block" id="recibo" styleClass="bloco-recibo">
+							<ui:include src="avulsoReciboEntrada.xhtml" />
+						</h:panelGroup> 
+					</h:panelGroup>
 
-							<div class="recibo-centralizado">
-								<h1>RECIBO</h1>
-							</div>
+					<h:panelGroup layout="block" id="gridDataTable">
 
-							<p style="line-height: 1.8">
-								Recebemos de <span>#{reciboBean.recibo.nome}
-									#{reciboBean.recibo.documento}</span> a quantia de <span>R$
-									#{reciboBean.recibo.valor}</span>
-								(#{reciboBean.recibo.valorPorExtenso}) referente à <span>#{reciboBean.recibo.descricao}</span>
-							</p>
+						<p:dataTable var="lancamento" value="#{reciboBean.model}"
+							rendered="#{reciboBean.lancamento.pessoa.id ne null}"
+							reflow="true" lazy="true" rowIndexVar="rowIx"
+							id="dataTableLancamentosDoCliente"
+							selection="#{reciboBean.lancamentoSelecionado}"
+							rowKey="#{lancamento.id}" rows="10"
+							emptyMessage="Nenhum lançamento pendente..." paginatorPosition="bottom"
+							disabledSelection="#{lancamento.statusLancamento eq 'Pago'}">
 
-							<div class="recibo-centralizado">
-								<p>#{reciboBean.recibo.dataHoje}</p>
-								<p>______________________________</p>
-								<p>#{reciboBean.recibo.nomeEmpresa}</p>
-							</div>
-							<div>
-								<p style="font-size:9px;">Cód:#{reciboBean.recibo.hashObservacao}</p>
-							</div>
-						</h:panelGroup>
-					</div>
+							<p:ajax event="rowSelectRadio"
+								listener="#{reciboBean.atualizarReciboViaAjax()}"
+								update=":formPrincipal:grid1 :formPrincipal:gridRecibos" />
 
-					<h:panelGroup layout="block" >
+							<p:column width="7%" selectionMode="single" selectRow="true"
+								styleClass="icon-cor-preto"></p:column>
 
+							<p:column headerText="Nome" width="24%" selectRow="false"
+								style="font-size:80%;" styleClass="dataTableLista-destaque">
+								<h:outputText
+									value="#{lancamento.pessoa.nome}(#{lancamento.pessoa.id})"
+									style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"
+									title="#{lancamento.pessoa.nome}(#{lancamento.pessoa.id})" />
+							</p:column>
+
+							<p:column headerText="Desc." width="20%" selectRow="true"
+								style="font-size:80%;" styleClass="dataTableLista-destaque">
+								<h:outputText value="#{lancamento.descricao}"
+									style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"
+									title="#{lancamento.descricao}" />
+							</p:column>
+
+							<p:column headerText="Venc." width="16%" selectRow="true"
+								style="font-size:80%;" styleClass="dataTableLista-destaque"
+								sortBy="#{lancamento.dataVencimento}">
+								<h:outputText value="#{lancamento.dataVencimento}"
+									styleClass="#{reciboBean.lancamento.lancamentoVencido ? 'status_vencido':''}">
+									<f:convertDateTime pattern="dd/MM/yyyy" />
+								</h:outputText>
+							</p:column>
+
+							<p:column headerText="Valor" width="15%" selectRow="true"
+								style="font-size:80%;" sortBy="#{lancamento.valor}"
+								styleClass="dataTableLista-destaque">
+								<h:outputText value="#{lancamento.valor}">
+									<f:convertNumber pattern=" #,##0.00" minFractionDigits="2" />
+								</h:outputText>
+							</p:column>
+						</p:dataTable>
 
 					</h:panelGroup>
 
 
 				</p:panelGrid>
 			</div>
-				<ui:include src="/WEB-INF/templates/dialogConfirmGlobal.xhtml" />
+			<ui:include src="/WEB-INF/templates/dialogConfirmGlobal.xhtml" />
 		</h:form>
 	</ui:define>
 </ui:composition>

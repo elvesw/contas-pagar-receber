@@ -1,0 +1,89 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<div class="recibo-container">
+		<div class="recibo-avulso-conteudo">
+			<div style="display: inline-block;width: 100%;">
+				<div style="float: left">
+					<h2>#{reciboBean.recibo.nomeEmpresa}</h2>
+					<br />
+					<h4>#{reciboBean.recibo.telefoneEmpresa}</h4>
+					<br />
+					<h4>#{reciboBean.recibo.emailEmpresa}</h4>
+					<br />
+					<h4>#{reciboBean.recibo.enderecoEmpresa}</h4>	
+				</div>
+				<div style="float: right;">
+					<h:graphicImage value="/imagem?n=#{reciboBean.recibo.logoEmpresa}" 
+					width="136" height="131" rendered="#{not empty reciboBean.recibo.logoEmpresa}"/>
+				</div>
+			</div>
+			
+			<div class="recibo-centralizado">
+				<h1>RECIBO</h1>
+			</div>
+
+			<p style="line-height: 1.8">
+				Recebemos de <span>#{reciboBean.recibo.nome}
+					#{reciboBean.recibo.documento}</span> a quantia de <span>R$
+					#{reciboBean.recibo.valor}</span>
+				(#{reciboBean.recibo.valorPorExtenso}) referente à <span>#{reciboBean.recibo.descricao}</span>
+			</p>
+
+			<div class="recibo-centralizado">
+				<p>#{reciboBean.recibo.dataHoje}</p>
+				<p>______________________________</p>
+				<p>#{reciboBean.recibo.nomeEmpresa}</p>
+			</div>
+			<div>
+				<p style="font-size:9px;">Cód:#{reciboBean.recibo.hashObservacao}</p>
+			</div>
+		</div>
+		
+		<h:panelGroup layout="block" rendered="#{reciboBean.recibo.via2}">
+
+		<div class="recibo-avulso-conteudo">
+			<div style="display: inline-block;width: 100%;">
+				<div style="float: left">
+					<h2>#{reciboBean.recibo.nomeEmpresa}</h2>
+					<br />
+					<h4>#{reciboBean.recibo.telefoneEmpresa}</h4>
+					<br />
+					<h4>#{reciboBean.recibo.emailEmpresa}</h4>
+					<br />
+					<h4>#{reciboBean.recibo.enderecoEmpresa}</h4>	
+				</div>
+				<div style="float: right;">
+					<h:graphicImage value="/imagem?n=#{reciboBean.recibo.logoEmpresa}" 
+					width="136" height="131" rendered="#{not empty reciboBean.recibo.logoEmpresa}"/>
+				</div>
+			</div>
+			
+			<div class="recibo-centralizado">
+				<h1>RECIBO - 2º via</h1>
+			</div>
+
+			<p style="line-height: 1.8">
+				Recebemos de <span>#{reciboBean.recibo.nome}
+					#{reciboBean.recibo.documento}</span> a quantia de <span>R$
+					#{reciboBean.recibo.valor}</span>
+				(#{reciboBean.recibo.valorPorExtenso}) referente à <span>#{reciboBean.recibo.descricao}</span>
+			</p>
+
+			<div class="recibo-centralizado">
+				<p>#{reciboBean.recibo.dataHoje}</p>
+				<p>______________________________</p>
+				<p>#{reciboBean.recibo.nomeEmpresa}</p>
+			</div>
+			<div>
+				<p style="font-size:9px;">Cód:#{reciboBean.recibo.hashObservacao}</p>
+			</div>
+		</div>
+		
+		</h:panelGroup>
+	</div>
+
+</ui:composition>

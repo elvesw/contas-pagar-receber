@@ -104,10 +104,13 @@ public class ReciboService {
 						recibo.setDocumento(lancamento.getPessoa().getCpfCnpj().length()>14?" CNPJ:"+lancamento.getPessoa().getCpfCnpj():" CPF:"+lancamento.getPessoa().getCpfCnpj());
 				}else{
 					recibo.setNome(lancamento.getPessoa().getNomeResponsavel());
-					if(StringUtils.isNotEmpty(lancamento.getPessoa().getCpfResponsavel()))
-						recibo.setDocumento(" (CPF:"+lancamento.getPessoa().getCpfResponsavel()+"), responsável por "+lancamento.getPessoa().getNome()+" ");
+					recibo.setDocumento(", responsável por "+lancamento.getPessoa().getNome()+" ");
+					if(StringUtils.isNotEmpty(lancamento.getPessoa().getCpfResponsavel())) {
+						recibo.setDocumento(" (CPF:"+lancamento.getPessoa().getCpfResponsavel()+"), responsável por "+lancamento.getPessoa().getNome()+" ");						
+					}
 				}
 			}
+			System.err.println("ReciboService.updateReciboViaAjax() recibo.isVia2(): "+recibo.isVia2());
 			return carregarDadosEmpresa(recibo);
 		}
 		

@@ -404,6 +404,27 @@
 .recibo-centralizado{
 	text-align:center;
 }
+.recibo-avulso-conteudo{
+	/* width:670px; */
+	background-color: #e2e2e2;
+	border:1px solid #CCCCCC;
+	border-radius:8px;
+	margin:5px;
+	padding:8px;
+}
+.recibo-avulso-conteudo h1,
+.recibo-avulso-conteudo h2, 
+.recibo-avulso-conteudo h3,
+.recibo-avulso-conteudo h4{
+	display: inline;
+}
+.recibo-avulso-conteudo p{
+	font-size:20px;
+	white-space: normal;
+}
+.recibo-avulso-conteudo span{
+	font-weight: bold;
+}
 
 /*coluna selecionada para editar */
 .dataTableLista-destaque > a:hover {

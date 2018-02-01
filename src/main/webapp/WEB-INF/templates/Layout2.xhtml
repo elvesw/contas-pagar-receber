@@ -50,6 +50,15 @@
 	<section class="aw-content  js-content">
 		<ui:insert name="centro" />
 	</section>
+		<script>
+		      function configurarMoeda() {
+		        $(".js-moeda").maskMoney({ decimal: ",", thousands: ".", allowZero: true });
+		      }
+		      
+		      $(document).ready(function() {
+		        configurarMoeda();
+		      });
+    </script>
 </h:body>
 
 </html>
