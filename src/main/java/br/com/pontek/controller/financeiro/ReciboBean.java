@@ -106,9 +106,10 @@ public class ReciboBean {
 	
 	public void atualizarReciboViaAjax (){
 		if(lancamentoSelecionado!=null) {
-			lancamento = lancamentoSelecionado;
-			lancamentoSelecionado=null;
-			FacesUtil.exibirMensagemAlerta("Lancamento "+lancamento.getObservacao()+" selecionado da lista");
+			if(lancamento.getId()!=lancamentoSelecionado.getId()) {
+				lancamento = lancamentoSelecionado;
+				FacesUtil.exibirMensagemAlerta("Lancamento "+lancamento.getObservacao()+" selecionado da lista");				
+			}
 		}
 		Boolean checkBox2via=recibo.isVia2();
 		recibo = reciboService.updateReciboViaAjax(lancamento);
