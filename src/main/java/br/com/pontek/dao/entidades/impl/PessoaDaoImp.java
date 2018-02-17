@@ -83,6 +83,25 @@ public class PessoaDaoImp extends AbstractDaoImpl<Pessoa, Integer> implements Pe
 		criteria.add(conjunction);
 		return criteria.list();
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Pessoa> listaComTermoDeBuscaPorPerfil(String termoDeBusca, boolean perfilCliente,boolean perfilFornecedor, boolean perfilFuncionario) {
+		Session session = (Session) getEm().getDelegate();
+		Criteria criteria = session.createCriteria(Pessoa.class);
+		Conjunction conjunction = Restrictions.conjunction();
+		
+		conjunction.add(Restrictions.eq("cadastroAtivo",true));
+		if (StringUtils.isNotEmpty(termoDeBusca)) {
+			criteria.add(Restrictions.ilike("nome", termoDeBusca, MatchMode.ANYWHERE));
+		}
+		/*Lógica doida, fiz pelo rumo e funcionou*/
+		conjunction.add(Restrictions.or(Restrictions.eq("cliente",perfilCliente?true:null),
+										Restrictions.eq("fornecedor",perfilFornecedor?true:null),
+										Restrictions.eq("funcionario",perfilFuncionario?true:null)));
+		criteria.add(conjunction);
+		return criteria.list();
+	}
 
 
 	@Override
@@ -121,5 +140,11 @@ public class PessoaDaoImp extends AbstractDaoImpl<Pessoa, Integer> implements Pe
 			return (Pessoa) criteria.uniqueResult();
 		return null;
 	}
+
+
+
+
+
+
 	
 }

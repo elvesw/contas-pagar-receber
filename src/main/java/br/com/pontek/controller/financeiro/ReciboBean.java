@@ -20,19 +20,20 @@ import org.springframework.stereotype.Controller;
 import br.com.pontek.enums.FiltroData;
 import br.com.pontek.enums.FiltroStatus;
 import br.com.pontek.enums.FiltroTipoData;
-import br.com.pontek.enums.PerfilDePessoa;
+import br.com.pontek.enums.FiltroTipoLancamento;
 import br.com.pontek.enums.StatusDeLancamento;
 import br.com.pontek.enums.TipoDeLancamento;
 import br.com.pontek.model.entidades.Pessoa;
 import br.com.pontek.model.financeiro.Categoria;
 import br.com.pontek.model.financeiro.Conta;
 import br.com.pontek.model.financeiro.Lancamento;
+import br.com.pontek.model.sistema.Configuracao;
 import br.com.pontek.service.entidades.PessoaService;
 import br.com.pontek.service.financeiro.LancamentoService;
 import br.com.pontek.service.financeiro.ReciboService;
+import br.com.pontek.service.sistema.ConfiguracaoService;
 import br.com.pontek.util.dto.Recibo;
 import br.com.pontek.util.filtro.FiltroLancamento;
-import br.com.pontek.util.filtro.FiltroPessoa;
 import br.com.pontek.util.jsf.FacesUtil;
 
 @ManagedBean(name = "reciboBean")
@@ -43,6 +44,7 @@ public class ReciboBean {
 	@Autowired private ReciboService reciboService;
 	@Autowired private PessoaService pessoaService;
 	@Autowired private LancamentoService lancamentoService;
+	@Autowired private ConfiguracaoService  configuracaoService;
 	
 	/*########### LAZY DATATABLE ##############*/
 	private FiltroLancamento filtro= new FiltroLancamento(FiltroData.Sem_filtro_de_data, 
@@ -53,6 +55,10 @@ public class ReciboBean {
 	/*########### RECIBO ##############*/
 	private Recibo recibo;
 	private Lancamento lancamento;
+	/*########### PERFIL ##############*/
+	private TipoDeLancamento tipoLancamentoPagina;
+	private Configuracao configuracao;
+
 
 	public ReciboBean() {
 		model = new LazyDataModel<Lancamento>() {
@@ -98,10 +104,13 @@ public class ReciboBean {
 	
 	@PostConstruct
 	public void init() {
+		lancamentoSelecionado=new Lancamento();
 		lancamento=new Lancamento();
 		lancamento.setObservacao("a"+System.currentTimeMillis());
 		recibo=new Recibo();
 		recibo=reciboService.carregarDadosEmpresa(recibo);
+		configuracao = new Configuracao();
+		configuracao=configuracaoService.carregar();
 	}
 	
 	public void atualizarReciboViaAjax (){
@@ -118,8 +127,18 @@ public class ReciboBean {
 	
 	/**Função do autocomplete de nomes para o form cadastro*/	
 	public List<Pessoa> autoCompleteNomes(String nome) {
-			FiltroPessoa filtroPessoa = new FiltroPessoa(nome, PerfilDePessoa.Clientes);
-			List<Pessoa> ListTempPessoa = pessoaService.filtrados(filtroPessoa);
+		List<Pessoa> ListTempPessoa = new ArrayList<>();
+				//Busca por termo de busca e perfil de acordo com as configurações do sistema.
+				if(tipoLancamentoPagina.equals(TipoDeLancamento.ENTRADA)){
+					ListTempPessoa=pessoaService.listaComTermoDeBuscaPorPerfil(nome,configuracao.isExibirClientesEmLancamentosEntrada(), 
+							configuracao.isExibirFornecedoresEmLancamentosEntrada(),
+							configuracao.isExibirFuncionariosEmLancamentosEntrada());				
+				}
+				else if(tipoLancamentoPagina.equals(TipoDeLancamento.SAÍDA)){
+					ListTempPessoa=pessoaService.listaComTermoDeBuscaPorPerfil(nome,configuracao.isExibirClientesEmLancamentosSaida(), 
+							configuracao.isExibirFornecedoresEmLancamentosSaida(),
+							configuracao.isExibirFuncionariosEmLancamentosSaida());				
+				}
 	    return ListTempPessoa;
 	 }
 	/**Função do autocomplete de descrição já cadastrados*/	
@@ -145,7 +164,7 @@ public class ReciboBean {
 	public void salvar(ActionEvent actionevent) {
 		try {
 			if(lancamento.getId()==null) {
-				lancamento.setTipoLancamento(TipoDeLancamento.ENTRADA);
+				//lancamento.setTipoLancamento(TipoDeLancamento.ENTRADA);
 				lancamento.setDataVencimento(new Date());
 				Categoria categoria = new Categoria();
 				categoria.setId(1);
@@ -165,6 +184,41 @@ public class ReciboBean {
 		}
 	}
 	
+/*	########## FUNÇÕES DE PERFIL DA PÁGINA ##########*/
+	/**Chamada do preRenderView para o bean diferenciar se o 
+	 * TipoDeLancamento de lançamentos da view é de ENTRADA ou SAÍDA
+	 * @param EntradaOuSaida  ENTRADA ou SAÍDA*/
+	public void tipoPagina(String EntradaOuSaida){
+		tipoLancamentoPagina=TipoDeLancamento.valueOf(EntradaOuSaida);
+		if(tipoLancamentoPagina!=null){
+			lancamento.setTipoLancamento(tipoLancamentoPagina);//set tipo em lançamento
+			 if(tipoLancamentoPagina.equals(TipoDeLancamento.ENTRADA)){
+					filtro.setFiltroTipoLancamento(FiltroTipoLancamento.Somente_entrada);
+			}else if(tipoLancamentoPagina.equals(TipoDeLancamento.SAÍDA)){
+					filtro.setFiltroTipoLancamento(FiltroTipoLancamento.Somente_saída);
+			}
+		}
+	}
+	
+	/**Define qual include será apresentado na view include_avulso_recibo_entrada.xhtml ou include_avulso_recibo_saida.xhtml*/
+	public boolean confirmaTipoDePaginaParaView() {
+		if(tipoLancamentoPagina.equals(TipoDeLancamento.ENTRADA)){
+			return true;		
+		}
+			return false;
+	}
+	
+	/**Seta o título da página de acordo com o tipo de lançamento*/
+	public String getTitlePage() {
+		String titlePage = "";
+		if(tipoLancamentoPagina.equals(TipoDeLancamento.ENTRADA)){
+			titlePage="Financeiro Receber - Recibo Avulso via Bean";		
+		}
+		else if(tipoLancamentoPagina.equals(TipoDeLancamento.SAÍDA)){
+			titlePage="Financeiro Pagar - Recibo Avulso via Bean";	
+		}
+		return titlePage;
+	}
 	
 /*	########## GETS E SETS ##########*/
 	public Lancamento getLancamento() {
@@ -192,4 +246,7 @@ public class ReciboBean {
 	public void setLancamentoSelecionado(Lancamento lancamentoSelecionado) {
 		this.lancamentoSelecionado = lancamentoSelecionado;
 	}
+	/*########### PERFIL ##############*/
+
+	
 }

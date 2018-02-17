@@ -27,4 +27,5 @@ public interface PessoaService {
 	
 	
 	List<Pessoa> listaPorPerfil(boolean perfilCliente,boolean perfilFornecedor,boolean perfilFuncionario);
+	List<Pessoa> listaComTermoDeBuscaPorPerfil(String termoDeBusca,boolean perfilCliente,boolean perfilFornecedor,boolean perfilFuncionario);
 }
