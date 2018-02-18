@@ -29,6 +29,7 @@ import br.com.pontek.model.financeiro.Conta;
 import br.com.pontek.model.financeiro.Lancamento;
 import br.com.pontek.model.sistema.Configuracao;
 import br.com.pontek.service.entidades.PessoaService;
+import br.com.pontek.service.financeiro.DescricaoService;
 import br.com.pontek.service.financeiro.LancamentoService;
 import br.com.pontek.service.financeiro.ReciboService;
 import br.com.pontek.service.sistema.ConfiguracaoService;
@@ -45,6 +46,7 @@ public class ReciboBean {
 	@Autowired private PessoaService pessoaService;
 	@Autowired private LancamentoService lancamentoService;
 	@Autowired private ConfiguracaoService  configuracaoService;
+	@Autowired private DescricaoService descricaoService;
 	
 	/*########### LAZY DATATABLE ##############*/
 	private FiltroLancamento filtro= new FiltroLancamento(FiltroData.Sem_filtro_de_data, 
@@ -143,7 +145,7 @@ public class ReciboBean {
 	 }
 	/**Função do autocomplete de descrição já cadastrados*/	
 	public List<String> autoCompleteDescricao(String nome) {
-			List<String> lista = lancamentoService.listaDescricoesLancamentos(nome);
+			List<String> lista = descricaoService.listaPorNomeTipoDeLancamento(nome, tipoLancamentoPagina);
 	    return lista;
 	 }
 	
@@ -212,10 +214,10 @@ public class ReciboBean {
 	public String getTitlePage() {
 		String titlePage = "";
 		if(tipoLancamentoPagina.equals(TipoDeLancamento.ENTRADA)){
-			titlePage="Financeiro Receber - Recibo Avulso via Bean";		
+			titlePage="Financeiro Receber - Recibo Avulso";
 		}
 		else if(tipoLancamentoPagina.equals(TipoDeLancamento.SAÍDA)){
-			titlePage="Financeiro Pagar - Recibo Avulso via Bean";	
+			titlePage="Financeiro Pagar - Recibo Avulso";
 		}
 		return titlePage;
 	}

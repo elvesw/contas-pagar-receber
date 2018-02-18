@@ -14,7 +14,6 @@ public interface LancamentoService {
 	
 /*### METODOS DE SALVAR ###*/
     void salvar(Lancamento lancamento);
-    List<Lancamento> salvarLista(List<Lancamento> lista);
     
 /*### METODOS DE EXCLUIR ###*/
     void excluir(Lancamento lancamento);

@@ -9,10 +9,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.pontek.dao.financeiro.DescricaoDao;
 import br.com.pontek.dao.financeiro.LancamentoDao;
 import br.com.pontek.model.entidades.Pessoa;
 import br.com.pontek.model.financeiro.Categoria;
 import br.com.pontek.model.financeiro.Conta;
+import br.com.pontek.model.financeiro.Descricao;
 import br.com.pontek.model.financeiro.Lancamento;
 import br.com.pontek.service.financeiro.LancamentoService;
 import br.com.pontek.util.filtro.FiltroLancamento;
@@ -25,6 +27,7 @@ public class LancamentoServiceImp implements LancamentoService ,Serializable {
 	private static final long serialVersionUID = 1L;
 	@Autowired
 	private LancamentoDao lancamentoDao;
+	@Autowired DescricaoDao descricaoDao;
 
 	@Override
 	@Transactional
@@ -44,15 +47,8 @@ public class LancamentoServiceImp implements LancamentoService ,Serializable {
 			lancamento.setDataAlteracao(new Date());
 			lancamentoDao.salvarEntity(lancamento);
 		}
-	}
-
-	@Override
-	@Transactional
-	public List<Lancamento> salvarLista(List<Lancamento> lista) {
-			if(!lista.isEmpty()){
-				return lancamentoDao.salvarAllEntitys(lista);				
-			}
-			return null;
+		if(descricaoDao.buscarPorNomeTipolancamento(lancamento.getDescricao(),lancamento.getTipoLancamento())==null)
+		descricaoDao.salvarEntity(new Descricao(lancamento.getDescricao(), lancamento.getTipoLancamento()));
 	}
 	
 	@Override

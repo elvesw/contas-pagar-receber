@@ -306,14 +306,15 @@
 	font-size: 15px;
 }
 
-
-.lista-categoria-entrada{
-	color: #008000;	
+/* Destaca linha de verde */
+.row-dataTable-entrada{
+	color: #00b000!important;
 }
-.lista-categoria-saida{
-	color:#0996DD;
+/* Destaca linha de azul */
+.row-dataTable-saida{
+	color:#0996DD !important;
 }
-.lista-categoria-entrada, .lista-categoria-saida:HOVER{
+.row-dataTable-entrada:HOVER, .row-dataTable-saida:HOVER{
 	color: #5C5C5C !important;
 }
 
