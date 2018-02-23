@@ -234,7 +234,18 @@ public class LancamentoBean extends AbstractBean{
 		filtro.setFitroData(FiltroData.Passado_mais_30_dias);
 		filtro.setTermoParaBusca(null);
 		filtro.setFiltroCategoria(new Categoria());
+		filtro.setDefinirDatasManualmente(false);
 		viewAtiva=estadoDaView.LISTANDO.toString();
+	}
+	
+	public String validaDatasInseridas() {
+		if(!filtro.isDefinirDatasManualmente()) return null;
+		if((filtro.getDataInicio()==null) || (filtro.getDataFim()==null)) {
+			FacesUtil.exibirMensagemAlerta("Inserir datas");
+		}else if(DataUtil.comparaDataInicialDataFinal(filtro.getDataInicio(), filtro.getDataFim())) {
+			FacesUtil.exibirMensagemAlerta("Data inicial MAIOR que data final");
+		}
+		return null;
 	}
 	/*############ FIM - 1º BLOCO FUNÇÕES PARA O DATATABLE #######*/
 	

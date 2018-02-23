@@ -127,71 +127,75 @@ public class LancamentoDaoImp extends AbstractDaoImpl<Lancamento, Integer> imple
 			String tipoDeData = tipoDeData(filtro.getFiltroTipoData());
 			
 			 LocalDate dataHoje = LocalDate.now();
-			if (filtro.getFitroData() != null) {
-				if (filtro.getFitroData().equals(FiltroData.Hoje)) {
-					conjunction.add(Restrictions.eq(tipoDeData, DataUtil.localDateParaDate(dataHoje)));
-				} else if (filtro.getFitroData().equals(FiltroData.Ontem)) {
-					conjunction.add(Restrictions.eq(tipoDeData, DataUtil.localDateParaDate(dataHoje.plusDays(-1))));
-				}else if (filtro.getFitroData().equals(FiltroData.Amanhã)) {
-					conjunction.add(Restrictions.eq(tipoDeData, DataUtil.localDateParaDate(dataHoje.plusDays(+1))));
-				}else if (filtro.getFitroData().equals(FiltroData.Está_semana)) {
-					LocalDate inicio = dataHoje.with(TemporalAdjusters.previous(DayOfWeek.MONDAY));
-					LocalDate fim = dataHoje.with(TemporalAdjusters.next(DayOfWeek.SUNDAY));
-					conjunction.add(Restrictions.ge(tipoDeData, DataUtil.localDateParaDate(inicio)));
-					conjunction.add(Restrictions.le(tipoDeData, DataUtil.localDateParaDate(fim)));
-				}else if (filtro.getFitroData().equals(FiltroData.Próxima_semana)){
-					LocalDate inicio = dataHoje.with(TemporalAdjusters.next(DayOfWeek.MONDAY));
-					LocalDate fim = inicio.with(TemporalAdjusters.next(DayOfWeek.SUNDAY));
-					conjunction.add(Restrictions.ge(tipoDeData, DataUtil.localDateParaDate(inicio)));
-					conjunction.add(Restrictions.le(tipoDeData,DataUtil.localDateParaDate(fim)));
-				}else if (filtro.getFitroData().equals(FiltroData.Últimos_7_dias)) {
-					conjunction.add(Restrictions.ge(tipoDeData, DataUtil.localDateParaDate(dataHoje.plusDays(-7))));
-					conjunction.add(Restrictions.le(tipoDeData,DataUtil.localDateParaDate(dataHoje)));
-				}else if (filtro.getFitroData().equals(FiltroData.Próximos_7_dias)) {
-					conjunction.add(Restrictions.ge(tipoDeData, DataUtil.localDateParaDate(dataHoje)));
-					conjunction.add(Restrictions.le(tipoDeData,DataUtil.localDateParaDate(dataHoje.plusDays(+7))));
-				}else if (filtro.getFitroData().equals(FiltroData.Últimos_14_dias)) {
-					conjunction.add(Restrictions.ge(tipoDeData, DataUtil.localDateParaDate(dataHoje.plusDays(-14))));
-					conjunction.add(Restrictions.le(tipoDeData,DataUtil.localDateParaDate(dataHoje)));
-				}else if (filtro.getFitroData().equals(FiltroData.Próximos_14_dias)) {
-					conjunction.add(Restrictions.ge(tipoDeData, DataUtil.localDateParaDate(dataHoje)));
-					conjunction.add(Restrictions.le(tipoDeData,DataUtil.localDateParaDate(dataHoje.plusDays(+14))));
-				}else if (filtro.getFitroData().equals(FiltroData.Últimos_30_dias)) {
-					conjunction.add(Restrictions.ge(tipoDeData, DataUtil.localDateParaDate(dataHoje.plusDays(-30))));
-					conjunction.add(Restrictions.le(tipoDeData,DataUtil.localDateParaDate(dataHoje)));
-				}else if (filtro.getFitroData().equals(FiltroData.Próximos_30_dias)) {
-					conjunction.add(Restrictions.ge(tipoDeData, DataUtil.localDateParaDate(dataHoje)));
-					conjunction.add(Restrictions.le(tipoDeData,DataUtil.localDateParaDate(dataHoje.plusDays(+30))));
-				}else if (filtro.getFitroData().equals(FiltroData.Esse_mês)) {
-					 LocalDate primeiroDiaMes = dataHoje.with(TemporalAdjusters.firstDayOfMonth());
-					 LocalDate ultimoDiaMes = dataHoje.with(TemporalAdjusters.lastDayOfMonth());
-					 conjunction.add(Restrictions.ge(tipoDeData, DataUtil.localDateParaDate(primeiroDiaMes)));
-					 conjunction.add(Restrictions.le(tipoDeData, DataUtil.localDateParaDate(ultimoDiaMes)));
-				}else if (filtro.getFitroData().equals(FiltroData.Mês_passado)) {
-					 LocalDate dataMesPassado = dataHoje.plusMonths(-1);
-					 LocalDate primeiroDiaMes = dataMesPassado.with(TemporalAdjusters.firstDayOfMonth());
-					 LocalDate ultimoDiaMes = dataMesPassado.with(TemporalAdjusters.lastDayOfMonth());
-					 conjunction.add(Restrictions.ge(tipoDeData, DataUtil.localDateParaDate(primeiroDiaMes)));
-					 conjunction.add(Restrictions.le(tipoDeData, DataUtil.localDateParaDate(ultimoDiaMes)));
-				}else if (filtro.getFitroData().equals(FiltroData.Próximo_mês)) {
-					LocalDate dataProximoMes = dataHoje.plusMonths(+1);
-					LocalDate primeiroDiaMes = dataProximoMes.with(TemporalAdjusters.firstDayOfMonth());
-					LocalDate ultimoDiaMes = dataProximoMes.with(TemporalAdjusters.lastDayOfMonth());
-					conjunction.add(Restrictions.ge(tipoDeData, DataUtil.localDateParaDate(primeiroDiaMes)));
-					conjunction.add(Restrictions.le(tipoDeData, DataUtil.localDateParaDate(ultimoDiaMes)));
-				}else if (filtro.getFitroData().equals(FiltroData.Passado_mais_30_dias)) {
-					conjunction.add(Restrictions.le(tipoDeData,DataUtil.localDateParaDate(dataHoje.plusDays(+30))));
-				}else if (filtro.getFitroData().equals(FiltroData.Esse_ano)) {
-					conjunction.add(Restrictions.ge(tipoDeData, DataUtil.localDateParaDate(dataHoje.with(TemporalAdjusters.firstDayOfYear()))));
-					conjunction.add(Restrictions.le(tipoDeData, DataUtil.localDateParaDate(dataHoje.with(TemporalAdjusters.lastDayOfYear()))));
-				}else if (filtro.getFitroData().equals(FiltroData.Últimos_12_meses)) {
-					conjunction.add(Restrictions.ge(tipoDeData,DataUtil.localDateParaDate(dataHoje.plusYears(-1))));
-					conjunction.add(Restrictions.le(tipoDeData, DataUtil.localDateParaDate(dataHoje)));
-				}else if (filtro.getFitroData().equals(FiltroData.Sem_filtro_de_data)) {
-					conjunction.add(Restrictions.isNotNull(tipoDeData));//Todos sem que a data esteja null
-				}
-			}
-		}
+				 if (filtro.getFitroData() != null) {
+					 if(filtro.isDefinirDatasManualmente()) {//definir data manualmente
+						 conjunction.add(Restrictions.ge(tipoDeData, filtro.getDataInicio()));
+						conjunction.add(Restrictions.le(tipoDeData, filtro.getDataFim()));
+					 }else if (filtro.getFitroData().equals(FiltroData.Hoje)) {
+						conjunction.add(Restrictions.eq(tipoDeData, DataUtil.localDateParaDate(dataHoje)));
+					} else if (filtro.getFitroData().equals(FiltroData.Ontem)) {
+						conjunction.add(Restrictions.eq(tipoDeData, DataUtil.localDateParaDate(dataHoje.plusDays(-1))));
+					}else if (filtro.getFitroData().equals(FiltroData.Amanhã)) {
+						conjunction.add(Restrictions.eq(tipoDeData, DataUtil.localDateParaDate(dataHoje.plusDays(+1))));
+					}else if (filtro.getFitroData().equals(FiltroData.Está_semana)) {
+						LocalDate inicio = dataHoje.with(TemporalAdjusters.previous(DayOfWeek.MONDAY));
+						LocalDate fim = dataHoje.with(TemporalAdjusters.next(DayOfWeek.SUNDAY));
+						conjunction.add(Restrictions.ge(tipoDeData, DataUtil.localDateParaDate(inicio)));
+						conjunction.add(Restrictions.le(tipoDeData, DataUtil.localDateParaDate(fim)));
+					}else if (filtro.getFitroData().equals(FiltroData.Próxima_semana)){
+						LocalDate inicio = dataHoje.with(TemporalAdjusters.next(DayOfWeek.MONDAY));
+						LocalDate fim = inicio.with(TemporalAdjusters.next(DayOfWeek.SUNDAY));
+						conjunction.add(Restrictions.ge(tipoDeData, DataUtil.localDateParaDate(inicio)));
+						conjunction.add(Restrictions.le(tipoDeData,DataUtil.localDateParaDate(fim)));
+					}else if (filtro.getFitroData().equals(FiltroData.Últimos_7_dias)) {
+						conjunction.add(Restrictions.ge(tipoDeData, DataUtil.localDateParaDate(dataHoje.plusDays(-7))));
+						conjunction.add(Restrictions.le(tipoDeData,DataUtil.localDateParaDate(dataHoje)));
+					}else if (filtro.getFitroData().equals(FiltroData.Próximos_7_dias)) {
+						conjunction.add(Restrictions.ge(tipoDeData, DataUtil.localDateParaDate(dataHoje)));
+						conjunction.add(Restrictions.le(tipoDeData,DataUtil.localDateParaDate(dataHoje.plusDays(+7))));
+					}else if (filtro.getFitroData().equals(FiltroData.Últimos_14_dias)) {
+						conjunction.add(Restrictions.ge(tipoDeData, DataUtil.localDateParaDate(dataHoje.plusDays(-14))));
+						conjunction.add(Restrictions.le(tipoDeData,DataUtil.localDateParaDate(dataHoje)));
+					}else if (filtro.getFitroData().equals(FiltroData.Próximos_14_dias)) {
+						conjunction.add(Restrictions.ge(tipoDeData, DataUtil.localDateParaDate(dataHoje)));
+						conjunction.add(Restrictions.le(tipoDeData,DataUtil.localDateParaDate(dataHoje.plusDays(+14))));
+					}else if (filtro.getFitroData().equals(FiltroData.Últimos_30_dias)) {
+						conjunction.add(Restrictions.ge(tipoDeData, DataUtil.localDateParaDate(dataHoje.plusDays(-30))));
+						conjunction.add(Restrictions.le(tipoDeData,DataUtil.localDateParaDate(dataHoje)));
+					}else if (filtro.getFitroData().equals(FiltroData.Próximos_30_dias)) {
+						conjunction.add(Restrictions.ge(tipoDeData, DataUtil.localDateParaDate(dataHoje)));
+						conjunction.add(Restrictions.le(tipoDeData,DataUtil.localDateParaDate(dataHoje.plusDays(+30))));
+					}else if (filtro.getFitroData().equals(FiltroData.Esse_mês)) {
+						 LocalDate primeiroDiaMes = dataHoje.with(TemporalAdjusters.firstDayOfMonth());
+						 LocalDate ultimoDiaMes = dataHoje.with(TemporalAdjusters.lastDayOfMonth());
+						 conjunction.add(Restrictions.ge(tipoDeData, DataUtil.localDateParaDate(primeiroDiaMes)));
+						 conjunction.add(Restrictions.le(tipoDeData, DataUtil.localDateParaDate(ultimoDiaMes)));
+					}else if (filtro.getFitroData().equals(FiltroData.Mês_passado)) {
+						 LocalDate dataMesPassado = dataHoje.plusMonths(-1);
+						 LocalDate primeiroDiaMes = dataMesPassado.with(TemporalAdjusters.firstDayOfMonth());
+						 LocalDate ultimoDiaMes = dataMesPassado.with(TemporalAdjusters.lastDayOfMonth());
+						 conjunction.add(Restrictions.ge(tipoDeData, DataUtil.localDateParaDate(primeiroDiaMes)));
+						 conjunction.add(Restrictions.le(tipoDeData, DataUtil.localDateParaDate(ultimoDiaMes)));
+					}else if (filtro.getFitroData().equals(FiltroData.Próximo_mês)) {
+						LocalDate dataProximoMes = dataHoje.plusMonths(+1);
+						LocalDate primeiroDiaMes = dataProximoMes.with(TemporalAdjusters.firstDayOfMonth());
+						LocalDate ultimoDiaMes = dataProximoMes.with(TemporalAdjusters.lastDayOfMonth());
+						conjunction.add(Restrictions.ge(tipoDeData, DataUtil.localDateParaDate(primeiroDiaMes)));
+						conjunction.add(Restrictions.le(tipoDeData, DataUtil.localDateParaDate(ultimoDiaMes)));
+					}else if (filtro.getFitroData().equals(FiltroData.Passado_mais_30_dias)) {
+						conjunction.add(Restrictions.le(tipoDeData,DataUtil.localDateParaDate(dataHoje.plusDays(+30))));
+					}else if (filtro.getFitroData().equals(FiltroData.Esse_ano)) {
+						conjunction.add(Restrictions.ge(tipoDeData, DataUtil.localDateParaDate(dataHoje.with(TemporalAdjusters.firstDayOfYear()))));
+						conjunction.add(Restrictions.le(tipoDeData, DataUtil.localDateParaDate(dataHoje.with(TemporalAdjusters.lastDayOfYear()))));
+					}else if (filtro.getFitroData().equals(FiltroData.Últimos_12_meses)) {
+						conjunction.add(Restrictions.ge(tipoDeData,DataUtil.localDateParaDate(dataHoje.plusYears(-1))));
+						conjunction.add(Restrictions.le(tipoDeData, DataUtil.localDateParaDate(dataHoje)));
+					}else if (filtro.getFitroData().equals(FiltroData.Sem_filtro_de_data)) {
+						conjunction.add(Restrictions.isNotNull(tipoDeData));//Todos sem que a data esteja null
+					}
+				}//fim filtro.getFitroData()
+		}//fim filtro.getFiltroTipoData
+
 		//StatusDeLancamento OK
 		if (filtro.getFitroStatus() != null) {
 			if (filtro.getFitroStatus().equals(FiltroStatus.Somente_pendentes)) {

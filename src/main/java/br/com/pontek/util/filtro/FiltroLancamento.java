@@ -1,5 +1,7 @@
 package br.com.pontek.util.filtro;
 
+import java.util.Date;
+
 import br.com.pontek.enums.FiltroData;
 import br.com.pontek.enums.FiltroStatus;
 import br.com.pontek.enums.FiltroTipoData;
@@ -15,9 +17,14 @@ public class FiltroLancamento extends FiltroBaseAbstract{
 	private FiltroTipoData filtroTipoData;
 	private FiltroTipoLancamento filtroTipoLancamento;
 	private Categoria filtroCategoria=new Categoria();
-
 	private boolean  btnFiltro = false;//PARA BUG DO PRIMEIRO REGISTRO DA LISTA
 	
+	private Date dataInicio;//busca personalizada por data
+	private Date dataFim;
+	private boolean definirDatasManualmente=false;
+	
+
+
 	/* ########### CONSTRUTORES ###########*/
 	public FiltroLancamento(FiltroData fitroData, FiltroStatus fitroStatus, FiltroTipoData filtroTipoData,
 			FiltroTipoLancamento filtroTipoLancamento) {
@@ -50,6 +57,9 @@ public class FiltroLancamento extends FiltroBaseAbstract{
 		this.filtroTipoLancamento = filtroLancamento.getFiltroTipoLancamento();
 		this.filtroCategoria = filtroLancamento.filtroCategoria;
 		this.btnFiltro = filtroLancamento.isBtnFiltro();
+		this.dataInicio=filtroLancamento.getDataInicio();
+		this.dataFim=filtroLancamento.getDataFim();
+		this.definirDatasManualmente=filtroLancamento.isDefinirDatasManualmente();
 	}
 	
 	public String getTermoParaBusca() {
@@ -99,4 +109,23 @@ public class FiltroLancamento extends FiltroBaseAbstract{
 	public void setBtnFiltro(boolean btnFiltro) {
 		this.btnFiltro = btnFiltro;
 	}
+	public Date getDataInicio() {
+		return dataInicio;
+	}
+	public void setDataInicio(Date dataInicio) {
+		this.dataInicio = dataInicio;
+	}
+	public Date getDataFim() {
+		return dataFim;
+	}
+	public void setDataFim(Date dataFim) {
+		this.dataFim = dataFim;
+	}
+	public boolean isDefinirDatasManualmente() {
+		return definirDatasManualmente;
+	}
+	public void setDefinirDatasManualmente(boolean definirDatasManualmente) {
+		this.definirDatasManualmente = definirDatasManualmente;
+	}
+
 }

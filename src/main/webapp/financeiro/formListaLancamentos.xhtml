@@ -12,7 +12,7 @@
 			<h:panelGroup layout="block" class="ui-fluid">
 
 				<p:panelGrid columns="4" layout="grid"
-					columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3,ui-grid-col-3"
+					columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-2,ui-grid-col-4"
 					rendered="#{lancamentoBean.listaLancamentosSelecionados.size()==0 and lancamentoBean.viewAtiva eq 'FILTRO'}">
 
 					<p:panelGrid columns="1" layout="grid"
@@ -34,20 +34,45 @@
 					<p:panelGrid columns="1" layout="grid"
 						columnClasses="ui-grid-col-12">
 						<p:outputLabel value="Categoria" styleClass="label-formulario" />
-						<p:selectOneMenu value="#{lancamentoBean.filtro.filtroCategoria}" converter="#{categoriaConverter}">
+						<p:selectOneMenu value="#{lancamentoBean.filtro.filtroCategoria}" converter="#{categoriaConverter}" autoWidth="off">
+						<f:selectItem itemValue="#{null}" itemLabel="Todos"/>
 						<f:selectItems value="#{lancamentoBean.listaCategorias}"
 								var="categoria" itemValue="#{categoria}" itemLabel="#{categoria.nome}" />
-						<f:selectItem itemValue="#{null}" itemLabel="Todos"/>
 						</p:selectOneMenu>
 					</p:panelGrid>
 
-					<p:panelGrid columns="1" layout="grid"
+					<p:panelGrid columns="1" layout="grid" rendered="#{!lancamentoBean.filtro.definirDatasManualmente}"
 						columnClasses="ui-grid-col-12">
-						<p:outputLabel value="Data rápida (de vencimento)" styleClass="label-formulario" />
+						<h:panelGroup layout="block" >
+							<p:outputLabel value="Data rápida (de vencimento)" styleClass="label-formulario"  />
+							<p:selectBooleanButton  value="#{lancamentoBean.filtro.definirDatasManualmente}"  offLabel="Escolher Data" styleClass="btn btn-sm btn-default" style="width:25%;margin-left:10px;">
+								<p:ajax update=":formPrincipal:div-lista" />
+							</p:selectBooleanButton>
+						</h:panelGroup>
 						<p:selectOneMenu value="#{lancamentoBean.filtro.fitroData}">
 							<f:selectItems value="#{lancamentoBean.filtroDataEnums}"
 								var="dt" itemValue="#{dt}" itemLabel="#{dt.stringEnum}" />
 						</p:selectOneMenu>
+					</p:panelGrid>
+					
+					<p:panelGrid columns="1" layout="grid" rendered="#{lancamentoBean.filtro.definirDatasManualmente}"
+						columnClasses="ui-grid-col-12">
+						<h:panelGroup layout="block" >
+							<p:outputLabel value="Intervalo (de vencimento)" styleClass="label-formulario" />
+							<p:selectBooleanButton  value="#{lancamentoBean.filtro.definirDatasManualmente}" onLabel="Data rápida"  styleClass="btn btn-sm btn-default" style="width:25%;margin-left:10px;">
+									 	<p:ajax update=":formPrincipal:div-lista" />
+							</p:selectBooleanButton>
+						</h:panelGroup>
+							<p:panelGrid columns="2" layout="grid">
+								<p:calendar value="#{lancamentoBean.filtro.dataInicio}"
+								navigator="true" pattern="dd-MM-yyyy" mask="true" locale="pt" placeholder="Data Início"
+								yearRange="c-2:c+0">
+								</p:calendar>
+								<p:calendar value="#{lancamentoBean.filtro.dataFim}" placeholder="Data Fim"
+								navigator="true" pattern="dd-MM-yyyy" mask="true" locale="pt"
+								yearRange="c-2:c+0">
+								</p:calendar>
+							</p:panelGrid>
 					</p:panelGrid>
 
 
@@ -128,7 +153,7 @@
 							process="@this" />
 						<p:commandButton value="OK" styleClass="btn btn-success"
 							icon="fa fa-fw fa-floppy-o" title="OK, filtrar"
-							action="#{lancamentoBean.filtrar()}"
+							action="#{lancamentoBean.filtrar()}" actionListener="#{lancamentoBean.validaDatasInseridas()}"
 							update=":formPrincipal:div-lista :formPrincipal:div-title"
 							process=":formPrincipal:div-lista" />
 					</h:panelGroup>

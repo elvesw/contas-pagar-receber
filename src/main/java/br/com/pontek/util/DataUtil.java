@@ -83,8 +83,11 @@ public class DataUtil {
 	public static String intervaloDeFiltroLancamento(FiltroLancamento filtro){
 		String intervalo="";
 		LocalDate dataHoje = LocalDate.now();
+
 			if (filtro.getFitroData() != null) {
-				if (filtro.getFitroData().equals(FiltroData.Hoje)) {
+				if(filtro.isDefinirDatasManualmente()) {//definir data manualmente
+					intervalo="Lançamentos de  "+ddMMyyyy(filtro.getDataInicio())+" a "+ddMMyyyy(filtro.getDataFim());
+				}else if (filtro.getFitroData().equals(FiltroData.Hoje)) {
 					intervalo="Lançamentos de hoje  "+localDateParaStringFormatado(dataHoje);
 				} else if (filtro.getFitroData().equals(FiltroData.Ontem)) {
 					intervalo="Lançamentos de ontem  "+localDateParaStringFormatado(dataHoje.plusDays(-1));
@@ -136,6 +139,7 @@ public class DataUtil {
 					intervalo="Sem filtro de data";
 				}
 			}
+
 		return intervalo;
 	}
 	
