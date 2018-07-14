@@ -45,32 +45,32 @@
 					rendered="#{caixaBean.viewAtiva eq 'RECIBO'}">
 
 					<!-- 1º div botoes -->
-						<div style="display: inline-block; padding-top: 4px; width: 100%">
-							<div style="float: left">
-								<p:commandButton value="Voltar" icon="fa fa-fw fa-mail-reply"
-									styleClass="btn btn-link"
-									actionListener="#{caixaBean.voltar()}" immediate="true"
-									update="formPrincipal" process=":formPrincipal" />
-							</div>
-							<div style="float: right;">
-								<h:panelGroup layout="block">
-									<p:selectBooleanCheckbox value="#{caixaBean.recibo.via2}">
-										<p:ajax update=":formPrincipal:recibo" />
-									</p:selectBooleanCheckbox>
-									<p:outputLabel value="2ºvia" styleClass="label-formulario"
-										style="vertical-align:20%;margin:5px;" />
-								</h:panelGroup>
-								<p:commandButton value="Imprimir" icon="fa fa-fw fa-print"
-									type="button" style="display:inline-block;">
-									<p:printer target="recibo" />
-								</p:commandButton>
-							</div>
+					<div style="display: inline-block; padding-top: 4px; width: 100%">
+						<div style="float: left">
+							<p:commandButton value="Voltar" icon="fa fa-fw fa-mail-reply"
+								styleClass="btn btn-link" actionListener="#{caixaBean.voltar()}"
+								immediate="true" update="formPrincipal" process=":formPrincipal" />
 						</div>
+						<div style="float: right;">
+							<h:panelGroup layout="block">
+								<p:selectBooleanCheckbox value="#{caixaBean.recibo.via2}">
+									<p:ajax update=":formPrincipal:recibo" />
+								</p:selectBooleanCheckbox>
+								<p:outputLabel value="2ºvia" styleClass="label-formulario"
+									style="vertical-align:20%;margin:5px;" />
+							</h:panelGroup>
+							<p:commandButton value="Imprimir" icon="fa fa-fw fa-print"
+								type="button" style="display:inline-block;">
+								<p:printer target="recibo" />
+							</p:commandButton>
+						</div>
+					</div>
 					<!-- fim 1º div botoes -->
 
 					<!-- 2º div h:panelGroup dados recibo -->
 					<div class="ui-fluid">
-						<p:panelGrid columns="1" layout="grid" columnClasses="ui-grid-col-8">
+						<p:panelGrid columns="1" layout="grid"
+							columnClasses="ui-grid-col-8">
 							<h:panelGroup layout="block" id="recibo">
 								<h:panelGroup layout="block"
 									rendered="#{caixaBean.tipoParaRecibo eq 'ENTRADA'}">
@@ -162,7 +162,7 @@
 					<h:panelGroup layout="block" class="ui-fluid">
 
 						<p:panelGrid columns="3" layout="grid"
-							columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-3"
+							columnClasses="ui-grid-col-3,ui-grid-col-3,ui-grid-col-4"
 							rendered="#{caixaBean.listaLancamentosSelecionados.size()==0 and caixaBean.viewAtiva eq 'FILTRO'}">
 
 							<p:panelGrid columns="1" layout="grid"
@@ -182,17 +182,46 @@
 										itemLabel="#{tipoLancamento.stringEnum}" />
 								</p:selectOneMenu>
 							</p:panelGrid>
-
-							<p:panelGrid columns="1" layout="grid"
-								columnClasses="ui-grid-col-12">
-								<p:outputLabel value="Data rápida (de pagamento)"
-									styleClass="label-formulario" />
+							
+							
+							<p:panelGrid columns="1" layout="grid" rendered="#{!caixaBean.filtro.definirDatasManualmente}" columnClasses="ui-grid-col-12">
+								<h:panelGroup layout="block">
+									<p:outputLabel value="Data rápida (de vencimento)" styleClass="label-formulario" />
+									<p:selectBooleanButton
+										value="#{caixaBean.filtro.definirDatasManualmente}"
+										offLabel="Escolher Data" styleClass="btn btn-sm btn-default"
+										style="width:25%;margin-left:10px;">
+										<p:ajax update=":formPrincipal:div-lista" />
+									</p:selectBooleanButton>
+								</h:panelGroup>
 								<p:selectOneMenu value="#{caixaBean.filtro.fitroData}">
-									<f:selectItems value="#{caixaBean.filtroDataEnums}" var="dt"
-										itemValue="#{dt}" itemLabel="#{dt.stringEnum}" />
+									<f:selectItems value="#{caixaBean.filtroDataEnums}"
+										var="dt" itemValue="#{dt}" itemLabel="#{dt.stringEnum}" />
 								</p:selectOneMenu>
 							</p:panelGrid>
 
+							<p:panelGrid columns="1" layout="grid" rendered="#{caixaBean.filtro.definirDatasManualmente}" columnClasses="ui-grid-col-12">
+								<h:panelGroup layout="block" >
+									<p:outputLabel value="Intervalo (de vencimento)" styleClass="label-formulario" />
+									<p:selectBooleanButton
+										value="#{caixaBean.filtro.definirDatasManualmente}"
+										onLabel="Data rápida" styleClass="btn btn-sm btn-default"
+										style="width:25%;margin-left:10px;">
+										<p:ajax update=":formPrincipal:div-lista" />
+									</p:selectBooleanButton>
+								</h:panelGroup>
+								<p:panelGrid columns="2" layout="grid">
+									<p:calendar value="#{caixaBean.filtro.dataInicio}"
+										navigator="true" pattern="dd-MM-yyyy" mask="true" locale="pt"
+										placeholder="Data Início" yearRange="c-2:c+0">
+									</p:calendar>
+									<p:calendar value="#{caixaBean.filtro.dataFim}"
+										placeholder="Data Fim" navigator="true" pattern="dd-MM-yyyy"
+										mask="true" locale="pt" yearRange="c-2:c+0">
+									</p:calendar>
+								</p:panelGrid>
+							</p:panelGrid>
+							
 						</p:panelGrid>
 					</h:panelGroup>
 
@@ -254,7 +283,7 @@
 									process="@this" />
 								<p:commandButton value="OK" styleClass="btn btn-success"
 									icon="fa fa-fw fa-floppy-o" title="OK, filtrar"
-									action="#{caixaBean.filtrar()}"
+									action="#{caixaBean.filtrar()}" actionListener="#{caixaBean.validaDatasInseridas()}"
 									update=":formPrincipal:div-lista :formPrincipal:div-title"
 									process=":formPrincipal:div-lista" />
 							</h:panelGroup>

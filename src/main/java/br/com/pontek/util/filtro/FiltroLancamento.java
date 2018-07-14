@@ -1,5 +1,7 @@
 package br.com.pontek.util.filtro;
 
+import java.time.LocalDate;
+import java.time.temporal.TemporalAdjusters;
 import java.util.Date;
 
 import br.com.pontek.enums.FiltroData;
@@ -7,6 +9,7 @@ import br.com.pontek.enums.FiltroStatus;
 import br.com.pontek.enums.FiltroTipoData;
 import br.com.pontek.enums.FiltroTipoLancamento;
 import br.com.pontek.model.financeiro.Categoria;
+import br.com.pontek.util.DataUtil;
 
 public class FiltroLancamento extends FiltroBaseAbstract{
 
@@ -125,6 +128,14 @@ public class FiltroLancamento extends FiltroBaseAbstract{
 		return definirDatasManualmente;
 	}
 	public void setDefinirDatasManualmente(boolean definirDatasManualmente) {
+		/*Colocando as datas inicia e final do mês caso esteja como null ou seja não foram inseridas manualmente ainda.*/
+		if((this.getDataInicio()==null) && (this.getDataFim()==null)) {
+			LocalDate dataHoje = LocalDate.now();
+			LocalDate primeiroDiaMes = dataHoje.with(TemporalAdjusters.firstDayOfMonth());
+			LocalDate ultimoDiaMes = dataHoje.with(TemporalAdjusters.lastDayOfMonth());
+			this.setDataInicio(DataUtil.localDateParaDate(primeiroDiaMes));
+			this.setDataFim(DataUtil.localDateParaDate(ultimoDiaMes));
+		}
 		this.definirDatasManualmente = definirDatasManualmente;
 	}
 

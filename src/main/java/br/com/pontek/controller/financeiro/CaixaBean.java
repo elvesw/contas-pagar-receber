@@ -201,6 +201,17 @@ public class CaixaBean extends AbstractBean{
 	public void filtrar(){
 		this.filtro.setBtnFiltro(true);//pela btn do filtro
 	}
+	/** Função de validar datas inseridas manualmente*/
+	public String validaDatasInseridas() {
+		if(!filtro.isDefinirDatasManualmente()) return null;
+		if((filtro.getDataInicio()==null) || (filtro.getDataFim()==null)) {
+			FacesUtil.exibirMensagemAlerta("Inserir datas");
+		}else if(DataUtil.comparaDataInicialDataFinal(filtro.getDataInicio(), filtro.getDataFim())) {
+			FacesUtil.exibirMensagemAlerta("Data inicial MAIOR que data final");
+		}
+		return null;
+	}
+	
 	/*############# FIM - FUNÇÕES #############*/
 	
 	
